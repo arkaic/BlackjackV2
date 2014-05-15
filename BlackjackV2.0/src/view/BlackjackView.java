@@ -19,7 +19,6 @@ public class BlackjackView extends JFrame {
         JPanel panelNE          = new JPanel();
         JPanel panelNW          = new JPanel();
         JPanel panelS           = new JPanel();
-        JPanel panelE           = new JPanel();
         JPanel panelC           = new JPanel();
         JPanel seat1Panel       = new JPanel();
         JPanel seat2Panel       = new JPanel();
@@ -42,6 +41,7 @@ public class BlackjackView extends JFrame {
         panelNW.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         panelN.add(panelNW, "dock west, width 600!");
         panelN.add(panelNE, "dock east");
+        panelN.setBorder(BorderFactory.createRaisedBevelBorder());
         
         seat1Panel.setBorder(BorderFactory.createRaisedBevelBorder());
         seat2Panel.setBorder(BorderFactory.createRaisedBevelBorder());
@@ -56,17 +56,14 @@ public class BlackjackView extends JFrame {
         panelC.add(seat4Panel, "width 100!");
         panelC.add(seat5Panel, "width 100!");
         panelC.add(seat6Panel, "width 100!");
+        panelC.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         
         panelS.add(hitButton);
         panelS.add(doubleButton);
         panelS.add(splitButton);
         panelS.add(surrenderButton);
         panelS.add(stayButton);
-        
         panelS.setBorder(BorderFactory.createRaisedBevelBorder());
-        panelE.setBorder(BorderFactory.createRaisedBevelBorder());
-        panelN.setBorder(BorderFactory.createRaisedBevelBorder());
-        panelC.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 
         this.setLayout(new MigLayout());
         this.add(panelN, "dock north");
