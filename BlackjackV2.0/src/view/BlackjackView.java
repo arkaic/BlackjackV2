@@ -16,38 +16,39 @@ public class BlackjackView extends JFrame {
 
     private static final long serialVersionUID = 1L;
     
-    JPanel topPanel;
-    JPanel centerPanel;
-    JPanel bottomPanel;
-    JPanel topRightSubPanel;
-    JPanel topLeftSubPanel;
-    JPanel seat1Area;
-    JPanel seat2Area;
-    JPanel seat3Area;
-    JPanel seat4Area;
-    JPanel seat5Area;
-    JPanel seat6Area;
-    JPanel insuranceArea;
-    JLabel seat1Label;
-    JLabel seat2Label;
-    JLabel seat3Label;
-    JLabel seat4Label;
-    JLabel seat5Label;
-    JLabel seat6Label;
-    JLabel insuranceLabel;
-    JSpinner seat1Spinner;
-    JSpinner seat2Spinner;
-    JSpinner seat3Spinner;
-    JSpinner seat4Spinner;
-    JSpinner seat5Spinner;
-    JSpinner seat6Spinner;
-    JButton hitButton;
-    JButton doubleButton;
-    JButton splitButton;
-    JButton surrenderButton;
-    JButton stayButton;
-    JButton dealHandsButton;
-    JButton shuffleButton;
+    private JPanel topPanel;
+    private JPanel centerPanel;
+    private JPanel bottomPanel;
+    private JPanel topRightSubPanel;
+    private JPanel topLeftSubPanel;
+    private JPanel seat1Area;
+    private JPanel seat2Area;
+    private JPanel seat3Area;
+    private JPanel seat4Area;
+    private JPanel seat5Area;
+    private JPanel seat6Area;
+    private JPanel insuranceArea;
+    private JLabel seat1Label;
+    private JLabel seat2Label;
+    private JLabel seat3Label;
+    private JLabel seat4Label;
+    private JLabel seat5Label;
+    private JLabel seat6Label;
+    private JLabel insuranceLabel;
+    private JSpinner seat1Spinner;
+    private JSpinner seat2Spinner;
+    private JSpinner seat3Spinner;
+    private JSpinner seat4Spinner;
+    private JSpinner seat5Spinner;
+    private JSpinner seat6Spinner;
+    private JButton hitButton;
+    private JButton doubleButton;
+    private JButton splitButton;
+    private JButton surrenderButton;
+    private JButton stayButton;
+    private JButton dealHandsButton;
+    private JButton shuffleButton;
+    private JLabel deckDebugDisplay;
     
     public BlackjackView() {
         topPanel         = new JPanel();
@@ -55,6 +56,7 @@ public class BlackjackView extends JFrame {
         bottomPanel      = new JPanel();
         topRightSubPanel = new JPanel();
         topLeftSubPanel  = new JPanel();
+        deckDebugDisplay = new JLabel();
         seat1Area       = new JPanel();
         seat2Area       = new JPanel();
         seat3Area       = new JPanel();
@@ -62,10 +64,10 @@ public class BlackjackView extends JFrame {
         seat5Area       = new JPanel();
         seat6Area       = new JPanel();
         insuranceArea   = new JPanel();
-        seat1Label       = new JLabel("<html>[$55+$55][A,A,10,A,A,A,A,A,A]<br>adsfadsf</html>");
-        seat2Label       = new JLabel("<html>[$55+$55][A,A,10,A,A,A,A,A,A]<br>g<br>g<br>g<br></html>");
-        seat3Label       = new JLabel("<html>[$55+$55][A,A,10,A,A,A,A,A,A]<br>g<br>g<br>g<br></html>");
-        seat4Label       = new JLabel("<html>[$55+$55][A,A,10,A,A,A,A,A,A]<br>g<br>g<br>g<br></html>");
+        seat1Label       = new JLabel("<html>[$55+$55][A,A,10,A,A,A,A,A,A]</html>");
+        seat2Label       = new JLabel("<html>[$55+$55][A,A,10,A,A,A,A,A,A]</html>");
+        seat3Label       = new JLabel("<html>[$55+$55][A,A,10,A,A,A,A,A,A]</html>");
+        seat4Label       = new JLabel("<html>[$55+$55][A,A,10,A,A,A,A,A,A]</html>");
         seat5Label       = new JLabel("<html>[$55+$55][A,A,10,A,A,A,A,A,A]<br>g<br>g<br>g<br></html>");
         seat6Label       = new JLabel("<html>[$55+$55][A,A,10,A,A,A,A,A,A]<br>g<br>g<br>g<br></html>");
         insuranceLabel   = new JLabel("insurance here");
@@ -84,9 +86,10 @@ public class BlackjackView extends JFrame {
         shuffleButton    = new JButton("Shuffle");
         
         topPanel.setLayout(new MigLayout("", "[grow]", "[]"));
-        topRightSubPanel.setLayout(new BoxLayout(topRightSubPanel, BoxLayout.Y_AXIS));
+//        topRightSubPanel.setLayout(new BoxLayout(topRightSubPanel, BoxLayout.Y_AXIS));
+        topRightSubPanel.setLayout(new MigLayout());
         topRightSubPanel.add(dealHandsButton);
-        topRightSubPanel.add(shuffleButton);
+        topRightSubPanel.add(shuffleButton, "cell 0 1");
         topLeftSubPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         topPanel.add(topLeftSubPanel, "dock west, width 600!");
         topPanel.add(topRightSubPanel, "dock east");
@@ -127,7 +130,7 @@ public class BlackjackView extends JFrame {
         centerPanel.add(seat4Area, "cell 3 2");
         centerPanel.add(seat5Area, "cell 4 1");
         centerPanel.add(seat6Area, "cell 5 0");
-        centerPanel.add(insuranceArea, "cell 2 0");
+        centerPanel.add(insuranceArea, "cell 2 0, span 2, width 300");
         centerPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         
         bottomPanel.add(hitButton);
@@ -143,4 +146,14 @@ public class BlackjackView extends JFrame {
         this.add(bottomPanel, "dock South");
     }
 
+    private void render() {
+        /**
+         * TODO: shall update
+         * -debug deck
+         * -dealer's hand
+         * -spinner visibility and accessibility
+         * -player's hands
+         * -button visibility and accessibility
+         */
+    }
 }
