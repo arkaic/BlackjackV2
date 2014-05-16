@@ -69,7 +69,6 @@ public class BlackjackView extends JFrame {
         this.add(panelN, "dock north");
         this.add(panelC, "height 500!, width 700:800:900");
         this.add(panelS, "dock South");
-        
     }
 
 }
