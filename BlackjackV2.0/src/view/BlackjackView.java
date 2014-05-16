@@ -27,12 +27,14 @@ public class BlackjackView extends JFrame {
     JPanel seat4Area;
     JPanel seat5Area;
     JPanel seat6Area;
+    JPanel insuranceArea;
     JLabel seat1Label;
     JLabel seat2Label;
     JLabel seat3Label;
     JLabel seat4Label;
     JLabel seat5Label;
     JLabel seat6Label;
+    JLabel insuranceLabel;
     JSpinner seat1Spinner;
     JSpinner seat2Spinner;
     JSpinner seat3Spinner;
@@ -59,12 +61,14 @@ public class BlackjackView extends JFrame {
         seat4Area       = new JPanel();
         seat5Area       = new JPanel();
         seat6Area       = new JPanel();
+        insuranceArea   = new JPanel();
         seat1Label       = new JLabel("<html>[$55+$55][A,A,10,A,A,A,A,A,A]<br>adsfadsf</html>");
         seat2Label       = new JLabel("<html>[$55+$55][A,A,10,A,A,A,A,A,A]<br>g<br>g<br>g<br></html>");
         seat3Label       = new JLabel("<html>[$55+$55][A,A,10,A,A,A,A,A,A]<br>g<br>g<br>g<br></html>");
         seat4Label       = new JLabel("<html>[$55+$55][A,A,10,A,A,A,A,A,A]<br>g<br>g<br>g<br></html>");
         seat5Label       = new JLabel("<html>[$55+$55][A,A,10,A,A,A,A,A,A]<br>g<br>g<br>g<br></html>");
         seat6Label       = new JLabel("<html>[$55+$55][A,A,10,A,A,A,A,A,A]<br>g<br>g<br>g<br></html>");
+        insuranceLabel   = new JLabel("insurance here");
         seat1Spinner     = new JSpinner();
         seat2Spinner     = new JSpinner();
         seat3Spinner     = new JSpinner();
@@ -100,6 +104,8 @@ public class BlackjackView extends JFrame {
         seat5Area.setLayout(new MigLayout());
         seat6Area.setBorder(BorderFactory.createRaisedBevelBorder());
         seat6Area.setLayout(new MigLayout());
+        insuranceArea.setBorder(BorderFactory.createEtchedBorder());
+        insuranceArea.setLayout(new MigLayout());
         seat1Area.add(seat1Label);
         seat1Area.add(seat1Spinner, "dock south");
         seat2Area.add(seat2Label);
@@ -112,6 +118,7 @@ public class BlackjackView extends JFrame {
         seat5Area.add(seat5Spinner, "dock south");
         seat6Area.add(seat6Label);
         seat6Area.add(seat6Spinner, "dock south");
+        insuranceArea.add(insuranceLabel);
         
         centerPanel.setLayout(new MigLayout("", "[][][]10[]", "[]20[]"));
         centerPanel.add(seat1Area);
@@ -120,6 +127,7 @@ public class BlackjackView extends JFrame {
         centerPanel.add(seat4Area, "cell 3 2");
         centerPanel.add(seat5Area, "cell 4 1");
         centerPanel.add(seat6Area, "cell 5 0");
+        centerPanel.add(insuranceArea, "cell 2 0");
         centerPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         
         bottomPanel.add(hitButton);
