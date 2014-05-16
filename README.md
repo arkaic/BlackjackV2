@@ -14,3 +14,4 @@ Tuesday May 13
 
 Thursday May 15
 	-UML'd and modeled version 1 
+	   -went through an activity diagram of version 1's dealFirst procedure
