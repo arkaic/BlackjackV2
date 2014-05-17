@@ -2,12 +2,13 @@ package model;
 
 import java.util.List;
 
+import model.objects.*;
+
 public class BjGameModel implements GameModel{
 
     public BjGameModel() {
         
     }
-
 
     @Override
     public List<Card> getDeck() {

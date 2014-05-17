@@ -2,6 +2,8 @@ package model;
 
 import java.util.List;
 
+import model.objects.*;
+
 public interface GameModel {
     
     public List<Card> getDeck();
