@@ -10,60 +10,37 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSpinner;
 
+import model.GameModel;
 import net.miginfocom.swing.MigLayout;
 
 public class BlackjackView extends JFrame {
 
     private static final long serialVersionUID = 1L;
     
-    private JPanel topPanel;
-    private JPanel centerPanel;
-    private JPanel bottomPanel;
-    private JPanel topRightSubPanel;
-    private JPanel topLeftSubPanel;
-    private JPanel seat1Area;
-    private JPanel seat2Area;
-    private JPanel seat3Area;
-    private JPanel seat4Area;
-    private JPanel seat5Area;
-    private JPanel seat6Area;
-    private JPanel insuranceArea;
-    private JLabel seat1Label;
-    private JLabel seat2Label;
-    private JLabel seat3Label;
-    private JLabel seat4Label;
-    private JLabel seat5Label;
-    private JLabel seat6Label;
-    private JLabel insuranceLabel;
-    private JSpinner seat1Spinner;
-    private JSpinner seat2Spinner;
-    private JSpinner seat3Spinner;
-    private JSpinner seat4Spinner;
-    private JSpinner seat5Spinner;
-    private JSpinner seat6Spinner;
-    private JButton hitButton;
-    private JButton doubleButton;
-    private JButton splitButton;
-    private JButton surrenderButton;
-    private JButton stayButton;
-    private JButton dealHandsButton;
-    private JButton shuffleButton;
-    private JLabel deckDebugDisplay;
+    private GameModel model;
     
-    public BlackjackView() {
+    public BlackjackView(GameModel model) {
+        this.model = model;
+        buildUI();
+    }
+    
+    /**
+     * Creates all components for the Window
+     */
+    private void buildUI() {
         topPanel         = new JPanel();
         centerPanel      = new JPanel();
         bottomPanel      = new JPanel();
         topRightSubPanel = new JPanel();
         topLeftSubPanel  = new JPanel();
         deckDebugDisplay = new JLabel();
-        seat1Area       = new JPanel();
-        seat2Area       = new JPanel();
-        seat3Area       = new JPanel();
-        seat4Area       = new JPanel();
-        seat5Area       = new JPanel();
-        seat6Area       = new JPanel();
-        insuranceArea   = new JPanel();
+        seat1Area        = new JPanel();
+        seat2Area        = new JPanel();
+        seat3Area        = new JPanel();
+        seat4Area        = new JPanel();
+        seat5Area        = new JPanel();
+        seat6Area        = new JPanel();
+        insuranceArea    = new JPanel();
         seat1Label       = new JLabel("<html>[$55+$55][A,A,10,A,A,A,A,A,A]</html>");
         seat2Label       = new JLabel("<html>[$55+$55][A,A,10,A,A,A,A,A,A]</html>");
         seat3Label       = new JLabel("<html>[$55+$55][A,A,10,A,A,A,A,A,A]</html>");
@@ -77,6 +54,7 @@ public class BlackjackView extends JFrame {
         seat4Spinner     = new JSpinner();
         seat5Spinner     = new JSpinner();
         seat6Spinner     = new JSpinner();
+        insuranceSpinner = new JSpinner();
         hitButton        = new JButton("Hit");
         doubleButton     = new JButton("Double Down");
         splitButton      = new JButton("Split");
@@ -123,6 +101,7 @@ public class BlackjackView extends JFrame {
         seat6Area.add(seat6Label);
         seat6Area.add(seat6Spinner, "dock south");
         insuranceArea.add(insuranceLabel);
+        insuranceArea.add(insuranceSpinner, "dock south");
         
         centerPanel.setLayout(new MigLayout("", "[][][]10[]", "[]20[]"));
         centerPanel.add(seat1Area);
@@ -157,4 +136,39 @@ public class BlackjackView extends JFrame {
          * -button visibility and accessibility
          */
     }
+    
+    private JPanel topPanel;
+    private JPanel centerPanel;
+    private JPanel bottomPanel;
+    private JPanel topRightSubPanel;
+    private JPanel topLeftSubPanel;
+    private JPanel seat1Area;
+    private JPanel seat2Area;
+    private JPanel seat3Area;
+    private JPanel seat4Area;
+    private JPanel seat5Area;
+    private JPanel seat6Area;
+    private JPanel insuranceArea;
+    private JLabel seat1Label;
+    private JLabel seat2Label;
+    private JLabel seat3Label;
+    private JLabel seat4Label;
+    private JLabel seat5Label;
+    private JLabel seat6Label;
+    private JLabel insuranceLabel;
+    private JSpinner seat1Spinner;
+    private JSpinner seat2Spinner;
+    private JSpinner seat3Spinner;
+    private JSpinner seat4Spinner;
+    private JSpinner seat5Spinner;
+    private JSpinner seat6Spinner;
+    private JButton hitButton;
+    private JButton doubleButton;
+    private JButton splitButton;
+    private JButton surrenderButton;
+    private JButton stayButton;
+    private JButton dealHandsButton;
+    private JButton shuffleButton;
+    private JLabel deckDebugDisplay;
+    private JSpinner insuranceSpinner;
 }

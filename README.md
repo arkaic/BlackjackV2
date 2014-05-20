@@ -19,4 +19,4 @@ Thursday May 15
 Friday May 16
 -Finalized prototype design of UI
 -insurance shall have its own area on the screen, instead of a dialog box
-- 
+-So far, the View shall have the actionlisteners for all the components, but each will call a function that the controller provides. That function would call logic functions in model.

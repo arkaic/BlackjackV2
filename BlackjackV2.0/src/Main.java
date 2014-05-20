@@ -3,6 +3,8 @@ import java.awt.Color;
 
 import javax.swing.*;
 
+import model.BjGameModel;
+import model.GameModel;
 import net.miginfocom.swing.MigLayout;
 import view.BlackjackView;
 
@@ -21,8 +23,9 @@ public class Main {
         });
     }
 
-    protected static void createAndShowGui() {
-        JFrame blackjackView = new BlackjackView(); 
+    protected static void createAndShowGui() { 
+        GameModel model = new BjGameModel();
+        JFrame blackjackView = new BlackjackView(model);
         blackjackView.pack();
         blackjackView.setVisible(true);
     }

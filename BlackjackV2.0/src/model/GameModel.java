@@ -16,10 +16,10 @@ public interface GameModel {
     public void shuffle();
     public void dealFirstHands();
     public void hit();
-    public void stay();
-    public void surrender();
-    public void split();
     public void doubleDown();
+    public void split();
+    public void surrender();
+    public void stay();
     public void takeInsurance();
     public void changeBets();
     
