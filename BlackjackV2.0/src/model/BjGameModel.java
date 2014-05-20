@@ -6,8 +6,10 @@ import model.objects.*;
 
 public class BjGameModel implements GameModel{
 
+    private SeatManager seatManager;
+    
     public BjGameModel() {
-        
+        seatManager = new SeatManager();
     }
 
     @Override
@@ -55,6 +57,10 @@ public class BjGameModel implements GameModel{
     @Override
     public void dealFirstHands() {
         // TODO Auto-generated method stub
+        // TODO calls a beginPlay() method to begin play
+    }
+    
+    private void beginPlay() {
         
     }
 
@@ -104,5 +110,17 @@ public class BjGameModel implements GameModel{
         //tell controller something has changed. controller should call
         //update 
         //controller.update()x
+    }
+
+    @Override
+    public Hand getCurrentHand() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public Seat getCurrentSeat() {
+        // TODO Auto-generated method stub
+        return null;
     }
 }

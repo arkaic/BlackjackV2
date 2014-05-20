@@ -11,6 +11,8 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSpinner;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 import controller.GameController;
 import model.GameModel;
@@ -38,6 +40,26 @@ public class BlackjackView extends JFrame {
                 shuffleButton.setEnabled(false);
                 //TODO grey out or make the spinners disappear
                 //TODO deal first routine called from controller
+                /* -deal hands
+                 * -if upcard = ace || face:
+                 *   if ace:
+                 *     for all player blackjacks
+                 *       ask for even money
+                 *     if insurance: 
+                 *       display insurance spinner
+                 *       //max should be half of total bets
+                 *       
+                 *   check hole card
+                 *   
+                 *   if Blackjack:
+                 *     take all, push blackjacks
+                 *     pay insurances
+                 *     initiate new round
+                 *   else:
+                 *     pay player blackjacks
+                 *   
+                 *   
+                 */
             }
         });
         
@@ -82,11 +104,22 @@ public class BlackjackView extends JFrame {
             }
         });
         
-        
         shuffleButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 // TODO implement this
                 
+            }
+        });
+        
+        seat1Spinner.addChangeListener(new ChangeListener() {
+            public void stateChanged(ChangeEvent arg0) {
+                // TODO change seat 1's initial bet
+            }
+        });
+        
+        seat2Spinner.addChangeListener(new ChangeListener() {
+            public void stateChanged(ChangeEvent arg0) {
+                // TODO change seat 1's initial bet
             }
         });
     }
