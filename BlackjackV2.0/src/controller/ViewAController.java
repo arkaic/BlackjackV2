@@ -1,9 +1,9 @@
 package controller;
 
-public class ViewAController {
+public class ViewAController implements GameController{
 
     public ViewAController() {
-        // TODO Auto-generated constructor stubd
+        // TODO Auto-generated constructor stub
     }
 
     

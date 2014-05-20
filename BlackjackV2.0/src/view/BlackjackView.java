@@ -1,6 +1,8 @@
 package view;
 
 import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
@@ -10,6 +12,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSpinner;
 
+import controller.GameController;
 import model.GameModel;
 import net.miginfocom.swing.MigLayout;
 
@@ -18,12 +21,77 @@ public class BlackjackView extends JFrame {
     private static final long serialVersionUID = 1L;
     
     private GameModel model;
+    private GameController controller;
     
-    public BlackjackView(GameModel model) {
+    public BlackjackView(GameModel model, GameController controller) {
         this.model = model;
+        this.controller = controller;
         buildUI();
+        attachListenersToComponents();
     }
     
+    private void attachListenersToComponents() {
+        
+        dealHandsButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                dealHandsButton.setEnabled(false);
+                shuffleButton.setEnabled(false);
+                //TODO grey out or make the spinners disappear
+                //TODO deal first routine called from controller
+            }
+        });
+        
+        hitButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent arg0) {
+                /**
+                 * TODO implement this:
+                 * -Draw card
+                 * -Conditional check if the current hand can take any more
+                 *   action (Either a bust or a hard 21)
+                 * -If it can't take more action, 
+                 */
+                
+            }
+        });
+        
+        doubleButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                // TODO implement this
+                
+            }
+        });
+        
+        splitButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                // TODO implement this
+                
+            }
+        });
+        
+        surrenderButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                // TODO implement this
+                
+            }
+        });
+        
+        stayButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                // TODO implement this
+                
+            }
+        });
+        
+        
+        shuffleButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                // TODO implement this
+                
+            }
+        });
+    }
+    
+
     /**
      * Creates all components for the Window
      */
