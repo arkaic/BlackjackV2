@@ -14,9 +14,13 @@ Tuesday May 13
 
 Thursday May 15
 -UML'd and modeled version 1 
--went through an activity diagram of version 1's dealFirst procedure
+-Went through an activity diagram of version 1's dealFirst procedure
 
 Friday May 16
 -Finalized prototype design of UI
--insurance shall have its own area on the screen, instead of a dialog box
+-Insurance shall have its own area on the screen, instead of a dialog box
 -So far, the View shall have the actionlisteners for all the components, but each will call a function that the controller provides. That function would call logic functions in model.
+
+Tuesday May 21
+-Worked out implementation of Seats (playing spots where initial bets are made)
+-Added more classes to go along with the above.

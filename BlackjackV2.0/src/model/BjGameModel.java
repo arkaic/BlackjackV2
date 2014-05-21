@@ -1,5 +1,7 @@
 package model;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import model.objects.*;
@@ -7,11 +9,24 @@ import model.objects.*;
 public class BjGameModel implements GameModel{
 
     private SeatManager seatManager;
+    private List<Card> deck;
     
     public BjGameModel() {
         seatManager = new SeatManager();
     }
 
+    public void test() {
+      List<Integer> list = new ArrayList<>();
+      for (int i = 0; i < 3; i++) {
+          list.add(new Integer(i));
+      }
+      Iterator<Integer> it = list.iterator();
+      System.out.println(it.next());
+      System.out.println(it.next());
+      System.out.println(it.next());
+      System.out.println(it.next());
+    }
+    
     @Override
     public List<Card> getDeck() {
         // TODO Auto-generated method stub
@@ -61,7 +76,8 @@ public class BjGameModel implements GameModel{
     }
     
     private void beginPlay() {
-        
+        //TODO implement, should be called after dealFirst phase
+        seatManager.createSeatPlayOrder();
     }
 
     @Override

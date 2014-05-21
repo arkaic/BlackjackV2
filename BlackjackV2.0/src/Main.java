@@ -3,6 +3,7 @@ import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Stack;
 
 import javax.swing.*;
 
@@ -13,6 +14,7 @@ import model.GameModel;
 import net.miginfocom.swing.MigLayout;
 import view.BlackjackView;
 
+import model.*;
 
 public class Main {
 
@@ -34,15 +36,10 @@ public class Main {
     }
     
     private static void test() {
-        List<Integer> list = new ArrayList<>();
-        for (int i = 0; i < 6; i++) {
-            list.add(new Integer(i));
-        }
-        Iterator<Integer> it = list.iterator();
-        System.out.println(it.next());
-        System.out.println(it.next());
-        it = list.iterator();
-        System.out.println(it.next());
+        BjGameModel model = new BjGameModel();
+
+        
+        model.test();
     }
 
 }

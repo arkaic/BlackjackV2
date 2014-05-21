@@ -8,4 +8,7 @@ public class Bet {
         this.amount = amount;
     }
 
+    public int getAmount() {
+        return amount;
+    }
 }
