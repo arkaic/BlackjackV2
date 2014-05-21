@@ -11,13 +11,15 @@ import java.util.Stack;
 public class SeatManager{
 
     private List<Seat> seats = new ArrayList<Seat>();
-    private Stack<Seat> seatsInPlay = new Stack<>();
+    public Stack<Seat> seatsInPlay = new Stack<>();
 //    private Seat currentSeat;
     private Hand currentHand;
+    private Hand dealerHand;
     private Iterator<Hand> handIterator;
     
     public SeatManager() {
         initSeats();
+        dealerHand = new Hand(0, true);//TODO delete dummy statement
     }
     /**
      * Put in six seats in the list 
@@ -34,32 +36,34 @@ public class SeatManager{
             seatsInPlay.clear();
         }
         
-        for (Seat seat : seats) {
-            if (seat.hasHand()) {
-                seatsInPlay.push(seat);
-            }
+        for (int i = seats.size(); i > 0; i--) {
+            seatsInPlay.push(seats.get(i - 1));
         }
     }
     
     protected void changeCurrentHand() {
         if (!seatsInPlay.isEmpty()) {
             Seat currentSeat = getCurrentSeat();
-            if (currentSeat.hasNextHand()) {
-                currentSeat.changeCurrentHand();
+            currentSeat.changeCurrentHand();
+            
+            if (currentSeat.getCurrentHand() != null) {
+                currentHand = currentSeat.getCurrentHand();    
             } else {
                 seatsInPlay.pop();
                 changeCurrentHand();
             }
+        } else {
+            currentHand = dealerHand;
         }
     }
     
-    //TODO returns null if there are no more hands
+    //TODO returns null if action rounds haven't started yet
     protected Hand getCurrentHand() {
-        if (!seatsInPlay.isEmpty()) {
-            return getCurrentSeat().getCurrentHand();
-        } else {
-            return null;
-        }
+        return currentHand;
+    }
+    
+    protected void clearCurrentHand() {
+        getCurrentSeat().clearCurrentHand();
     }
     
     protected Seat getCurrentSeat() {
@@ -71,5 +75,13 @@ public class SeatManager{
     
     protected Seat getSeat(int n) {
         return seats.get(n - 1);
+    }
+    
+    protected void setDealerHand(Hand hand) {
+        dealerHand = hand;
+    }
+    
+    protected void dealCard(Seat seat) {
+        
     }
 }

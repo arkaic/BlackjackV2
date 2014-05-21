@@ -10,21 +10,36 @@ public class BjGameModel implements GameModel{
 
     private SeatManager seatManager;
     private List<Card> deck;
+    private Hand dealerHand;
     
     public BjGameModel() {
         seatManager = new SeatManager();
+
     }
 
     public void test() {
-      List<Integer> list = new ArrayList<>();
-      for (int i = 0; i < 3; i++) {
-          list.add(new Integer(i));
+      
+      //for each seat, add three hands for each
+      for (int i = 1; i <= 6; i++) {
+          for (int j = 1; j <= 3; j++) {
+              seatManager.getSeat(i).addHand(new Hand(j, false)); 
+          }
       }
-      Iterator<Integer> it = list.iterator();
-      System.out.println(it.next());
-      System.out.println(it.next());
-      System.out.println(it.next());
-      System.out.println(it.next());
+//      for (int i = 1; i <= 6; i++) {
+//          for (int j = 0; j < 3; j++) {
+//              System.out.print(seatManager.getSeat(i) + ": ");
+//              System.out.println(seatManager.getSeat(i).getHand(j));
+//          }
+//      }
+      
+      seatManager.createSeatPlayOrder();
+      System.out.println(toStringCurrents());
+      int c = 0;
+      while (c < 19) {
+          seatManager.changeCurrentHand();
+          System.out.println(toStringCurrents());
+          c++;
+      }
     }
     
     @Override
@@ -130,13 +145,19 @@ public class BjGameModel implements GameModel{
 
     @Override
     public Hand getCurrentHand() {
-        // TODO Auto-generated method stub
-        return null;
+        return seatManager.getCurrentHand();
     }
 
     @Override
     public Seat getCurrentSeat() {
-        // TODO Auto-generated method stub
-        return null;
+        return seatManager.getCurrentSeat();
+    }
+    
+    private String toStringCurrents() {
+        if (getCurrentHand() == null || getCurrentSeat() == null) {
+            return "no current hand or seat";
+        } else {
+            return getCurrentSeat().toString() + ": " + getCurrentHand().toString();
+        }
     }
 }
