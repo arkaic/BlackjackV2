@@ -11,4 +11,8 @@ public class Bet {
     public int getAmount() {
         return amount;
     }
+    
+    protected void setAmount(int newAmount) {
+        this.amount = newAmount;
+    }
 }

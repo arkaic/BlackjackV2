@@ -2,6 +2,7 @@ package model;
 
 import java.util.List;
 
+import view.BlackjackView;
 import model.objects.*;
 
 public interface GameModel {
@@ -11,9 +12,11 @@ public interface GameModel {
     public Hand getHand();
     public Hand getCurrentHand();
     public Seat getCurrentSeat();
-    public Seat getSeat();
+    public Seat getSeat(int seatNum);
     public Bet getBankroll();
     public Hand getDealerHand();
+    public void setView(BlackjackView view);
+    //TODO should probably change this to an interface
     
     public void shuffle();
     public void dealFirstHands();
@@ -23,6 +26,6 @@ public interface GameModel {
     public void surrender();
     public void stay();
     public void takeInsurance();
-    public void changeBets();
+    public void changeInitialBet(int seatNum, int amount);
     
 }

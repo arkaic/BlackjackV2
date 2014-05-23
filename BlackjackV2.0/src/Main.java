@@ -30,7 +30,10 @@ public class Main {
     protected static void createAndShowGui() { 
         GameModel model = new BjGameModel();
         GameController controller = new ViewAController();
-        JFrame blackjackView = new BlackjackView(model, controller);
+        BlackjackView blackjackView = new BlackjackView(model, controller);
+        model.setView(blackjackView);
+        controller.setView(blackjackView);
+        controller.setModel(model);
         blackjackView.pack();
         blackjackView.setVisible(true);
     }

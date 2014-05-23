@@ -4,26 +4,34 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import view.BlackjackView;
 import model.objects.*;
 
 public class BjGameModel implements GameModel{
 
     private SeatManager seatManager;
-    private List<Card> deck;
+    private List<Card> deck = new ArrayList<Card>();
+    private List<Card> discards;
     private Hand dealerHand;
+    private BlackjackView view;
     
     public BjGameModel() {
         seatManager = new SeatManager();
-
+        generateDeck(6);
+        //TODO add option to vary the amount of decks
+    }
+    private void generateDeck(int numberofDecks) {
+        for (int i = 1; i <= numberofDecks; i++) {
+            for (int j = 1; j <= 13; j++) {
+                deck.add(new Card(j, 'D'));
+                deck.add(new Card(j, 'H'));
+                deck.add(new Card(j, 'C'));
+                deck.add(new Card(j, 'S'));
+            }
+        }
     }
 
     public void test() {
-        //for each seat, add three hands for each
-        for (int i = 1; i <= 6; i++) {
-            for (int j = 1; j <= 3; j++) {
-                seatManager.getSeat(i).addHand(new Hand(j, false)); 
-            }
-        }
       
         seatManager.createSeatPlayOrder();
         System.out.println(toStringCurrents());
@@ -54,8 +62,7 @@ public class BjGameModel implements GameModel{
     
     @Override
     public List<Card> getDeck() {
-        // TODO Auto-generated method stub
-        return null;
+        return deck;
     }
 
     @Override
@@ -71,9 +78,8 @@ public class BjGameModel implements GameModel{
     }
 
     @Override
-    public Seat getSeat() {
-        // TODO Auto-generated method stub
-        return null;
+    public Seat getSeat(int seatNum) {
+        return seatManager.getSeat(seatNum);
     }
 
     @Override
@@ -90,13 +96,17 @@ public class BjGameModel implements GameModel{
 
     @Override
     public void shuffle() {
-        // TODO Auto-generated method stub
-        
+        /*
+         * TODO 
+         * - take all from discard pile and put back in deck
+         * - shuffle deck
+         */
     }
 
     @Override
     public void dealFirstHands() {
-        /* -TODO deal hands
+        /* -TODO Give seats with bets an empty hand, and set the bets on them
+         * -TODO deal hands
          * -TODO 
          * -if upcard = ace || face:
          *   if ace:
@@ -157,15 +167,9 @@ public class BjGameModel implements GameModel{
     }
 
     @Override
-    public void changeBets() {
-        // TODO Auto-generated method stub
-        
-    }
-
-    private void notifyController() {
-        //tell controller something has changed. controller should call
-        //update 
-        //controller.update()x
+    public void changeInitialBet(int seatNum, int amount) {
+        seatManager.changeBet(seatNum, amount);
+        view.updateDisplays();
     }
 
     @Override
@@ -184,5 +188,10 @@ public class BjGameModel implements GameModel{
         } else {
             return getCurrentSeat().toString() + ": " + getCurrentHand().toString();
         }
+    }
+
+    @Override
+    public void setView(BlackjackView view) {
+        this.view = view;
     }
 }

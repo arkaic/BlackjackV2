@@ -11,13 +11,22 @@ public class Hand {
     private boolean isDealer;
     public int temp;
     
-    public Hand(int n, boolean isDealer) {
-        temp = n;
-        this.isDealer = isDealer;
+    public Hand(Card card, String playingEntity) {
+        if (card != null)
+            cards.add(card);
+        
+        if (playingEntity.equalsIgnoreCase("dealer") ||
+                playingEntity.equalsIgnoreCase("computer"))
+            isDealer = true;
+        else if (playingEntity.equalsIgnoreCase("player"))
+            isDealer = false;
     }
-    public Hand(Card card, boolean isDealer) {
-        cards.add(card);
-        this.isDealer = isDealer;
+    public Hand(String playingEntity) {
+        this(null, playingEntity);
+    }
+    public Hand(int n, String playingEntity) {
+        this(playingEntity);
+        temp = n;
     }
 
     public String toString() {
@@ -26,5 +35,9 @@ public class Hand {
     
     protected boolean isDealer() {
         return isDealer;
+    }
+    
+    protected boolean isEmpty() {
+        return cards.isEmpty();
     }
 }

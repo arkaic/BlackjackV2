@@ -17,7 +17,7 @@ public class SeatManager{
     
     public SeatManager() {
         initSeats();
-        dealerHand = new Hand(0, true);//TODO delete dummy statement
+        dealerHand = new Hand(0, "dealer");//TODO delete dummy statement
     }
     
     /*Put in six seats in the list */
@@ -68,6 +68,10 @@ public class SeatManager{
             return seatsInPlay.peek();
         else
             return null;
+    }
+    
+    protected void changeBet(int seatNum, int amount) {
+        getSeat(seatNum).changeInitialBet(amount);
     }
     
     protected Seat getSeat(int n) {

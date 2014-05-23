@@ -8,18 +8,20 @@ public class Seat {
 
     private int seatNumber;
     public List<Hand> hands = new ArrayList<Hand>();
-    private Bet initialBet; //before it is put into Hand
+    private Bet initialBet  = new Bet(0);
     private Hand currentHand;
     private Iterator<Hand> handIterator;
     
     public Seat(int num) {
         seatNumber = num;
-        initialBet = new Bet(0);
     }
     
-    protected void changeBet(int amount) {
-        //TODO implement
-        //initialBet.changeAmount = amount; 
+    protected void changeInitialBet(int amount) {
+        if (amount > 0) {
+            initialBet.setAmount(amount); 
+        } else {
+            initialBet.setAmount(0);
+        }
     }
     
     protected void changeCurrentHand() {
@@ -48,11 +50,21 @@ public class Seat {
         handIterator().remove();
     }
     
+    /*Checks if Seat has any hands, or cards in those hands.
+     * Will return false if there is an empty hand.
+     * Assumes that an empty hand will not be accompanied by non-empty
+     * hands.
+     */
     protected boolean hasHand() {
-        if (hands.isEmpty()) 
+        if (hands.isEmpty()) {
             return false;
-        else 
+        } else {
+            for (Hand hand : hands) {
+                if (hand.isEmpty())
+                    return false;
+            }
             return true;
+        }
     }
     
     protected void addHand(Hand hand) {
@@ -85,13 +97,13 @@ public class Seat {
         }
     }
     
-    //TODO possibly delete: temporary
-    protected Hand getHand(int n) {
-        return hands.get(n);
-    }
-    
+
     public String toString() {
-        return "Seat " + seatNumber;
+        if (hasHand()) {
+            return "[$" + initialBet.getAmount() + "][some card]";
+        } else {
+            return "";
+        }
     }
     
 //    protected boolean hasBet() {

@@ -1,6 +1,7 @@
 package view;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -24,6 +25,7 @@ public class BlackjackView extends JFrame {
     
     private GameModel model;
     private GameController controller;
+
     
     public BlackjackView(GameModel model, GameController controller) {
         this.model = model;
@@ -39,8 +41,7 @@ public class BlackjackView extends JFrame {
                 dealHandsButton.setEnabled(false);
                 shuffleButton.setEnabled(false);
                 setSpinnersEnabled(false);
-                model.dealFirstHands();
-                
+                controller.dealFirstHands();
             }
         });
         
@@ -94,13 +95,41 @@ public class BlackjackView extends JFrame {
         
         seat1Spinner.addChangeListener(new ChangeListener() {
             public void stateChanged(ChangeEvent arg0) {
-                // TODO change seat 1's initial bet
+                int bet = ((Integer) seat1Spinner.getValue()).intValue();
+                controller.changeInitialBet(1, bet);
             }
         });
         
         seat2Spinner.addChangeListener(new ChangeListener() {
             public void stateChanged(ChangeEvent arg0) {
-                // TODO change seat 1's initial bet
+                int bet = ((Integer) seat2Spinner.getValue()).intValue();
+                controller.changeInitialBet(2, bet);
+            }
+        });
+        seat3Spinner.addChangeListener(new ChangeListener() {
+            public void stateChanged(ChangeEvent arg0) {
+                int bet = ((Integer) seat3Spinner.getValue()).intValue();
+                controller.changeInitialBet(3, bet);          
+            }
+        });
+        
+        seat4Spinner.addChangeListener(new ChangeListener() {
+            public void stateChanged(ChangeEvent arg0) {
+                int bet = ((Integer) seat4Spinner.getValue()).intValue();
+                controller.changeInitialBet(4, bet);
+            }
+        });
+        seat5Spinner.addChangeListener(new ChangeListener() {
+            public void stateChanged(ChangeEvent arg0) {
+                int bet = ((Integer) seat5Spinner.getValue()).intValue();
+                controller.changeInitialBet(5, bet);
+            }
+        });
+        
+        seat6Spinner.addChangeListener(new ChangeListener() {
+            public void stateChanged(ChangeEvent arg0) {
+                int bet = ((Integer) seat6Spinner.getValue()).intValue();
+                controller.changeInitialBet(6, bet);
             }
         });
     }
@@ -129,7 +158,7 @@ public class BlackjackView extends JFrame {
         bottomPanel      = new JPanel();
         topRightSubPanel = new JPanel();
         topLeftSubPanel  = new JPanel();
-        deckDebugDisplay = new JLabel();
+        deckDebugDisplay = new JLabel("debug here");
         seat1Area        = new JPanel();
         seat2Area        = new JPanel();
         seat3Area        = new JPanel();
@@ -144,6 +173,7 @@ public class BlackjackView extends JFrame {
         seat5Label       = new JLabel("<html>[$55+$55][A,A,10,A,A,A,A,A,A]<br>g<br>g<br>g<br></html>");
         seat6Label       = new JLabel("<html>[$55+$55][A,A,10,A,A,A,A,A,A]<br>g<br>g<br>g<br></html>");
         insuranceLabel   = new JLabel("insurance here");
+        dealerLabel      = new JLabel("dealer here");
         seat1Spinner     = new JSpinner();
         seat2Spinner     = new JSpinner();
         seat3Spinner     = new JSpinner();
@@ -164,8 +194,10 @@ public class BlackjackView extends JFrame {
         topRightSubPanel.setLayout(new MigLayout());
         topRightSubPanel.add(dealHandsButton);
         topRightSubPanel.add(shuffleButton, "cell 0 1");
+        topLeftSubPanel.setLayout(new MigLayout());
         topLeftSubPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-        topLeftSubPanel.add(deckDebugDisplay);
+        topLeftSubPanel.add(deckDebugDisplay, "dock west");
+        topLeftSubPanel.add(dealerLabel, "dock south");
         topPanel.add(topLeftSubPanel, "dock west, width 600!");
         topPanel.add(topRightSubPanel, "dock east");
         topPanel.setBorder(BorderFactory.createRaisedBevelBorder());
@@ -184,6 +216,12 @@ public class BlackjackView extends JFrame {
         seat6Area.setLayout(new MigLayout());
         insuranceArea.setBorder(BorderFactory.createEtchedBorder());
         insuranceArea.setLayout(new MigLayout());
+        seat1Spinner.setMinimumSize(new Dimension(60, 10));
+        seat2Spinner.setMinimumSize(new Dimension(60, 10));
+        seat3Spinner.setMinimumSize(new Dimension(60, 10));
+        seat4Spinner.setMinimumSize(new Dimension(60, 10));
+        seat5Spinner.setMinimumSize(new Dimension(60, 10));
+        seat6Spinner.setMinimumSize(new Dimension(60, 10));
         seat1Area.add(seat1Label);
         seat1Area.add(seat1Spinner, "dock south");
         seat2Area.add(seat2Label);
@@ -222,7 +260,7 @@ public class BlackjackView extends JFrame {
         this.add(bottomPanel, "dock South");
     }
 
-    private void render() {
+    public void updateDisplays() {
         /**
          * TODO: shall update
          * -debug deck
@@ -231,6 +269,13 @@ public class BlackjackView extends JFrame {
          * -player's hands
          * -button visibility and accessibility
          */
+        seat1Label.setText(model.getSeat(1).toString());
+        seat2Label.setText(model.getSeat(2).toString());
+        seat3Label.setText(model.getSeat(3).toString());
+        seat4Label.setText(model.getSeat(4).toString());
+        seat5Label.setText(model.getSeat(5).toString());
+        seat6Label.setText(model.getSeat(6).toString());
+        deckDebugDisplay.setText(model.getDeck().toString());
     }
     
     private JPanel topPanel;
@@ -252,6 +297,7 @@ public class BlackjackView extends JFrame {
     private JLabel seat5Label;
     private JLabel seat6Label;
     private JLabel insuranceLabel;
+    private JLabel dealerLabel;
     private JSpinner seat1Spinner;
     private JSpinner seat2Spinner;
     private JSpinner seat3Spinner;
