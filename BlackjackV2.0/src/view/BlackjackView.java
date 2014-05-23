@@ -38,28 +38,9 @@ public class BlackjackView extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 dealHandsButton.setEnabled(false);
                 shuffleButton.setEnabled(false);
-                //TODO grey out or make the spinners disappear
-                //TODO deal first routine called from controller
-                /* -deal hands
-                 * -if upcard = ace || face:
-                 *   if ace:
-                 *     for all player blackjacks
-                 *       ask for even money
-                 *     if insurance: 
-                 *       display insurance spinner
-                 *       //max should be half of total bets
-                 *       
-                 *   check hole card
-                 *   
-                 *   if Blackjack:
-                 *     take all, push blackjacks
-                 *     pay insurances
-                 *     initiate new round
-                 *   else:
-                 *     pay player blackjacks
-                 *   
-                 *   
-                 */
+                setSpinnersEnabled(false);
+                model.dealFirstHands();
+                
             }
         });
         
@@ -124,7 +105,21 @@ public class BlackjackView extends JFrame {
         });
     }
     
-
+    private void setSpinnersEnabled(boolean bool) {
+        seat1Spinner.setEnabled(bool);
+        seat1Spinner.setVisible(bool);
+        seat2Spinner.setEnabled(bool);
+        seat2Spinner.setVisible(bool);
+        seat3Spinner.setEnabled(bool);
+        seat3Spinner.setVisible(bool);
+        seat4Spinner.setEnabled(bool);
+        seat4Spinner.setVisible(bool);
+        seat5Spinner.setEnabled(bool);
+        seat5Spinner.setVisible(bool);
+        seat6Spinner.setEnabled(bool);
+        seat6Spinner.setVisible(bool);
+    }
+    
     /**
      * Creates all components for the Window
      */

@@ -12,25 +12,22 @@ public class SeatManager{
 
     private List<Seat> seats = new ArrayList<Seat>();
     public Stack<Seat> seatsInPlay = new Stack<>();
-//    private Seat currentSeat;
     private Hand currentHand;
     private Hand dealerHand;
-    private Iterator<Hand> handIterator;
     
     public SeatManager() {
         initSeats();
         dealerHand = new Hand(0, true);//TODO delete dummy statement
     }
-    /**
-     * Put in six seats in the list 
-     */
+    
+    /*Put in six seats in the list */
     private void initSeats() {
         for (int i = 1; i <= 6; i++) {
             seats.add(new Seat(i));
         }
     }
     
-    //call from model.beginPlay()
+    /*Stacks up seats in play*/
     protected void createSeatPlayOrder() {
         if (!seatsInPlay.isEmpty()) {
             seatsInPlay.clear();

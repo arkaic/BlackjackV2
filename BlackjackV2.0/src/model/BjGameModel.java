@@ -18,28 +18,38 @@ public class BjGameModel implements GameModel{
     }
 
     public void test() {
+        //for each seat, add three hands for each
+        for (int i = 1; i <= 6; i++) {
+            for (int j = 1; j <= 3; j++) {
+                seatManager.getSeat(i).addHand(new Hand(j, false)); 
+            }
+        }
       
-      //for each seat, add three hands for each
-      for (int i = 1; i <= 6; i++) {
-          for (int j = 1; j <= 3; j++) {
-              seatManager.getSeat(i).addHand(new Hand(j, false)); 
-          }
-      }
-//      for (int i = 1; i <= 6; i++) {
-//          for (int j = 0; j < 3; j++) {
-//              System.out.print(seatManager.getSeat(i) + ": ");
-//              System.out.println(seatManager.getSeat(i).getHand(j));
-//          }
-//      }
-      
-      seatManager.createSeatPlayOrder();
-      System.out.println(toStringCurrents());
-      int c = 0;
-      while (c < 19) {
-          seatManager.changeCurrentHand();
-          System.out.println(toStringCurrents());
-          c++;
-      }
+        seatManager.createSeatPlayOrder();
+        System.out.println(toStringCurrents());
+        int c = 0;
+        while (c < 1) {
+            seatManager.changeCurrentHand();
+            System.out.println(toStringCurrents());
+            c++;
+        }
+        
+        System.out.println("");
+        
+//        seatManager.getCurrentSeat().addSplitHand(new Hand(4, false));
+//        for (int i = 1; i <= 6; i++) {
+//            for (int j = 0; j < 3; j++) {
+//                System.out.println(seatManager.getSeat(i).toString() + ": " +
+//                        seatManager.getSeat(i).getHand(j));
+//                if (j == 2) {
+//                    while (seatManager.getSeat(i).hands.size() > (j+1)) {
+//                        j++;
+//                        System.out.println(seatManager.getSeat(i).toString() + 
+//                                ": " +seatManager.getSeat(i).getHand(j));
+//                    }
+//                }
+//            }
+//        }
     }
     
     @Override
@@ -86,12 +96,27 @@ public class BjGameModel implements GameModel{
 
     @Override
     public void dealFirstHands() {
-        // TODO Auto-generated method stub
-        // TODO calls a beginPlay() method to begin play
-    }
-    
-    private void beginPlay() {
-        //TODO implement, should be called after dealFirst phase
+        /* -TODO deal hands
+         * -TODO 
+         * -if upcard = ace || face:
+         *   if ace:
+         *     for all player blackjacks
+         *       ask for even money
+         *     if insurance: 
+         *       display insurance spinner
+         *       //max should be half of total bets
+         *       
+         *   check hole card
+         *   
+         *   if Blackjack:
+         *     take all, push blackjacks
+         *     pay insurances
+         *     initiate new round
+         *   else:
+         *     pay player blackjacks
+         *   
+         *   
+         */
         seatManager.createSeatPlayOrder();
     }
 

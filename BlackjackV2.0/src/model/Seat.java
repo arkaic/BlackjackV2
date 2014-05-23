@@ -7,7 +7,7 @@ import java.util.List;
 public class Seat {
 
     private int seatNumber;
-    private List<Hand> hands = new ArrayList<Hand>();
+    public List<Hand> hands = new ArrayList<Hand>();
     private Bet initialBet; //before it is put into Hand
     private Hand currentHand;
     private Iterator<Hand> handIterator;
@@ -62,10 +62,14 @@ public class Seat {
     /*
      * A separate hand-adding implementation because when splitting, there 
      * needs to be a reset of the seat's iterator
+     * 1. Take second card of current hand and put it in new hand.
+     * 2. Insert new hand after the current hand in hands
+     * 3. Renew the handIterator member
+     * 4. Iterate the handIterator until it matches currentHand.
      */
     protected void addSplitHand(Hand newHand) {
-        //reset iterator and then 'next' it till it's back to current hand
         //TODO take second card of current hand and put it in new hand
+        
         for (int i = 0; i < hands.size(); i++) {
             if (hands.get(i) == currentHand) {
                 hands.add(i + 1, newHand);
@@ -73,18 +77,15 @@ public class Seat {
             }
         }
         
-        handIterator = hands.iterator();
+        handIterator = hands.iterator(); 
         
-        //TODO test
-        Hand iteratingHand = null;
         while (true) {
-            iteratingHand = handIterator.next();
-            if (iteratingHand == currentHand)
+            if (handIterator.next() == currentHand)
                 break;
         }
     }
     
-    //TODO possibly temporary
+    //TODO possibly delete: temporary
     protected Hand getHand(int n) {
         return hands.get(n);
     }
@@ -99,4 +100,5 @@ public class Seat {
 //        else
 //            return true;
 //    }
+    
 }
