@@ -96,11 +96,14 @@ public class BjGameModel implements GameModel{
 
     @Override
     public void shuffle() {
-        /*
-         * TODO 
-         * - take all from discard pile and put back in deck
-         * - shuffle deck
-         */
+        //Transfers discards to deck
+        if (!discards.isEmpty()) {
+            for (Card card : discards) {
+                deck.add(card);
+            }
+            discards.clear();
+        }
+        //TODO shuffle deck
     }
 
     @Override

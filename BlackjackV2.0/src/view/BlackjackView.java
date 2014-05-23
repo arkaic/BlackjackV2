@@ -196,8 +196,8 @@ public class BlackjackView extends JFrame {
         topRightSubPanel.add(shuffleButton, "cell 0 1");
         topLeftSubPanel.setLayout(new MigLayout());
         topLeftSubPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-        topLeftSubPanel.add(deckDebugDisplay, "dock west");
-        topLeftSubPanel.add(dealerLabel, "dock south");
+        topLeftSubPanel.add(deckDebugDisplay, "cell 0 0");
+        topLeftSubPanel.add(dealerLabel, "cell 0 1");
         topPanel.add(topLeftSubPanel, "dock west, width 600!");
         topPanel.add(topRightSubPanel, "dock east");
         topPanel.setBorder(BorderFactory.createRaisedBevelBorder());
