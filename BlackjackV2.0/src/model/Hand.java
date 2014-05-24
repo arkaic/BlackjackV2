@@ -24,13 +24,25 @@ public class Hand {
     public Hand(String playingEntity) {
         this(null, playingEntity);
     }
-    public Hand(int n, String playingEntity) {
-        this(playingEntity);
-        temp = n;
+    
+    protected int getBetAmount() {
+        return bet.getAmount();
     }
-
-    public String toString() {
-        return "[Hand " + temp + "]";
+    
+    protected int getDoubleBetAmount() {
+        return doubleBet.getAmount();
+    }
+    
+    protected void setBetAmount(int a) {
+        bet.setAmount(a);
+    }
+    
+    protected void setDoubleBetAmount(int a) {
+        doubleBet.setAmount(a);
+    }
+    
+    protected void addCard(Card card) {
+        cards.add(card);
     }
     
     protected boolean isDealer() {
@@ -39,5 +51,13 @@ public class Hand {
     
     protected boolean isEmpty() {
         return cards.isEmpty();
+    }
+
+    public String toString() {
+        String str = "[" + bet.toString() + " " + doubleBet.toString() + "][";
+        if (!cards.isEmpty()) {
+            str += cards.toString();
+        }
+        return str;
     }
 }

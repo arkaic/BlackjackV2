@@ -15,4 +15,9 @@ public class Bet {
     protected void setAmount(int newAmount) {
         this.amount = newAmount;
     }
+    
+    @Override
+    public String toString() {
+        return "$" + amount;
+    }
 }

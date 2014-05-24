@@ -32,6 +32,9 @@ reference to the Bet class as well.
 -A continual reworking of my understanding of MVC as well as its implementation for the project. I'll have the View reference Model to update its label displays, but any user input that comes in through mouseclicking events will go through the Controller first. As it stands, the Controller basically delegates these tasks to the Model due to the fact that the project may be a little too simple to really need a Controller. The Model shall directly tell the View to update whenever changes happen in the Model.  
 -Also continually making little changes and alterations to the interface abstractions of the Model and Controller as well as access scopes of various functions in various classes. I may need to create an interface for the View.
 
+Friday May 24
+-Dealfirst in progress
+-toStrings for each game object (card, hand, seat) to be used in label displays
 
 General Todo tasks:
 -Implementation of dealing initial hands

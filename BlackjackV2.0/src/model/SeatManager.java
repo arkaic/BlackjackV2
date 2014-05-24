@@ -17,9 +17,7 @@ public class SeatManager{
     
     public SeatManager() {
         initSeats();
-        dealerHand = new Hand(0, "dealer");//TODO delete dummy statement
     }
-    
     /*Put in six seats in the list */
     private void initSeats() {
         for (int i = 1; i <= 6; i++) {
@@ -27,14 +25,29 @@ public class SeatManager{
         }
     }
     
-    /*Stacks up seats in play*/
-    protected void createSeatPlayOrder() {
-        if (!seatsInPlay.isEmpty()) {
-            seatsInPlay.clear();
+    protected void createEmptyHandsForSeatsWithInitialBets() {
+        for (int i = 1; i <= 6; i++) {
+            if (getSeat(i).hasInitialBet()) {
+                getSeat(i).addHand(new Hand("player"));
+                System.out.println(i);
+            }
         }
+    }
+    
+    /*Stacks up seats in play whose initial bets are more than $0.
+     * Adds an empty hand to each of these seats and sets the corresponding
+     * bets onto them
+     */
+    protected void createPlayOrder() {
+        if (!seatsInPlay.isEmpty())
+            seatsInPlay.clear();
         
+        //Iterating backwards
         for (int i = seats.size(); i > 0; i--) {
-            seatsInPlay.push(seats.get(i - 1));
+            Seat seat = seats.get(i - 1);
+            if (seat.hasHand()) {
+                seatsInPlay.push(seat);
+            }
         }
     }
     
@@ -70,8 +83,8 @@ public class SeatManager{
             return null;
     }
     
-    protected void changeBet(int seatNum, int amount) {
-        getSeat(seatNum).changeInitialBet(amount);
+    protected void setBet(int seatNum, int amount) {
+        getSeat(seatNum).setInitialBet(amount);
     }
     
     protected Seat getSeat(int n) {

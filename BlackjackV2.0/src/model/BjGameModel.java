@@ -10,8 +10,8 @@ import model.objects.*;
 public class BjGameModel implements GameModel{
 
     private SeatManager seatManager;
-    private List<Card> deck = new ArrayList<Card>();
-    private List<Card> discards;
+    private List<Card> deck     = new ArrayList<Card>();
+    private List<Card> discards = new ArrayList<Card>();
     private Hand dealerHand;
     private BlackjackView view;
     
@@ -30,34 +30,21 @@ public class BjGameModel implements GameModel{
             }
         }
     }
-
+    
     public void test() {
-      
-        seatManager.createSeatPlayOrder();
-        System.out.println(toStringCurrents());
-        int c = 0;
-        while (c < 1) {
-            seatManager.changeCurrentHand();
-            System.out.println(toStringCurrents());
-            c++;
+
+    }
+    
+    @Override
+    public void shuffle() {
+        //Transfers discards to deck
+        if (!discards.isEmpty()) {
+            for (Card card : discards) {
+                deck.add(card);
+            }
+            discards.clear();
         }
-        
-        System.out.println("");
-        
-//        seatManager.getCurrentSeat().addSplitHand(new Hand(4, false));
-//        for (int i = 1; i <= 6; i++) {
-//            for (int j = 0; j < 3; j++) {
-//                System.out.println(seatManager.getSeat(i).toString() + ": " +
-//                        seatManager.getSeat(i).getHand(j));
-//                if (j == 2) {
-//                    while (seatManager.getSeat(i).hands.size() > (j+1)) {
-//                        j++;
-//                        System.out.println(seatManager.getSeat(i).toString() + 
-//                                ": " +seatManager.getSeat(i).getHand(j));
-//                    }
-//                }
-//            }
-//        }
+        //TODO shuffle deck
     }
     
     @Override
@@ -95,22 +82,13 @@ public class BjGameModel implements GameModel{
     }
 
     @Override
-    public void shuffle() {
-        //Transfers discards to deck
-        if (!discards.isEmpty()) {
-            for (Card card : discards) {
-                deck.add(card);
-            }
-            discards.clear();
-        }
-        //TODO shuffle deck
-    }
-
-    @Override
     public void dealFirstHands() {
-        /* -TODO Give seats with bets an empty hand, and set the bets on them
-         * -TODO deal hands
-         * -TODO 
+        dealerHand = new Hand("dealer");
+        seatManager.createEmptyHandsForSeatsWithInitialBets();
+        passOutFirstCards();
+        /* TODO
+         * -deal hands 
+         * -do the below
          * -if upcard = ace || face:
          *   if ace:
          *     for all player blackjacks
@@ -128,11 +106,26 @@ public class BjGameModel implements GameModel{
          *   else:
          *     pay player blackjacks
          *   
-         *   
          */
-        seatManager.createSeatPlayOrder();
+        seatManager.createPlayOrder();
+        view.updateDisplays();
     }
 
+    private void passOutFirstCards() {
+        for (int i = 1; i <= 2; i++) {
+            for (int j = 1; j <= 7; j++) {
+                if (j != 7) {
+                    Seat seat = seatManager.getSeat(j);
+                    if (seat.hasInitialBet()) {
+                        seat.getHand(0).addCard(deck.remove(0));
+                    }
+                } else {
+                    dealerHand.addCard(deck.remove(0));
+                }
+            }
+        }
+    }
+    
     @Override
     public void hit() {
         // TODO Auto-generated method stub
@@ -170,8 +163,8 @@ public class BjGameModel implements GameModel{
     }
 
     @Override
-    public void changeInitialBet(int seatNum, int amount) {
-        seatManager.changeBet(seatNum, amount);
+    public void setInitialBet(int seatNum, int amount) {
+        seatManager.setBet(seatNum, amount);
         view.updateDisplays();
     }
 

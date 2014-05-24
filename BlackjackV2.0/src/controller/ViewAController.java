@@ -23,8 +23,8 @@ public class ViewAController implements GameController{
     }
 
     @Override
-    public void changeInitialBet(int seatNum, int amount) {
-        model.changeInitialBet(seatNum, amount);
+    public void setInitialBet(int seatNum, int amount) {
+        model.setInitialBet(seatNum, amount);
     }
 
     @Override

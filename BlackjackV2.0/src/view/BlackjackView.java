@@ -96,40 +96,40 @@ public class BlackjackView extends JFrame {
         seat1Spinner.addChangeListener(new ChangeListener() {
             public void stateChanged(ChangeEvent arg0) {
                 int bet = ((Integer) seat1Spinner.getValue()).intValue();
-                controller.changeInitialBet(1, bet);
+                controller.setInitialBet(1, bet);
             }
         });
         
         seat2Spinner.addChangeListener(new ChangeListener() {
             public void stateChanged(ChangeEvent arg0) {
                 int bet = ((Integer) seat2Spinner.getValue()).intValue();
-                controller.changeInitialBet(2, bet);
+                controller.setInitialBet(2, bet);
             }
         });
         seat3Spinner.addChangeListener(new ChangeListener() {
             public void stateChanged(ChangeEvent arg0) {
                 int bet = ((Integer) seat3Spinner.getValue()).intValue();
-                controller.changeInitialBet(3, bet);          
+                controller.setInitialBet(3, bet);          
             }
         });
         
         seat4Spinner.addChangeListener(new ChangeListener() {
             public void stateChanged(ChangeEvent arg0) {
                 int bet = ((Integer) seat4Spinner.getValue()).intValue();
-                controller.changeInitialBet(4, bet);
+                controller.setInitialBet(4, bet);
             }
         });
         seat5Spinner.addChangeListener(new ChangeListener() {
             public void stateChanged(ChangeEvent arg0) {
                 int bet = ((Integer) seat5Spinner.getValue()).intValue();
-                controller.changeInitialBet(5, bet);
+                controller.setInitialBet(5, bet);
             }
         });
         
         seat6Spinner.addChangeListener(new ChangeListener() {
             public void stateChanged(ChangeEvent arg0) {
                 int bet = ((Integer) seat6Spinner.getValue()).intValue();
-                controller.changeInitialBet(6, bet);
+                controller.setInitialBet(6, bet);
             }
         });
     }

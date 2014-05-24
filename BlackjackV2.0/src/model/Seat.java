@@ -7,7 +7,7 @@ import java.util.List;
 public class Seat {
 
     private int seatNumber;
-    public List<Hand> hands = new ArrayList<Hand>();
+    private List<Hand> hands = new ArrayList<Hand>();
     private Bet initialBet  = new Bet(0);
     private Hand currentHand;
     private Iterator<Hand> handIterator;
@@ -16,7 +16,7 @@ public class Seat {
         seatNumber = num;
     }
     
-    protected void changeInitialBet(int amount) {
+    protected void setInitialBet(int amount) {
         if (amount > 0) {
             initialBet.setAmount(amount); 
         } else {
@@ -44,6 +44,10 @@ public class Seat {
     
     protected Hand getCurrentHand() {
         return currentHand;
+    }
+    
+    protected Hand getHand(int n) {
+        return hands.get(n);
     }
     
     protected void clearCurrentHand() {
@@ -97,20 +101,23 @@ public class Seat {
         }
     }
     
+    protected Bet getInitialBet() {
+        return initialBet;
+    }
+    
+    protected boolean hasInitialBet() {
+        return (initialBet.getAmount() > 0);
+    }
 
     public String toString() {
         if (hasHand()) {
-            return "[$" + initialBet.getAmount() + "][some card]";
+            String str = "<html>";
+            for (Hand hand : hands) {
+                str += hand.getBetAmount() + hand.getDoubleBetAmount();
+            }
+            return str;
         } else {
             return "";
         }
     }
-    
-//    protected boolean hasBet() {
-//        if (initialBet.getAmount() == 0)
-//            return false;
-//        else
-//            return true;
-//    }
-    
 }
