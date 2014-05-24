@@ -28,8 +28,9 @@ public class SeatManager{
     protected void createEmptyHandsForSeatsWithInitialBets() {
         for (int i = 1; i <= 6; i++) {
             if (getSeat(i).hasInitialBet()) {
-                getSeat(i).addHand(new Hand("player"));
-                System.out.println(i);
+                Hand emptyHand = new Hand("player");
+                emptyHand.setBetAmount(getSeat(i).getInitialBet().getAmount());
+                getSeat(i).addHand(emptyHand);
             }
         }
     }

@@ -12,7 +12,7 @@ public class BjGameModel implements GameModel{
     private SeatManager seatManager;
     private List<Card> deck     = new ArrayList<Card>();
     private List<Card> discards = new ArrayList<Card>();
-    private Hand dealerHand;
+    private Hand dealerHand     = new Hand("dealer");
     private BlackjackView view;
     
     public BjGameModel() {
@@ -77,18 +77,14 @@ public class BjGameModel implements GameModel{
 
     @Override
     public Hand getDealerHand() {
-        // TODO Auto-generated method stub
-        return null;
+        return dealerHand;
     }
 
     @Override
     public void dealFirstHands() {
-        dealerHand = new Hand("dealer");
         seatManager.createEmptyHandsForSeatsWithInitialBets();
         passOutFirstCards();
         /* TODO
-         * -deal hands 
-         * -do the below
          * -if upcard = ace || face:
          *   if ace:
          *     for all player blackjacks

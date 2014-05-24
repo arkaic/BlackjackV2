@@ -45,6 +45,10 @@ public class Hand {
         cards.add(card);
     }
     
+    protected void clearCards() {
+        cards.clear();
+    }
+    
     protected boolean isDealer() {
         return isDealer;
     }
@@ -54,9 +58,17 @@ public class Hand {
     }
 
     public String toString() {
-        String str = "[" + bet.toString() + " " + doubleBet.toString() + "][";
-        if (!cards.isEmpty()) {
+        String str = "";
+        if (isDealer) {
             str += cards.toString();
+        } else {
+            str += "[" + bet.toString() + "]"; 
+            if (doubleBet.getAmount() > 0) {
+                str += "[" + doubleBet.toString() + "]";
+            }
+            if (!cards.isEmpty()) {
+                str += cards.toString();
+            }
         }
         return str;
     }

@@ -110,12 +110,12 @@ public class Seat {
     }
 
     public String toString() {
-        if (hasHand()) {
+        if (this.hasHand()) {
             String str = "<html>";
             for (Hand hand : hands) {
-                str += hand.getBetAmount() + hand.getDoubleBetAmount();
+                str += hand.toString() + "<br>";
             }
-            return str;
+            return str += "</html>";
         } else {
             return "";
         }

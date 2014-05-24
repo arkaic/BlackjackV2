@@ -166,12 +166,12 @@ public class BlackjackView extends JFrame {
         seat5Area        = new JPanel();
         seat6Area        = new JPanel();
         insuranceArea    = new JPanel();
-        seat1Label       = new JLabel("<html>[$55+$55][A,A,10,A,A,A,A,A,A]</html>");
-        seat2Label       = new JLabel("<html>[$55+$55][A,A,10,A,A,A,A,A,A]</html>");
-        seat3Label       = new JLabel("<html>[$55+$55][A,A,10,A,A,A,A,A,A]</html>");
-        seat4Label       = new JLabel("<html>[$55+$55][A,A,10,A,A,A,A,A,A]</html>");
-        seat5Label       = new JLabel("<html>[$55+$55][A,A,10,A,A,A,A,A,A]<br>g<br>g<br>g<br></html>");
-        seat6Label       = new JLabel("<html>[$55+$55][A,A,10,A,A,A,A,A,A]<br>g<br>g<br>g<br></html>");
+        seat1Label       = new JLabel("seat1");
+        seat2Label       = new JLabel("seat2");
+        seat3Label       = new JLabel("seat3");
+        seat4Label       = new JLabel("seat4");
+        seat5Label       = new JLabel("seat5");
+        seat6Label       = new JLabel("seat6");
         insuranceLabel   = new JLabel("insurance here");
         dealerLabel      = new JLabel("dealer here");
         seat1Spinner     = new JSpinner();
@@ -275,6 +275,7 @@ public class BlackjackView extends JFrame {
         seat4Label.setText(model.getSeat(4).toString());
         seat5Label.setText(model.getSeat(5).toString());
         seat6Label.setText(model.getSeat(6).toString());
+        dealerLabel.setText(model.getDealerHand().toString());
         deckDebugDisplay.setText(model.getDeck().toString());
     }
     
