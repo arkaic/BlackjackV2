@@ -88,8 +88,7 @@ public class BlackjackView extends JFrame {
         
         shuffleButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                // TODO implement this
-                
+                controller.shuffle();
             }
         });
         
@@ -99,7 +98,6 @@ public class BlackjackView extends JFrame {
                 controller.setInitialBet(1, bet);
             }
         });
-        
         seat2Spinner.addChangeListener(new ChangeListener() {
             public void stateChanged(ChangeEvent arg0) {
                 int bet = ((Integer) seat2Spinner.getValue()).intValue();
@@ -111,8 +109,7 @@ public class BlackjackView extends JFrame {
                 int bet = ((Integer) seat3Spinner.getValue()).intValue();
                 controller.setInitialBet(3, bet);          
             }
-        });
-        
+        });        
         seat4Spinner.addChangeListener(new ChangeListener() {
             public void stateChanged(ChangeEvent arg0) {
                 int bet = ((Integer) seat4Spinner.getValue()).intValue();
@@ -125,13 +122,13 @@ public class BlackjackView extends JFrame {
                 controller.setInitialBet(5, bet);
             }
         });
-        
         seat6Spinner.addChangeListener(new ChangeListener() {
             public void stateChanged(ChangeEvent arg0) {
                 int bet = ((Integer) seat6Spinner.getValue()).intValue();
                 controller.setInitialBet(6, bet);
             }
         });
+    
     }
     
     private void setSpinnersEnabled(boolean bool) {

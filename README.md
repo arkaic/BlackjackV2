@@ -36,9 +36,10 @@ Friday May 24
 -Dealfirst in progress
 -toStrings for each game object (card, hand, seat) to be used in label displays
 
-General Todo tasks:
--Implementation of dealing initial hands
--Blackjack game logic 
+Todo tasks:
+-Blackjack game logic
+	-Each hand should have a function that returns its totals, both soft and hard, as well as choosing the highest total to be its final total. If the final is chosen to be larger than 21, it's a bust. Otherwise, the final total function should return soft if it's the highest.
+-finish dealfirst 
 -Money implementation
 .
 .

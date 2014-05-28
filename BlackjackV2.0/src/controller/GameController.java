@@ -9,4 +9,5 @@ public interface GameController {
     public void setInitialBet(int seatNum, int amount);
     public void setModel(GameModel model);
     public void setView(BlackjackView view);
+    public void shuffle();
 }

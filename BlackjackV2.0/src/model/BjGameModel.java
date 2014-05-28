@@ -3,6 +3,7 @@ package model;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Random;
 
 import view.BlackjackView;
 import model.objects.*;
@@ -44,7 +45,21 @@ public class BjGameModel implements GameModel{
             }
             discards.clear();
         }
-        //TODO shuffle deck
+        
+        //Builds a new deck by randomly picking cards out of the preceding deck
+        List<Card> buildingDeck = new ArrayList<>();
+        List<Card> workingDeck  = deck;
+        int workingSize = workingDeck.size();
+        Random rand = new Random();
+        while (workingSize > 0) {
+            int randomCardIndex = rand.nextInt((workingSize - 1 - 0) + 1) + 0;
+            System.out.println(randomCardIndex);
+            buildingDeck.add(workingDeck.get(randomCardIndex));
+            workingDeck.remove(randomCardIndex);
+            workingSize = workingDeck.size();
+        }
+        deck = buildingDeck;
+        view.updateDisplays();
     }
     
     @Override
@@ -93,7 +108,7 @@ public class BjGameModel implements GameModel{
          *       display insurance spinner
          *       //max should be half of total bets
          *       
-         *   check hole card
+         *   check h ole card
          *   
          *   if Blackjack:
          *     take all, push blackjacks

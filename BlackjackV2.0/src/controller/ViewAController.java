@@ -8,10 +8,6 @@ public class ViewAController implements GameController{
     private BlackjackView view;
     private GameModel model;
 
-    public ViewAController() {
-        // TODO Auto-generated constructor stub
-    }
-
     @Override
     public void update() {
         // TODO maybe, maybe not
@@ -35,5 +31,10 @@ public class ViewAController implements GameController{
     @Override
     public void setView(BlackjackView view) {
         this.view = view;
+    }
+
+    @Override
+    public void shuffle() {
+        model.shuffle();
     }
 }
