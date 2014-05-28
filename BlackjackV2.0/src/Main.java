@@ -39,10 +39,13 @@ public class Main {
     }
     
     private static void test() {
-        BjGameModel model = new BjGameModel();
-
-        
-        model.test();
+        List<Integer> l = new ArrayList<>();
+        l.add(new Integer(2));
+        l.add(new Integer(3));
+        Iterator<Integer> it = l.iterator();
+        System.out.println(it.next());
+        it.remove();
+        System.out.println(it.next());
     }
 
 }

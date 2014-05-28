@@ -47,14 +47,7 @@ public class BlackjackView extends JFrame {
         
         hitButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent arg0) {
-                /**
-                 * TODO implement this:
-                 * -Draw card
-                 * -Conditional check if the current hand can take any more
-                 *   action (Either a bust or a hard 21)
-                 * -If it can't take more action, 
-                 */
-                model.hit(); //TODO delete
+                controller.hit();
             }
         });
         

@@ -50,9 +50,6 @@ public class SeatManager{
                 seatsInPlay.push(seat);
             }
         }
-        
-        //Set current hand
-        changeCurrentHand();
     }
 
     //Returns null if action rounds haven't started yet
@@ -62,12 +59,15 @@ public class SeatManager{
     
     protected void clearCurrentHand() {
         getCurrentSeat().clearCurrentHand();
-        changeCurrentHand();
-        
     }
           
-    /*If there are seats left, top seat is current seat, a*/
-    private void changeCurrentHand() {
+    /*If there are seats left, top seat is current seat, and then its current
+     * hand will be changed. If this new current hand is not null (meaning there's
+     * another hand in seat, currentHand field is reassigned this.
+     * Otherwise, pop the seat and recursively call this method again.
+     * Once there are no more seats left, calling this method shall set the 
+     * dealer hand as the currentHand.*/
+    protected void changeCurrentHand() {
         if (!seatsInPlay.isEmpty()) {
             Seat currentSeat = getCurrentSeat();
             currentSeat.changeCurrentHand(); //Changes to either next hand or null

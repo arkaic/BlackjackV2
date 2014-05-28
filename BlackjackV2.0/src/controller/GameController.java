@@ -10,4 +10,5 @@ public interface GameController {
     public void setModel(GameModel model);
     public void setView(BlackjackView view);
     public void shuffle();
+    public void hit();
 }

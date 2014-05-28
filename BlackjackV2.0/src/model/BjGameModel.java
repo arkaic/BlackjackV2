@@ -98,7 +98,7 @@ public class BjGameModel implements GameModel{
     public void dealFirstHands() {
         seatManager.createEmptyHandsForSeatsWithInitialBets();
         passOutFirstCards();
-        /* TODO
+        /* TODO -BELOW-
          * -if upcard = ace || face:
          *   if ace:
          *     for all player blackjacks
@@ -118,6 +118,7 @@ public class BjGameModel implements GameModel{
          *   
          */
         seatManager.createPlayOrder();
+        seatManager.changeCurrentHand();
         view.updateDisplays();
     }
 
@@ -134,36 +135,62 @@ public class BjGameModel implements GameModel{
                 }
             }
         }
+        seatManager.setDealerHand(dealerHand);
     }
     
     @Override
     public void hit() {
-        seatManager.clearCurrentHand();//TODO delete
+        getCurrentHand().addCard(deck.remove(0));
+        /* TODO -BELOW-
+         * -Check totals so that it don't bust
+         * -If it busts, 
+         *      seatManager.clearCurrentHand();
+         *      seatManager.changeCurrentHand();
+         * -If currentHand = dealerHand
+         *      final dealer procedure
+         */
         view.updateDisplays();
     }
 
     @Override
     public void stay() {
-        // TODO Auto-generated method stub
-        
+        seatManager.changeCurrentHand();
+        /* TODO -BELOW-
+         * -If currentHand = dealerHand
+         *      final dealer procedure
+         */
     }
 
     @Override
     public void surrender() {
-        // TODO Auto-generated method stub
-        
+        seatManager.clearCurrentHand();
+        seatManager.changeCurrentHand();
+        /* TODO -BELOW-
+         * -If currentHand = dealerHand
+         *      final dealer procedure
+         */
     }
 
     @Override
     public void split() {
-        // TODO Auto-generated method stub
-        
+       /* TODO -BELOW-
+        * -If split aces
+        *      getCurrentHand().addCard(deck.remove(0));
+        *      seatManager.changeCurrentHand();
+        *      getCurrentHand().addCard(deck.remove(0));
+        *      seatManager.changeCurrentHand()
+        * -If currentHand = dealerHand
+        *      final dealer procedure
+        */      
     }
 
     @Override
     public void doubleDown() {
-        // TODO Auto-generated method stub
-        
+        getCurrentHand().addCard(deck.remove(0));
+        /* TODO -BELOW-
+         * -Check totals so that it don't bust
+         */
+        stay();
     }
 
     @Override

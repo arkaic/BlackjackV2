@@ -37,4 +37,9 @@ public class ViewAController implements GameController{
     public void shuffle() {
         model.shuffle();
     }
+
+    @Override
+    public void hit() {
+        model.hit();
+    }
 }

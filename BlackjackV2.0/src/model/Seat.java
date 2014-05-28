@@ -24,6 +24,11 @@ public class Seat {
         }
     }
     
+    /*Should return null if this Seat is empty of hands*/
+    protected Hand getCurrentHand() {
+        return currentHand;
+    }
+    
     protected void changeCurrentHand() {
         if (handIterator().hasNext()) {
             currentHand = handIterator().next();
@@ -33,18 +38,11 @@ public class Seat {
         //TODO notify view to update
     }
     
-    /*Should return null if this Seat is empty of hands*/
-    protected Hand getCurrentHand() {
-        return currentHand;
-    }
-    
-    protected Hand getHand(int n) {
-        return hands.get(n);
-    }
-    
     protected void clearCurrentHand() {
         handIterator().remove();
-        
+        //Iterator would still be in the same position of the element that it
+        //removed, so iterator.hasNext() will still work if there's another
+        //element.
     }
     
     /*Initializes handIterator if it hasn't been already*/
@@ -54,6 +52,10 @@ public class Seat {
         }    
         
         return handIterator;
+    }
+    
+    protected Hand getHand(int n) {
+        return hands.get(n);
     }
     
     /*Checks if Seat has any hands, or cards in those hands.
