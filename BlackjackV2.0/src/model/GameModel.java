@@ -10,8 +10,8 @@ public interface GameModel {
     public List<Card> getDeck();
     public Bet  getBet();
     public Hand getHand();
-    public Hand getCurrentHand();
-    public Seat getCurrentSeat();
+//    public Hand getCurrentHand();
+//    public Seat getCurrentSeat();
     public Seat getSeat(int seatNum);
     public Bet  getBankroll();
     public Hand getDealerHand();

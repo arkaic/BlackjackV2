@@ -53,7 +53,6 @@ public class BjGameModel implements GameModel{
         Random rand = new Random();
         while (workingSize > 0) {
             int randomCardIndex = rand.nextInt((workingSize - 1 - 0) + 1) + 0;
-            System.out.println(randomCardIndex);
             buildingDeck.add(workingDeck.get(randomCardIndex));
             workingDeck.remove(randomCardIndex);
             workingSize = workingDeck.size();
@@ -108,7 +107,7 @@ public class BjGameModel implements GameModel{
          *       display insurance spinner
          *       //max should be half of total bets
          *       
-         *   check h ole card
+         *   check hole card
          *   
          *   if Blackjack:
          *     take all, push blackjacks
@@ -139,8 +138,8 @@ public class BjGameModel implements GameModel{
     
     @Override
     public void hit() {
-        // TODO Auto-generated method stub
-        
+        seatManager.clearCurrentHand();//TODO delete
+        view.updateDisplays();
     }
 
     @Override
@@ -179,13 +178,11 @@ public class BjGameModel implements GameModel{
         view.updateDisplays();
     }
 
-    @Override
-    public Hand getCurrentHand() {
+    private Hand getCurrentHand() {
         return seatManager.getCurrentHand();
     }
 
-    @Override
-    public Seat getCurrentSeat() {
+    private Seat getCurrentSeat() {
         return seatManager.getCurrentSeat();
     }
     

@@ -39,6 +39,8 @@ Friday May 24
 Todo tasks:
 -Blackjack game logic
 	-Each hand should have a function that returns its totals, both soft and hard, as well as choosing the highest total to be its final total. If the final is chosen to be larger than 21, it's a bust. Otherwise, the final total function should return soft if it's the highest.
+	-Once a card is dealt, either by hitting, doubling down, or splitting, the hand should have a different soft/hard total, as shown if the respective functions are called.
+	-A function that finds if it's over/equal/under 21 should always be called afterward. This should be called on the "current hand", as determined by the currentHand method in the model interface, which hopefully keeps track of the current hand. If >21, clear hand, move on. If ==21, move on.
 -finish dealfirst 
 -Money implementation
 .

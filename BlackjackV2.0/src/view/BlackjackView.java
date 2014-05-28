@@ -54,7 +54,7 @@ public class BlackjackView extends JFrame {
                  *   action (Either a bust or a hard 21)
                  * -If it can't take more action, 
                  */
-                
+                model.hit(); //TODO delete
             }
         });
         

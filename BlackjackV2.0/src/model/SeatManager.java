@@ -50,12 +50,27 @@ public class SeatManager{
                 seatsInPlay.push(seat);
             }
         }
+        
+        //Set current hand
+        changeCurrentHand();
+    }
+
+    //Returns null if action rounds haven't started yet
+    protected Hand getCurrentHand() {
+        return currentHand;
     }
     
-    protected void changeCurrentHand() {
+    protected void clearCurrentHand() {
+        getCurrentSeat().clearCurrentHand();
+        changeCurrentHand();
+        
+    }
+          
+    /*If there are seats left, top seat is current seat, a*/
+    private void changeCurrentHand() {
         if (!seatsInPlay.isEmpty()) {
             Seat currentSeat = getCurrentSeat();
-            currentSeat.changeCurrentHand();
+            currentSeat.changeCurrentHand(); //Changes to either next hand or null
             
             if (currentSeat.getCurrentHand() != null) {
                 currentHand = currentSeat.getCurrentHand();    
@@ -68,15 +83,7 @@ public class SeatManager{
         }
     }
     
-    //TODO returns null if action rounds haven't started yet
-    protected Hand getCurrentHand() {
-        return currentHand;
-    }
-    
-    protected void clearCurrentHand() {
-        getCurrentSeat().clearCurrentHand();
-    }
-    
+    /*Gets Seat on top of stack*/
     protected Seat getCurrentSeat() {
         if (!seatsInPlay.isEmpty())
             return seatsInPlay.peek();

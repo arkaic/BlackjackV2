@@ -49,6 +49,42 @@ public class Hand {
         cards.clear();
     }
     
+    protected int getFinalTotal() {
+        if (getSoftTotal() <= 21) {
+            return getSoftTotal();
+        } else {
+            return getHardTotal();
+        }
+    }
+    
+    private int getSoftTotal() {
+        int softTotal = 0;
+        boolean handHasAce = false;
+        for (Card card : cards) {
+            if (card.isAce()) {
+                if (handHasAce) {
+                    softTotal += card.getHardNumber();
+                } else {
+                    softTotal += card.getSoftNumber();
+                    handHasAce = true;
+                }
+            } else {
+                softTotal += card.getSoftNumber();
+            }
+        }
+        
+        return softTotal;
+    }
+    
+    protected int getHardTotal() {
+        int hardTotal = 0;
+        for (Card card : cards) {
+            hardTotal += card.getHardNumber();
+        }
+        
+        return hardTotal;
+    }
+    
     protected boolean isDealer() {
         return isDealer;
     }

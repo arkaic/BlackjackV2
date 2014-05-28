@@ -34,18 +34,28 @@ public class Card {
     
     private void assignCardNumber(int number) {
         actualNumber = number;
-        if (number > 10) {
+        if (number >= 10) {
             hardNumber = 10;
             softNumber = 10;
         } else {
-            hardNumber = number;
-            if (number == 1)
-                softNumber = 1;
-            else
+            if (number == 1) {
+                hardNumber = 1;
+                softNumber = 11;
+            } else {
                 softNumber = number;
+                hardNumber = number;
+            }
         }        
     }
 
+    protected int getHardNumber() {
+        return hardNumber;
+    }
+    
+    protected int getSoftNumber() {
+        return softNumber;
+    }
+    
     /*Returns number ("1", etc) or "A/J/Q/K"*/
     public String toString() {
         String s = "";
@@ -61,5 +71,8 @@ public class Card {
             s += actualNumber;
         }
         return s;
+    }
+    public boolean isAce() {
+        return (softNumber == 1);
     }
 }

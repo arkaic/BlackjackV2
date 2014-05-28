@@ -33,15 +33,7 @@ public class Seat {
         //TODO notify view to update
     }
     
-    /*Initializes handIterator if it hasn't been already*/
-    private Iterator<Hand> handIterator() {
-        if (handIterator == null) {
-            handIterator = hands.iterator();
-        }    
-        
-        return handIterator;
-    }
-    
+    /*Should return null if this Seat is empty of hands*/
     protected Hand getCurrentHand() {
         return currentHand;
     }
@@ -52,6 +44,16 @@ public class Seat {
     
     protected void clearCurrentHand() {
         handIterator().remove();
+        
+    }
+    
+    /*Initializes handIterator if it hasn't been already*/
+    private Iterator<Hand> handIterator() {
+        if (handIterator == null) {
+            handIterator = hands.iterator();
+        }    
+        
+        return handIterator;
     }
     
     /*Checks if Seat has any hands, or cards in those hands.
