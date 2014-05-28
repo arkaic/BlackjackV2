@@ -36,11 +36,13 @@ Friday May 24
 -Dealfirst in progress
 -toStrings for each game object (card, hand, seat) to be used in label displays
 
+Tuesday May 27
+-Fixed how current hands are determined as well as refactoring and moving around the data between classes. Just trying to keep the Single Responsibility Principle upheld within the individual object classes (Seat, Hand, Card) by delegating most of the "behavioral" functions and methods that facilitate the game inside SeatManager. 
+-Outlined the general idea for all the game actions during phase 2 of the game (when deciding on hitting/staying/splitting/etc). 
+
 Todo tasks:
--Blackjack game logic
-	-Each hand should have a function that returns its totals, both soft and hard, as well as choosing the highest total to be its final total. If the final is chosen to be larger than 21, it's a bust. Otherwise, the final total function should return soft if it's the highest.
-	-Once a card is dealt, either by hitting, doubling down, or splitting, the hand should have a different soft/hard total, as shown if the respective functions are called.
-	-A function that finds if it's over/equal/under 21 should always be called afterward. This should be called on the "current hand", as determined by the currentHand method in the model interface, which hopefully keeps track of the current hand. If >21, clear hand, move on. If ==21, move on.
+-Blackjack logic: Should I use a different class to operate on the logic relating to whether or not the player busts, whether or not dealer busts, and comparing between dealer/player? As it stands, in Blackjack version 1, there was only a method call for each. Three conditionals for the first, a little more for the second, and not much for the third. Otherwise, I would have write these methods in the SeatManager class (bloating it up even more), or in the GameModel (which might give it too much responsibility. Hell, check out my CardSet class from V1, which essentially acted as the model for that version).
+
 -finish dealfirst 
 -Money implementation
 .
