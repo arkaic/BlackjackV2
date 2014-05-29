@@ -16,10 +16,14 @@ public class BjGameModel implements GameModel{
     private List<Card> deck             = new ArrayList<Card>();
     private List<Card> discards         = new ArrayList<Card>();
     private Hand dealerHand             = new Hand("dealer");
+    private Monetary monetary;
     private BlackjackView view;
     
     public BjGameModel() {
         int numberOfDecks = 6;
+        int initialBankroll = 50;
+        
+        monetary = new Monetary(initialBankroll);
         generateDeck(numberOfDecks);
         //TODO add option to vary the amount of decks
     }
@@ -69,12 +73,6 @@ public class BjGameModel implements GameModel{
     }
 
     @Override
-    public Bet getBet() {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
     public Hand getHand() {
         // TODO Auto-generated method stub
         return null;
@@ -87,8 +85,7 @@ public class BjGameModel implements GameModel{
 
     @Override
     public Bet getBankroll() {
-        // TODO Auto-generated method stub
-        return null;
+        return monetary.getBankroll();
     }
 
     @Override

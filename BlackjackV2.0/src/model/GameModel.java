@@ -8,7 +8,6 @@ import model.objects.*;
 public interface GameModel {
     
     public List<Card> getDeck();
-    public Bet  getBet();
     public Hand getHand();
 //    public Hand getCurrentHand();
 //    public Seat getCurrentSeat();

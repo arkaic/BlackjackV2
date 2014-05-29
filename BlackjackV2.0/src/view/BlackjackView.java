@@ -12,6 +12,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSpinner;
+import javax.swing.SpinnerNumberModel;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
@@ -204,11 +205,23 @@ public class BlackjackView extends JFrame {
         insuranceArea.setBorder(BorderFactory.createEtchedBorder());
         insuranceArea.setLayout(new MigLayout());
         seat1Spinner.setMinimumSize(new Dimension(60, 10));
+        seat1Spinner.setModel(new SpinnerNumberModel(0, 0, 
+                model.getBankroll().getAmount(), 5));
         seat2Spinner.setMinimumSize(new Dimension(60, 10));
+        seat2Spinner.setModel(new SpinnerNumberModel(0, 0, 
+                model.getBankroll().getAmount(), 5));
         seat3Spinner.setMinimumSize(new Dimension(60, 10));
+        seat3Spinner.setModel(new SpinnerNumberModel(0, 0, 
+                model.getBankroll().getAmount(), 5));
         seat4Spinner.setMinimumSize(new Dimension(60, 10));
+        seat4Spinner.setModel(new SpinnerNumberModel(0, 0, 
+                model.getBankroll().getAmount(), 5));
         seat5Spinner.setMinimumSize(new Dimension(60, 10));
+        seat5Spinner.setModel(new SpinnerNumberModel(0, 0, 
+                model.getBankroll().getAmount(), 5));
         seat6Spinner.setMinimumSize(new Dimension(60, 10));
+        seat6Spinner.setModel(new SpinnerNumberModel(0, 0, 
+                model.getBankroll().getAmount(), 5));
         seat1Area.add(seat1Label);
         seat1Area.add(seat1Spinner, "dock south");
         seat2Area.add(seat2Label);
