@@ -13,6 +13,7 @@ public interface GameModel {
 //    public Hand getCurrentHand();
 //    public Seat getCurrentSeat();
     public Seat getSeat(int seatNum);
+    public Seat getCurrentSeat();
     public Bet  getBankroll();
     public Hand getDealerHand();
     public void setView(BlackjackView view);

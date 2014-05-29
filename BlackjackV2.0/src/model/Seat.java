@@ -110,6 +110,10 @@ public class Seat {
         return initialBet;
     }
     
+    public int getSeatNumber() {
+        return seatNumber;
+    }
+    
     protected boolean hasInitialBet() {
         return (initialBet.getAmount() > 0);
     }

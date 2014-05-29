@@ -31,6 +31,7 @@ public class BlackjackView extends JFrame {
         this.model = model;
         this.controller = controller;
         buildUI();
+        addTestLabel();
         attachListenersToComponents();
     }
     
@@ -245,15 +246,16 @@ public class BlackjackView extends JFrame {
         this.add(centerPanel);
         this.add(bottomPanel, "dock South");
     }
+    
+    private void addTestLabel() {
+        testLabel = new JLabel();
+        topLeftSubPanel.add(testLabel, "cell 0 2");
+    }
 
     public void updateDisplays() {
         /**
          * TODO: shall update
-         * -debug deck
-         * -dealer's hand
          * -spinner visibility and accessibility
-         * -player's hands
-         * -button visibility and accessibility
          */
         seat1Label.setText(model.getSeat(1).toString());
         seat2Label.setText(model.getSeat(2).toString());
@@ -263,6 +265,26 @@ public class BlackjackView extends JFrame {
         seat6Label.setText(model.getSeat(6).toString());
         dealerLabel.setText(model.getDealerHand().toString());
         deckDebugDisplay.setText(model.getDeck().toString());
+        if (model.getCurrentSeat() != null) {
+            testLabel.setText(model.getCurrentSeat().toString());
+        }
+        
+        int currentSeatNumber = 0;
+        if (model.getCurrentSeat() != null) {
+            currentSeatNumber = model.getCurrentSeat().getSeatNumber();
+        }
+        if (currentSeatNumber == 1) 
+            seat1Area.setBorder(BorderFactory.createLoweredBevelBorder());
+        else if (currentSeatNumber == 2) 
+            seat2Area.setBorder(BorderFactory.createLoweredBevelBorder());
+        else if (currentSeatNumber == 3) 
+            seat3Area.setBorder(BorderFactory.createLoweredBevelBorder());
+        else if (currentSeatNumber == 4) 
+            seat4Area.setBorder(BorderFactory.createLoweredBevelBorder());
+        else if (currentSeatNumber == 5) 
+            seat5Area.setBorder(BorderFactory.createLoweredBevelBorder());
+        else if (currentSeatNumber == 6) 
+            seat6Area.setBorder(BorderFactory.createLoweredBevelBorder());
     }
     
     private JPanel topPanel;
@@ -300,4 +322,6 @@ public class BlackjackView extends JFrame {
     private JButton shuffleButton;
     private JLabel deckDebugDisplay;
     private JSpinner insuranceSpinner;
+    
+    private JLabel testLabel;
 }

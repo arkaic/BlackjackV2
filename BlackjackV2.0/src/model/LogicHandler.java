@@ -8,18 +8,6 @@ public class LogicHandler {
     
     private Hand player;
     private Hand dealer;
-    
-//    protected boolean isBust(Hand hand) {
-//        return (hand.getFinalTotal() > 21);
-//    }
-//    
-//    protected boolean isHard21(Hand hand) {
-//        return (hand.getHardTotal() == 21);
-//    }
-//    
-//    protected boolean isAtLeast17(Hand hand) {
-//        return (hand.getFinalTotal() >= 17);
-//    }
 
     protected void decideOnHandTotal(Hand hand) {
         if (hand.isBust()) {

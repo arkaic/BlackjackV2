@@ -5,6 +5,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 
+import javax.swing.JOptionPane;
+
 import view.BlackjackView;
 import model.objects.*;
 
@@ -145,14 +147,16 @@ public class BjGameModel implements GameModel{
     @Override
     public void hit() {
         getCurrentHand().addCard(deck.remove(0));
+        view.updateDisplays();
         if (getCurrentHand().isBust()) {
+            JOptionPane.showMessageDialog(view, "Player BUSTED!");
             //TODO take money
             seatManager.clearCurrentHand();
             stay();
         } else if (getCurrentHand().isHard21()) {
+            JOptionPane.showMessageDialog(view, "Player will stay at hard 21");
             stay();
         } else {
-            view.updateDisplays();
             return;
         }
     }
@@ -161,6 +165,7 @@ public class BjGameModel implements GameModel{
     public void surrender() {
         //TODO take half money
         seatManager.clearCurrentHand();
+        view.updateDisplays();
         stay();
     }
 
@@ -168,9 +173,11 @@ public class BjGameModel implements GameModel{
     public void doubleDown() {
         //TODO double money
         getCurrentHand().addCard(deck.remove(0));
+        view.updateDisplays();
         if (getCurrentHand().isBust()) {
             //TODO take money
             seatManager.clearCurrentHand();
+            view.updateDisplays();
         }
         stay();
     }
@@ -215,7 +222,7 @@ public class BjGameModel implements GameModel{
         return seatManager.getCurrentHand();
     }
 
-    private Seat getCurrentSeat() {
+    public Seat getCurrentSeat() {
         return seatManager.getCurrentSeat();
     }
     
