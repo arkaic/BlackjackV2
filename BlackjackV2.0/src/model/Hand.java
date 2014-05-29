@@ -8,6 +8,7 @@ public class Hand {
     private List<Card> cards = new ArrayList<Card>();
     private Bet bet          = new Bet(0);
     private Bet doubleBet    = new Bet(0);
+    private boolean hiddenHoleCard = true;
     private boolean isDealer;
     public int temp;
     
@@ -43,6 +44,10 @@ public class Hand {
     
     protected void addCard(Card card) {
         cards.add(card);
+    }
+    
+    protected Card getCard(int n) {
+        return cards.get(n);
     }
     
     /*Removes and returns last card of hand*/
@@ -123,11 +128,21 @@ public class Hand {
     protected boolean isEmpty() {
         return cards.isEmpty();
     }
+    
+    protected void setHoleCardVisible(boolean bool) {
+        hiddenHoleCard = !bool;
+    }
 
     public String toString() {
         String str = "";
         if (isDealer) {
-            str += cards.toString();
+            if (hiddenHoleCard) {
+                if (!cards.isEmpty())
+                    str += "[" + cards.get(0) + ", N]";
+            } else {
+                str += cards.toString();
+            }
+            
         } else {
             str += "[" + bet.toString() + "]"; 
             if (doubleBet.getAmount() > 0) {

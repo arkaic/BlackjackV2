@@ -36,6 +36,7 @@ public class Main {
         controller.setModel(model);
         blackjackView.pack();
         blackjackView.setVisible(true);
+        controller.shuffle();
     }
     
     private static void test() {

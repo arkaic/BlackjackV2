@@ -265,8 +265,8 @@ public class BlackjackView extends JFrame {
         seat6Label.setText(model.getSeat(6).toString());
         dealerLabel.setText(model.getDealerHand().toString());
         deckDebugDisplay.setText(model.getDeck().toString());
-        if (model.getCurrentSeat() != null) {
-            testLabel.setText(model.getCurrentSeat().toString());
+        if (model.getCurrentHand() != null) {
+            testLabel.setText(model.getCurrentHand().toString());
         }
         
         int currentSeatNumber = 0;

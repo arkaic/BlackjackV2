@@ -14,6 +14,7 @@ public interface GameModel {
 //    public Seat getCurrentSeat();
     public Seat getSeat(int seatNum);
     public Seat getCurrentSeat();
+    public Hand getCurrentHand();
     public Bet  getBankroll();
     public Hand getDealerHand();
     public void setView(BlackjackView view);

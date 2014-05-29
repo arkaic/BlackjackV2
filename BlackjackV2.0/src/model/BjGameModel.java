@@ -13,7 +13,6 @@ import model.objects.*;
 public class BjGameModel implements GameModel{
 
     private SeatManager seatManager     = new SeatManager();
-    private LogicHandler logicHandler   = new LogicHandler();
     private List<Card> deck             = new ArrayList<Card>();
     private List<Card> discards         = new ArrayList<Card>();
     private Hand dealerHand             = new Hand("dealer");
@@ -101,26 +100,7 @@ public class BjGameModel implements GameModel{
     public void dealFirstHands() {
         seatManager.createEmptyHandsForSeatsWithInitialBets();
         passOutFirstCards();
-        /* TODO -BELOW-
-         * -if upcard = ace || face:
-         *   if ace:
-         *     for each Seat in seatManager.getSeats()
-         *       if seat has bj
-         *         ask for even money
-         *     if insurance: 
-         *       display insurance spinner
-         *       //max should be half of total bets
-         *       
-         *   check hole card
-         *   
-         *   if Blackjack:
-         *     take all, push blackjacks
-         *     pay insurances
-         *     initiate new round
-         *   else:
-         *     pay player blackjacks
-         *   
-         */
+        doAceOrFaceProcedure();
         seatManager.createPlayOrder();
         seatManager.changeCurrentHand();
         view.updateDisplays();
@@ -141,7 +121,30 @@ public class BjGameModel implements GameModel{
         }
         
         seatManager.setDealerHand(dealerHand);
-        logicHandler.setDealerHand(dealerHand);
+    }
+    
+    private void doAceOrFaceProcedure() {
+        Card upCard = dealerHand.getCard(0);
+        if (upCard.isAce()) {
+            for (Seat seat : seatManager.getSeats()) {
+                if (seat.getHand(0).isBlackjack()) {
+                    //TODO ask for even money
+                    //     if any, pay it, clear the hand
+                }
+            }
+            /* TODO -below-
+             *   if insurance:
+             *     display insurance spinner
+             */
+        }
+        if (dealerHand.isBlackjack()) {
+            /*  TODO -below-
+             *  take all losing, push blackjacks
+             *  clear hands
+             *  pay insurances
+             *  initiate new round
+             */
+        }
     }
     
     @Override
@@ -198,9 +201,13 @@ public class BjGameModel implements GameModel{
     @Override
     public void stay() {
         seatManager.changeCurrentHand();
+        view.updateDisplays();
         if (getCurrentHand().isOneCard()) {
             hit();
         } else if (getCurrentHand() == dealerHand) {
+            dealerHand.setHoleCardVisible(true);
+            view.updateDisplays();
+            JOptionPane.showMessageDialog(view, "Showing dealer hand");
             //TODO final dealer procedure
         }
         view.updateDisplays();
@@ -208,8 +215,7 @@ public class BjGameModel implements GameModel{
 
     @Override
     public void takeInsurance() {
-        // TODO Auto-generated method stub
-        
+        // TODO implement
     }
 
     @Override
@@ -218,7 +224,7 @@ public class BjGameModel implements GameModel{
         view.updateDisplays();
     }
 
-    private Hand getCurrentHand() {
+    public Hand getCurrentHand() {
         return seatManager.getCurrentHand();
     }
 
