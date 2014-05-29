@@ -40,14 +40,19 @@ Tuesday May 27
 -Fixed how current hands are determined as well as refactoring and moving around the data between classes. Just trying to keep the Single Responsibility Principle upheld within the individual object classes (Seat, Hand, Card) by delegating most of the "behavioral" functions and methods that facilitate the game inside SeatManager. 
 -Outlined the general idea for all the game actions during phase 2 of the game (when deciding on hitting/staying/splitting/etc). 
 
+*Thoughts*
+-Blackjack logic: Should I use a different class to operate on the logic relating to whether or not the player busts, whether or not dealer busts, and comparing between dealer/player? As it stands, in Blackjack version 1, there was only a method call for each. Three conditionals for the first, a little more for the second, and not much for the third. Otherwise, I would have write these methods in the SeatManager class (bloating it up even more), or in the GameModel (which might give it too much responsibility. Hell, check out my CardSet class from V1, which essentially acted as the model for that version).
+
 Wednesday May 28
 -Implemented actions a player can take during the main phase of gameplay (hit, stay, double down, etc)
+-It is so far so good when it comes to bugs. There hasn't been any that's kept me tense for hours.
+-There will be no LogicHandling class. I figured that each Hand object should have routines that would give information about its hand totals. I could then just write a few simple conditionals and that would be it.
+-All that's left to do is the money implementation which I should hopefully finish up Thursday. Also, I need to add in a method that initiates new rounds after every resolution.
+-Lastly, I'm planning Friday to be the deadline. I will finish up the game and polish it, hoping to make it look at least halfway presentable. 
 
 
 Todo tasks:
--Blackjack logic: Should I use a different class to operate on the logic relating to whether or not the player busts, whether or not dealer busts, and comparing between dealer/player? As it stands, in Blackjack version 1, there was only a method call for each. Three conditionals for the first, a little more for the second, and not much for the third. Otherwise, I would have write these methods in the SeatManager class (bloating it up even more), or in the GameModel (which might give it too much responsibility. Hell, check out my CardSet class from V1, which essentially acted as the model for that version).
 
--finish dealfirst 
 -Money implementation
 .
 .
