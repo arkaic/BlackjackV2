@@ -11,4 +11,8 @@ public interface GameController {
     public void setView(BlackjackView view);
     public void shuffle();
     public void hit();
+    public void stay();
+    public void surrender();
+    public void split();
+    public void doubleDown();
 }

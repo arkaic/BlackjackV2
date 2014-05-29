@@ -42,4 +42,24 @@ public class ViewAController implements GameController{
     public void hit() {
         model.hit();
     }
+
+    @Override
+    public void stay() {
+        model.stay();
+    }
+
+    @Override
+    public void surrender() {
+        model.surrender();
+    }
+
+    @Override
+    public void split() {
+        model.split();
+    }
+
+    @Override
+    public void doubleDown() {
+        model.doubleDown();
+    }
 }

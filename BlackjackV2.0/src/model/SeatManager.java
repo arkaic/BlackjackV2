@@ -99,6 +99,10 @@ public class SeatManager{
         return seats.get(n - 1);
     }
     
+    protected List<Seat> getSeats() {
+        return seats;
+    }
+    
     protected void setDealerHand(Hand hand) {
         dealerHand = hand;
     }

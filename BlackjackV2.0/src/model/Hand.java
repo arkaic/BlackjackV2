@@ -45,6 +45,11 @@ public class Hand {
         cards.add(card);
     }
     
+    /*Removes and returns last card of hand*/
+    protected Card removeCard() {
+        return cards.remove(cards.size() - 1);
+    }
+    
     protected void clearCards() {
         cards.clear();
     }
@@ -85,8 +90,34 @@ public class Hand {
         return hardTotal;
     }
     
+    protected boolean isBlackjack() {   
+        return (cards.size() == 2 && getFinalTotal() == 21);
+    }
+    
+    protected boolean isHard21() {
+        return (getHardTotal() == 21);
+    }
+    
+    protected boolean isBust() {
+        return (getFinalTotal() > 21);
+    }
+    
+    /*If hand is made up of two aces*/
+    protected boolean isAces() {
+        return (cards.size() == 2 && cards.get(0).isAce() && 
+                cards.get(1).isAce());
+    }
+    
+    protected boolean isAtLeast17() {
+        return (getFinalTotal() >= 17);
+    }
+    
     protected boolean isDealer() {
         return isDealer;
+    }
+    
+    protected boolean isOneCard() {
+        return (cards.size() == 1);
     }
     
     protected boolean isEmpty() {

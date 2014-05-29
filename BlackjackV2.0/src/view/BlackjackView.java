@@ -53,29 +53,25 @@ public class BlackjackView extends JFrame {
         
         doubleButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                // TODO implement this
-                
+                controller.doubleDown();
             }
         });
         
         splitButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                // TODO implement this
-                
+                controller.split();
             }
         });
         
         surrenderButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                // TODO implement this
-                
+                controller.surrender();
             }
         });
         
         stayButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                // TODO implement this
-                
+                controller.stay();
             }
         });
         

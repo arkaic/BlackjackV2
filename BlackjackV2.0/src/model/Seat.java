@@ -87,8 +87,9 @@ public class Seat {
      * 3. Renew the handIterator member
      * 4. Iterate the handIterator until it matches currentHand.
      */
-    protected void addSplitHand(Hand newHand) {
-        //TODO take second card of current hand and put it in new hand
+    protected void splitHand(Hand newHand) {
+        newHand.setBetAmount(getCurrentHand().getBetAmount());
+        newHand.addCard(getCurrentHand().removeCard());
         
         for (int i = 0; i < hands.size(); i++) {
             if (hands.get(i) == currentHand) {

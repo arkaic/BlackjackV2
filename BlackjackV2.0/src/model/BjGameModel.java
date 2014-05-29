@@ -10,15 +10,16 @@ import model.objects.*;
 
 public class BjGameModel implements GameModel{
 
-    private SeatManager seatManager;
-    private List<Card> deck     = new ArrayList<Card>();
-    private List<Card> discards = new ArrayList<Card>();
-    private Hand dealerHand     = new Hand("dealer");
+    private SeatManager seatManager     = new SeatManager();
+    private LogicHandler logicHandler   = new LogicHandler();
+    private List<Card> deck             = new ArrayList<Card>();
+    private List<Card> discards         = new ArrayList<Card>();
+    private Hand dealerHand             = new Hand("dealer");
     private BlackjackView view;
     
     public BjGameModel() {
-        seatManager = new SeatManager();
-        generateDeck(6);
+        int numberOfDecks = 6;
+        generateDeck(numberOfDecks);
         //TODO add option to vary the amount of decks
     }
     private void generateDeck(int numberofDecks) {
@@ -101,8 +102,9 @@ public class BjGameModel implements GameModel{
         /* TODO -BELOW-
          * -if upcard = ace || face:
          *   if ace:
-         *     for all player blackjacks
-         *       ask for even money
+         *     for each Seat in seatManager.getSeats()
+         *       if seat has bj
+         *         ask for even money
          *     if insurance: 
          *       display insurance spinner
          *       //max should be half of total bets
@@ -135,62 +137,66 @@ public class BjGameModel implements GameModel{
                 }
             }
         }
+        
         seatManager.setDealerHand(dealerHand);
+        logicHandler.setDealerHand(dealerHand);
     }
     
     @Override
     public void hit() {
         getCurrentHand().addCard(deck.remove(0));
-        /* TODO -BELOW-
-         * -Check totals so that it don't bust
-         * -If it busts, 
-         *      seatManager.clearCurrentHand();
-         *      seatManager.changeCurrentHand();
-         * -If currentHand = dealerHand
-         *      final dealer procedure
-         */
-        view.updateDisplays();
+        if (getCurrentHand().isBust()) {
+            //TODO take money
+            seatManager.clearCurrentHand();
+            stay();
+        } else if (getCurrentHand().isHard21()) {
+            stay();
+        } else {
+            view.updateDisplays();
+            return;
+        }
+    }
+
+    @Override
+    public void surrender() {
+        //TODO take half money
+        seatManager.clearCurrentHand();
+        stay();
+    }
+
+    @Override
+    public void doubleDown() {
+        //TODO double money
+        getCurrentHand().addCard(deck.remove(0));
+        if (getCurrentHand().isBust()) {
+            //TODO take money
+            seatManager.clearCurrentHand();
+        }
+        stay();
+    }
+
+    @Override
+    public void split() {
+        getCurrentSeat().splitHand(new Hand("player"));
+        if (getCurrentHand().isAces()) {
+            getCurrentHand().addCard(deck.remove(0));
+            seatManager.changeCurrentHand();
+            getCurrentHand().addCard(deck.remove(0));
+            stay();
+        } else {
+            hit();
+        }
     }
 
     @Override
     public void stay() {
         seatManager.changeCurrentHand();
-        /* TODO -BELOW-
-         * -If currentHand = dealerHand
-         *      final dealer procedure
-         */
-    }
-
-    @Override
-    public void surrender() {
-        seatManager.clearCurrentHand();
-        seatManager.changeCurrentHand();
-        /* TODO -BELOW-
-         * -If currentHand = dealerHand
-         *      final dealer procedure
-         */
-    }
-
-    @Override
-    public void split() {
-       /* TODO -BELOW-
-        * -If split aces
-        *      getCurrentHand().addCard(deck.remove(0));
-        *      seatManager.changeCurrentHand();
-        *      getCurrentHand().addCard(deck.remove(0));
-        *      seatManager.changeCurrentHand()
-        * -If currentHand = dealerHand
-        *      final dealer procedure
-        */      
-    }
-
-    @Override
-    public void doubleDown() {
-        getCurrentHand().addCard(deck.remove(0));
-        /* TODO -BELOW-
-         * -Check totals so that it don't bust
-         */
-        stay();
+        if (getCurrentHand().isOneCard()) {
+            hit();
+        } else if (getCurrentHand() == dealerHand) {
+            //TODO final dealer procedure
+        }
+        view.updateDisplays();
     }
 
     @Override
