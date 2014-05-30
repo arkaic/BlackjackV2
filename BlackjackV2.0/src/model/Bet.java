@@ -12,7 +12,7 @@ public class Bet {
         return amount;
     }
     
-    protected void setAmount(int newAmount) {
+    public void setAmount(int newAmount) {
         this.amount = newAmount;
     }
     

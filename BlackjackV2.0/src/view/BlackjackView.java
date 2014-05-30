@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.HashMap;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
@@ -17,6 +18,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import controller.GameController;
+import model.Bet;
 import model.GameModel;
 import net.miginfocom.swing.MigLayout;
 
@@ -27,6 +29,8 @@ public class BlackjackView extends JFrame {
     private GameModel model;
     private GameController controller;
 
+    private HashMap<JSpinner, Bet> spinnerToPrevBetMap = 
+            new HashMap<JSpinner, Bet>();
     
     public BlackjackView(GameModel model, GameController controller) {
         this.model = model;
@@ -34,6 +38,14 @@ public class BlackjackView extends JFrame {
         buildUI();
         addTestLabel();
         attachListenersToComponents();
+//        updateSpinnerMaxes();
+
+        spinnerToPrevBetMap.put(seat1Spinner, new Bet(0));
+        spinnerToPrevBetMap.put(seat2Spinner, new Bet(0));
+        spinnerToPrevBetMap.put(seat3Spinner, new Bet(0));
+        spinnerToPrevBetMap.put(seat4Spinner, new Bet(0));
+        spinnerToPrevBetMap.put(seat5Spinner, new Bet(0));
+        spinnerToPrevBetMap.put(seat6Spinner, new Bet(0));
     }
     
     private void attachListenersToComponents() {
@@ -86,40 +98,76 @@ public class BlackjackView extends JFrame {
         seat1Spinner.addChangeListener(new ChangeListener() {
             public void stateChanged(ChangeEvent arg0) {
                 int bet = ((Integer) seat1Spinner.getValue()).intValue();
+                changeSpinnerState(seat1Spinner);
                 controller.setInitialBet(1, bet);
             }
         });
         seat2Spinner.addChangeListener(new ChangeListener() {
             public void stateChanged(ChangeEvent arg0) {
                 int bet = ((Integer) seat2Spinner.getValue()).intValue();
+                changeSpinnerState(seat2Spinner);
                 controller.setInitialBet(2, bet);
             }
         });
         seat3Spinner.addChangeListener(new ChangeListener() {
             public void stateChanged(ChangeEvent arg0) {
                 int bet = ((Integer) seat3Spinner.getValue()).intValue();
+                changeSpinnerState(seat3Spinner);
                 controller.setInitialBet(3, bet);          
             }
         });        
         seat4Spinner.addChangeListener(new ChangeListener() {
             public void stateChanged(ChangeEvent arg0) {
                 int bet = ((Integer) seat4Spinner.getValue()).intValue();
+                changeSpinnerState(seat4Spinner);
                 controller.setInitialBet(4, bet);
             }
         });
         seat5Spinner.addChangeListener(new ChangeListener() {
             public void stateChanged(ChangeEvent arg0) {
                 int bet = ((Integer) seat5Spinner.getValue()).intValue();
+                changeSpinnerState(seat5Spinner);
                 controller.setInitialBet(5, bet);
             }
         });
         seat6Spinner.addChangeListener(new ChangeListener() {
             public void stateChanged(ChangeEvent arg0) {
                 int bet = ((Integer) seat6Spinner.getValue()).intValue();
+                changeSpinnerState(seat6Spinner);
                 controller.setInitialBet(6, bet);
             }
         });
+    }
     
+    private void changeSpinnerState(JSpinner spinner) {
+        int currentAmount = ((Integer) spinner.getValue()).intValue();
+        int previousAmount = spinnerToPrevBetMap.get(spinner).getAmount();
+        
+        if (currentAmount != previousAmount) {
+            controller.addToBankroll(previousAmount - currentAmount);
+            spinnerToPrevBetMap.get(spinner).setAmount(currentAmount);
+        }
+        updateSpinnerMaxes();
+    }
+    private void updateSpinnerMaxes() {
+        int current1 = ((Integer) seat1Spinner.getValue());
+        int current2 = ((Integer) seat2Spinner.getValue());
+        int current3 = ((Integer) seat3Spinner.getValue());
+        int current4 = ((Integer) seat4Spinner.getValue());
+        int current5 = ((Integer) seat5Spinner.getValue());
+        int current6 = ((Integer) seat6Spinner.getValue());
+        SpinnerNumberModel model1 = (SpinnerNumberModel) seat1Spinner.getModel();
+        SpinnerNumberModel model2 = (SpinnerNumberModel) seat2Spinner.getModel();
+        SpinnerNumberModel model3 = (SpinnerNumberModel) seat3Spinner.getModel();
+        SpinnerNumberModel model4 = (SpinnerNumberModel) seat4Spinner.getModel();
+        SpinnerNumberModel model5 = (SpinnerNumberModel) seat5Spinner.getModel();
+        SpinnerNumberModel model6 = (SpinnerNumberModel) seat6Spinner.getModel();
+        model1.setMaximum(current1 + model.getBankroll());
+        model2.setMaximum(current2 + model.getBankroll());
+        model3.setMaximum(current3 + model.getBankroll());
+        model4.setMaximum(current4 + model.getBankroll());
+        model5.setMaximum(current5 + model.getBankroll());
+        model6.setMaximum(current6 + model.getBankroll());
     }
     
     private void setSpinnersEnabled(boolean bool) {
@@ -160,6 +208,7 @@ public class BlackjackView extends JFrame {
         seat4Label       = new JLabel("seat4");
         seat5Label       = new JLabel("seat5");
         seat6Label       = new JLabel("seat6");
+        bankrollLabel    = new JLabel("bankroll");
         insuranceLabel   = new JLabel("insurance here");
         dealerLabel      = new JLabel("dealer here");
         seat1Spinner     = new JSpinner();
@@ -206,22 +255,22 @@ public class BlackjackView extends JFrame {
         insuranceArea.setLayout(new MigLayout());
         seat1Spinner.setMinimumSize(new Dimension(60, 10));
         seat1Spinner.setModel(new SpinnerNumberModel(0, 0, 
-                model.getBankroll().getAmount(), 5));
+                model.getBankroll(), 5));
         seat2Spinner.setMinimumSize(new Dimension(60, 10));
         seat2Spinner.setModel(new SpinnerNumberModel(0, 0, 
-                model.getBankroll().getAmount(), 5));
+                model.getBankroll(), 5));
         seat3Spinner.setMinimumSize(new Dimension(60, 10));
         seat3Spinner.setModel(new SpinnerNumberModel(0, 0, 
-                model.getBankroll().getAmount(), 5));
+                model.getBankroll(), 5));
         seat4Spinner.setMinimumSize(new Dimension(60, 10));
         seat4Spinner.setModel(new SpinnerNumberModel(0, 0, 
-                model.getBankroll().getAmount(), 5));
+                model.getBankroll(), 5));
         seat5Spinner.setMinimumSize(new Dimension(60, 10));
         seat5Spinner.setModel(new SpinnerNumberModel(0, 0, 
-                model.getBankroll().getAmount(), 5));
+                model.getBankroll(), 5));
         seat6Spinner.setMinimumSize(new Dimension(60, 10));
         seat6Spinner.setModel(new SpinnerNumberModel(0, 0, 
-                model.getBankroll().getAmount(), 5));
+                model.getBankroll(), 5));
         seat1Area.add(seat1Label);
         seat1Area.add(seat1Spinner, "dock south");
         seat2Area.add(seat2Label);
@@ -257,6 +306,7 @@ public class BlackjackView extends JFrame {
         this.setLayout(new MigLayout());
         this.add(topPanel, "dock north");
         this.add(centerPanel);
+        this.add(bankrollLabel, "dock south");
         this.add(bottomPanel, "dock South");
     }
     
@@ -266,16 +316,13 @@ public class BlackjackView extends JFrame {
     }
 
     public void updateDisplays() {
-        /**
-         * TODO: shall update
-         * -spinner visibility and accessibility
-         */
         seat1Label.setText(model.getSeat(1).toString());
         seat2Label.setText(model.getSeat(2).toString());
         seat3Label.setText(model.getSeat(3).toString());
         seat4Label.setText(model.getSeat(4).toString());
         seat5Label.setText(model.getSeat(5).toString());
         seat6Label.setText(model.getSeat(6).toString());
+        bankrollLabel.setText("$" + model.getBankroll());
         dealerLabel.setText(model.getDealerHand().toString());
         deckDebugDisplay.setText(model.getDeck().toString());
         if (model.getCurrentHand() != null) {
@@ -318,6 +365,7 @@ public class BlackjackView extends JFrame {
     private JLabel seat4Label;
     private JLabel seat5Label;
     private JLabel seat6Label;
+    private JLabel bankrollLabel;
     private JLabel insuranceLabel;
     private JLabel dealerLabel;
     private JSpinner seat1Spinner;

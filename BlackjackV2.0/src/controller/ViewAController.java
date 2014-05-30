@@ -62,4 +62,14 @@ public class ViewAController implements GameController{
     public void doubleDown() {
         model.doubleDown();
     }
+
+    @Override
+    public void addToBankroll(int amount) {
+        model.addToBankroll(amount);
+    }
+
+    @Override
+    public void subtractFromBankroll(int amount) {
+        model.subtractFromBankroll(amount);
+    }
 }

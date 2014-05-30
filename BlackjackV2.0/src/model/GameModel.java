@@ -14,7 +14,9 @@ public interface GameModel {
     public Seat getSeat(int seatNum);
     public Seat getCurrentSeat();
     public Hand getCurrentHand();
-    public Bet  getBankroll();
+    public int  getBankroll();
+    public void addToBankroll(int amount);
+    public void subtractFromBankroll(int amount);
     public Hand getDealerHand();
     public void setView(BlackjackView view);
     //TODO should probably change this argument to an interface

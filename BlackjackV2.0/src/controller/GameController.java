@@ -15,4 +15,6 @@ public interface GameController {
     public void surrender();
     public void split();
     public void doubleDown();
+    public void addToBankroll(int amount);
+    public void subtractFromBankroll(int amount);
 }

@@ -84,8 +84,17 @@ public class BjGameModel implements GameModel{
     }
 
     @Override
-    public Bet getBankroll() {
+    public int getBankroll() {
         return monetary.getBankroll();
+    }
+    
+    @Override
+    public void addToBankroll(int amount) {
+        monetary.addToBankroll(amount);
+    }
+    @Override
+    public void subtractFromBankroll(int amount) {
+        monetary.subtractFromBankroll(amount);
     }
 
     @Override
