@@ -50,6 +50,8 @@ Wednesday May 28
 -All that's left to do is the money implementation which I should hopefully finish up Thursday. Also, I need to add in a method that initiates new rounds after every resolution.
 -Lastly, I'm planning Friday to be the deadline. I will finish up the game and polish it, hoping to make it look at least halfway presentable. 
 
+Thursday May 29
+-Added Monetary class, and I'm going to have that handle all the monetary transactions.
 
 Todo tasks:
 
