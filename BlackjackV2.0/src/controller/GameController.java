@@ -17,4 +17,5 @@ public interface GameController {
     public void doubleDown();
     public void addToBankroll(int amount);
     public void subtractFromBankroll(int amount);
+    public void displayMessage(String msg);
 }

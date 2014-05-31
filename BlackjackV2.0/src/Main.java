@@ -32,6 +32,7 @@ public class Main {
         GameController controller = new ViewAController();
         BlackjackView blackjackView = new BlackjackView(model, controller);
         model.setView(blackjackView);
+        model.setController(controller);
         controller.setView(blackjackView);
         controller.setModel(model);
         blackjackView.pack();

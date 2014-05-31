@@ -7,6 +7,7 @@ import java.util.Random;
 
 import javax.swing.JOptionPane;
 
+import controller.GameController;
 import view.BlackjackView;
 import model.objects.*;
 
@@ -18,6 +19,7 @@ public class BjGameModel implements GameModel{
     private Hand dealerHand             = new Hand("dealer");
     private Monetary monetary;
     private BlackjackView view;
+    private GameController controller;
     
     public BjGameModel() {
         int numberOfDecks = 6;
@@ -134,8 +136,14 @@ public class BjGameModel implements GameModel{
         if (upCard.isAce()) {
             for (Seat seat : seatManager.getSeats()) {
                 if (seat.getHand(0).isBlackjack()) {
-                    //TODO ask for even money
-                    //     if any, pay it, clear the hand
+                    int option = JOptionPane.showConfirmDialog(view,
+                            "Even money for seat " + seat.getSeatNumber() + "?",
+                            "Blackjack hand has an option",
+                            JOptionPane.QUESTION_MESSAGE, 
+                            JOptionPane.YES_NO_OPTION);
+                    if (option == 0) {
+                        monetary.pay(seat.getHand(0));
+                    }
                 }
             }
             /* TODO -below-
@@ -158,12 +166,12 @@ public class BjGameModel implements GameModel{
         getCurrentHand().addCard(deck.remove(0));
         view.updateDisplays();
         if (getCurrentHand().isBust()) {
-            JOptionPane.showMessageDialog(view, "Player BUSTED!");
+            controller.displayMessage("Player BUSTED!");
             //TODO take money
             seatManager.clearCurrentHand();
             stay();
         } else if (getCurrentHand().isHard21()) {
-            JOptionPane.showMessageDialog(view, "Player will stay at hard 21");
+            controller.displayMessage("Player will stay at hard 21");
             stay();
         } else {
             return;
@@ -213,15 +221,10 @@ public class BjGameModel implements GameModel{
         } else if (getCurrentHand() == dealerHand) {
             dealerHand.setHoleCardVisible(true);
             view.updateDisplays();
-            JOptionPane.showMessageDialog(view, "Showing dealer hand");
+            controller.displayMessage("Showing dealer hand");
             //TODO final dealer procedure
         }
         view.updateDisplays();
-    }
-
-    @Override
-    public void takeInsurance() {
-        // TODO implement
     }
 
     @Override
@@ -249,5 +252,9 @@ public class BjGameModel implements GameModel{
     @Override
     public void setView(BlackjackView view) {
         this.view = view;
+    }
+    @Override
+    public void setController(GameController controller) {
+        this.controller = controller;
     }
 }

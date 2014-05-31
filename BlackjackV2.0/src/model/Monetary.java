@@ -4,20 +4,23 @@ public class Monetary {
 
     private int bankroll = 0;
     private int insurance = 0;
-    private Bet houseBankroll;
+//    private Bet houseBankroll;
     
     public Monetary(int amount) {
         bankroll = amount;
     }
     
-    public int getBankroll() {
+    protected int getBankroll() {
         return bankroll;
     }
     
-    public int getInsurance() {
+    protected int getInsurance() {
         return insurance;
     }
     
+    protected void setInsurance(int amount) {
+        insurance = amount;
+    }
     
     
     protected void pay(Hand hand) {
@@ -49,8 +52,9 @@ public class Monetary {
         
     }
     
-    protected void payInsurance(Bet insurance) {
-        
+    protected void payInsurance() {
+        bankroll += insurance;
+        insurance = 0;
     }
     
     protected void addToBankroll(int amount) {

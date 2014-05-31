@@ -1,5 +1,7 @@
 package controller;
 
+import javax.swing.JOptionPane;
+
 import model.GameModel;
 import view.BlackjackView;
 
@@ -71,5 +73,10 @@ public class ViewAController implements GameController{
     @Override
     public void subtractFromBankroll(int amount) {
         model.subtractFromBankroll(amount);
+    }
+
+    @Override
+    public void displayMessage(String msg) {
+        JOptionPane.showMessageDialog(view, msg);
     }
 }

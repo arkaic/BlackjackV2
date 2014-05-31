@@ -95,45 +95,47 @@ public class BlackjackView extends JFrame {
             }
         });
         
+        
+        /*******************SPINNERS*********************/
         seat1Spinner.addChangeListener(new ChangeListener() {
             public void stateChanged(ChangeEvent arg0) {
-                int bet = ((Integer) seat1Spinner.getValue()).intValue();
                 changeSpinnerState(seat1Spinner);
+                int bet = ((Integer) seat1Spinner.getValue()).intValue();
                 controller.setInitialBet(1, bet);
             }
         });
         seat2Spinner.addChangeListener(new ChangeListener() {
             public void stateChanged(ChangeEvent arg0) {
-                int bet = ((Integer) seat2Spinner.getValue()).intValue();
                 changeSpinnerState(seat2Spinner);
+                int bet = ((Integer) seat2Spinner.getValue()).intValue();
                 controller.setInitialBet(2, bet);
             }
         });
         seat3Spinner.addChangeListener(new ChangeListener() {
             public void stateChanged(ChangeEvent arg0) {
-                int bet = ((Integer) seat3Spinner.getValue()).intValue();
                 changeSpinnerState(seat3Spinner);
+                int bet = ((Integer) seat3Spinner.getValue()).intValue();
                 controller.setInitialBet(3, bet);          
             }
         });        
         seat4Spinner.addChangeListener(new ChangeListener() {
             public void stateChanged(ChangeEvent arg0) {
-                int bet = ((Integer) seat4Spinner.getValue()).intValue();
                 changeSpinnerState(seat4Spinner);
+                int bet = ((Integer) seat4Spinner.getValue()).intValue();
                 controller.setInitialBet(4, bet);
             }
         });
         seat5Spinner.addChangeListener(new ChangeListener() {
             public void stateChanged(ChangeEvent arg0) {
-                int bet = ((Integer) seat5Spinner.getValue()).intValue();
                 changeSpinnerState(seat5Spinner);
+                int bet = ((Integer) seat5Spinner.getValue()).intValue();
                 controller.setInitialBet(5, bet);
             }
         });
         seat6Spinner.addChangeListener(new ChangeListener() {
             public void stateChanged(ChangeEvent arg0) {
-                int bet = ((Integer) seat6Spinner.getValue()).intValue();
                 changeSpinnerState(seat6Spinner);
+                int bet = ((Integer) seat6Spinner.getValue()).intValue();
                 controller.setInitialBet(6, bet);
             }
         });
@@ -239,6 +241,7 @@ public class BlackjackView extends JFrame {
         topPanel.add(topRightSubPanel, "dock east");
         topPanel.setBorder(BorderFactory.createRaisedBevelBorder());
         
+        
         seat1Area.setBorder(BorderFactory.createRaisedBevelBorder());
         seat1Area.setLayout(new MigLayout());
         seat2Area.setBorder(BorderFactory.createRaisedBevelBorder());
@@ -272,7 +275,9 @@ public class BlackjackView extends JFrame {
         seat6Spinner.setModel(new SpinnerNumberModel(0, 0, 
                 model.getBankroll(), 5));
         seat1Area.add(seat1Label);
-        seat1Area.add(seat1Spinner, "dock south");
+        seat1Area.add(seat1Spinner, "cell 0 1");
+        JButton even = new JButton("even money");
+        seat1Area.add(even, "dock south");
         seat2Area.add(seat2Label);
         seat2Area.add(seat2Spinner, "dock south");
         seat3Area.add(seat3Label);
@@ -285,6 +290,7 @@ public class BlackjackView extends JFrame {
         seat6Area.add(seat6Spinner, "dock south");
         insuranceArea.add(insuranceLabel);
         insuranceArea.add(insuranceSpinner, "dock south");
+        
         
         centerPanel.setLayout(new MigLayout("", "[][][]10[]", "[]20[]"));
         centerPanel.add(seat1Area);
