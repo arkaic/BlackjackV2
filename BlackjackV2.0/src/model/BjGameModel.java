@@ -158,20 +158,37 @@ public class BjGameModel implements GameModel{
                 }
             }
             if (!seatManager.areSeatsEmptyOfHands()) {
-                while (true) {
-                    try {
-                        /*TODO
-                         * int confirm= controller reads a field in the view
-                         * that changes dependig
-                         * if confirm == ok button
-                         *   monetary.insurance = what's on spinner
-                         *   break out of while loop
-                         */
-                        Thread.sleep(1000);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
+                
+                class Myrun implements Runnable {
+                    public void run() {
+                        while (true) {
+                            try {
+                                boolean isInsuranceDecided = controller.askForInsurance();
+                                  if (isInsuranceDecided)
+                                    break;
+                                Thread.sleep(100);
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+                        }
                     }
                 }
+                
+                Myrun myrun = new Myrun();
+                Thread t = new Thread(myrun);
+                t.start();
+                
+                
+//                while (true) {
+//                    try {
+//                        boolean isInsuranceDecided = controller.askForInsurance();
+//                          if (isInsuranceDecided)
+//                            break;
+//                        Thread.sleep(100);
+//                    } catch (InterruptedException e) {
+//                        e.printStackTrace();
+//                    }
+//                }
             }
         }
         if (!seatManager.areSeatsEmptyOfHands()) {
@@ -278,12 +295,24 @@ public class BjGameModel implements GameModel{
     public void setView(BlackjackView view) {
         this.view = view;
     }
+     
     @Override
     public void setController(GameController controller) {
         this.controller = controller;
     }
+    
     @Override
     public void setInsurance(int amount) {
         monetary.setInsurance(amount);
+    }
+    @Override
+    public int getMaxInsurance() {
+        int runningTotal = 0;
+        for (Seat seat : seatManager.getSeats()) {
+            if (seat.hasHands()) {
+                runningTotal += seat.getHand(0).getBetAmount();
+            }
+        }
+        return runningTotal;
     }
 }

@@ -18,6 +18,7 @@ public interface GameController {
     public void addToBankroll(int amount);
     public void subtractFromBankroll(int amount);
     public void displayMessage(String msg);
-    public int askForInsurance();
+    public boolean askForInsurance();
     public void setInsurance(int amount);
+    public int getMaxInsurance();
 }

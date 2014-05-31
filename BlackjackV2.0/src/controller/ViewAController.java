@@ -80,14 +80,19 @@ public class ViewAController implements GameController{
         JOptionPane.showMessageDialog(view, msg);
     }
 
+    /*Model calls this method*/
     @Override
-    public int askForInsurance() {
-        
-        return 0;
+    public boolean askForInsurance() {
+        return view.isInsuranceDecided() ;
     }
 
     @Override
     public void setInsurance(int amount) {
         model.setInsurance(amount);
+    }
+    
+    @Override
+    public int getMaxInsurance() {
+        model.getMaxInsurance();
     }
 }

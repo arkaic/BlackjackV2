@@ -150,18 +150,19 @@ public class BlackjackView extends JFrame {
                 int previous = spinnerToPrevBetMap.get(insuranceSpinner).getAmount();
                 
                 if (current != previous) {
+                    controller.addToBankroll(previous - current);
                     spinnerToPrevBetMap.get(insuranceSpinner).setAmount(current);
                 }
                 
                 SpinnerNumberModel spinnerModel = 
                         (SpinnerNumberModel)insuranceSpinner.getModel();
+                int maxInsurance =
                 spinnerModel.setMaximum(current + model.getBankroll());
+                controller.setInsurance(current);
             }
         });
         insuranceOk.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                // TODO 
-                
                 isInsuranceDecided = true;
             }
         });
@@ -212,6 +213,10 @@ public class BlackjackView extends JFrame {
         seat5Spinner.setVisible(bool);
         seat6Spinner.setEnabled(bool);
         seat6Spinner.setVisible(bool);
+    }
+    
+    public boolean isInsuranceDecided() {
+        return isInsuranceDecided;
     }
     
     /**
@@ -318,6 +323,7 @@ public class BlackjackView extends JFrame {
         seat6Area.add(seat6Spinner, "dock south");
         insuranceArea.add(insuranceLabel);
         insuranceSpinner.setMinimumSize(new Dimension(60, 10));
+        insuranceSpinner.setModel(new SpinnerNumberModel(0, 0, model.getBankroll(), 1));
         insuranceArea.add(insuranceSpinner, "cell 0 1");
         insuranceArea.add(insuranceOk, "cell 1 1");
         

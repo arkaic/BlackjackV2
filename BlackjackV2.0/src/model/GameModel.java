@@ -32,5 +32,6 @@ public interface GameModel {
     public void surrender();
     public void stay();
     public void setInitialBet(int seatNum, int amount);
+    public int getMaxInsurance();
     
 }

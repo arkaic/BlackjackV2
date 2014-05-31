@@ -53,7 +53,8 @@ public class Monetary {
     }
     
     protected void payInsurance() {
-        bankroll += insurance;
+        int payout = insurance * 2;
+        bankroll += insurance + payout;
         insurance = 0;
     }
     
