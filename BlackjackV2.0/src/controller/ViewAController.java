@@ -88,7 +88,7 @@ public class ViewAController implements GameController{
      * program to continue. This new thread is needed because pausing the main
      * thread will lock up the GUI.
      */
-    public void askForInsurance() {
+    public void waitForInsurance() {
         class MyRunnable implements Runnable {
             public void run() {
                 while (true) {
@@ -100,6 +100,7 @@ public class ViewAController implements GameController{
                         e.printStackTrace();
                     }
                 }
+                return;
             }
         }
         MyRunnable ru = new MyRunnable();

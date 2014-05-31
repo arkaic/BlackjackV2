@@ -141,24 +141,9 @@ public class BjGameModel implements GameModel{
         Card upCard = dealerHand.getCard(0);
         view.updateDisplays();
         if (upCard.isAce()) {
-            for (Seat seat : seatManager.getSeats()) {
-                if (seat.hasHands()) {
-                    if (seat.getHand(0).isBlackjack()) {
-                        int option = JOptionPane.showConfirmDialog(view,
-                                "Even money for seat " + seat.getSeatNumber() + "?",
-                                "Blackjack hand has an option",
-                                JOptionPane.YES_NO_OPTION, 
-                                JOptionPane.QUESTION_MESSAGE);
-                        if (option == JOptionPane.YES_OPTION) {
-                            monetary.pay(seat.getHand(0));
-                            seat.clearHands();
-                        }
-                        view.updateDisplays();
-                    }
-                }
-            }
+            askForEvenMoney();
             if (!seatManager.areSeatsEmptyOfHands()) {
-                controller.askForInsurance();
+                controller.waitForInsurance();
             }
         }
         if (!seatManager.areSeatsEmptyOfHands()) {
@@ -169,6 +154,25 @@ public class BjGameModel implements GameModel{
                  *  pay insurances
                  *  initiate new round
                  */
+            }
+        }
+    }
+    
+    private void askForEvenMoney() {
+        for (Seat seat : seatManager.getSeats()) {
+            if (seat.hasHands()) {
+                if (seat.getHand(0).isBlackjack()) {
+                    int option = JOptionPane.showConfirmDialog(view,
+                            "Even money for seat " + seat.getSeatNumber() + "?",
+                            "Blackjack hand has an option",
+                            JOptionPane.YES_NO_OPTION, 
+                            JOptionPane.QUESTION_MESSAGE);
+                    if (option == JOptionPane.YES_OPTION) {
+                        monetary.pay(seat.getHand(0));
+                        seat.clearHands();
+                    }
+                    view.updateDisplays();
+                }
             }
         }
     }

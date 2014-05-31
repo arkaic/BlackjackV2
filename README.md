@@ -53,11 +53,12 @@ Wednesday May 28
 Thursday May 29
 -Added Monetary class, and I'm going to have that handle all the monetary transactions.
 
+Friday May 30
+-Ughghh not quite done yet. The monetary implementation is largely done, but what took almost all day was figuring out how the insurance procedure was going to go. In version 1, I simply had pop up boxes that prompted for all of that, but in this version, I really wanted less dialog boxes so I wanted the insurance option to just show up right on the View. The problem was, this required user input that the thread needed to wait for. With dialog boxes, it was easier to figure out since they automatically paused the GUI thread. In the current case, I needed to keep a while loop with the insurance stuff inside running so that the dealFirst procedure wouldn't complete itself before user input from insurance would resolve. 
+    -The loop runs on an infinite "true" condition until it detects that the user has clicked on the "OK" button signaling his decision on insurance. But I would not want the loop using up system resources by checking that condition millions of times a second so I wanted a thread-pause in the loop as well.
+-Hopefully I'll be done by tomorrow. 
+
 Todo tasks:
 
--Money implementation
-.
-.
-.
 .
 -MUSIC?
