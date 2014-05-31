@@ -27,6 +27,12 @@ public class BjGameModel implements GameModel{
         
         monetary = new Monetary(initialBankroll);
         generateDeck(numberOfDecks);
+        deck.add(0, new Card(10, 'D'));
+        deck.add(0, new Card('A', 'D'));
+        deck.add(0, new Card('A', 'D'));
+        deck.add(0, new Card('A', 'D'));
+        deck.add(0, new Card(10, 'D'));
+        deck.add(0, new Card(10, 'D'));
         //TODO add option to vary the amount of decks
     }
     private void generateDeck(int numberofDecks) {
@@ -133,31 +139,47 @@ public class BjGameModel implements GameModel{
     
     private void doAceOrFaceProcedure() {
         Card upCard = dealerHand.getCard(0);
+        view.updateDisplays();
         if (upCard.isAce()) {
             for (Seat seat : seatManager.getSeats()) {
-                if (seat.getHand(0).isBlackjack()) {
-                    int option = JOptionPane.showConfirmDialog(view,
-                            "Even money for seat " + seat.getSeatNumber() + "?",
-                            "Blackjack hand has an option",
-                            JOptionPane.QUESTION_MESSAGE, 
-                            JOptionPane.YES_NO_OPTION);
-                    if (option == 0) {
-                        monetary.pay(seat.getHand(0));
+                if (seat.hasHands()) {
+                    if (seat.getHand(0).isBlackjack()) {
+                        int option = JOptionPane.showConfirmDialog(view,
+                                "Even money for seat " + seat.getSeatNumber() + "?",
+                                "Blackjack hand has an option",
+                                JOptionPane.YES_NO_OPTION, 
+                                JOptionPane.QUESTION_MESSAGE);
+                        if (option == JOptionPane.YES_OPTION) {
+                            monetary.pay(seat.getHand(0));
+                            seat.clearHands();
+                        }
+                        view.updateDisplays();
                     }
                 }
             }
-            /* TODO -below-
-             *   if insurance:
-             *     display insurance spinner
-             */
+            if (!seatManager.areSeatsEmptyOfHands()) {
+                while (true) {
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+                /* TODO -below-
+                 *   if insurance:
+                 *     display insurance spinner
+                 */
+            }
         }
-        if (dealerHand.isBlackjack()) {
-            /*  TODO -below-
-             *  take all losing, push blackjacks
-             *  clear hands
-             *  pay insurances
-             *  initiate new round
-             */
+        if (!seatManager.areSeatsEmptyOfHands()) {
+            if (dealerHand.isBlackjack()) {
+                /*  TODO -below-
+                 *  take all losing, push blackjacks
+                 *  clear hands
+                 *  pay insurances
+                 *  initiate new round
+                 */
+            }
         }
     }
     

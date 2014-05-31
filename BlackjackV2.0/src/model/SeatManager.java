@@ -46,7 +46,7 @@ public class SeatManager{
         //Iterating backwards
         for (int i = seats.size(); i > 0; i--) {
             Seat seat = seats.get(i - 1);
-            if (seat.hasHand()) {
+            if (seat.hasHands()) {
                 seatsInPlay.push(seat);
             }
         }
@@ -107,7 +107,14 @@ public class SeatManager{
         dealerHand = hand;
     }
     
-    protected void dealCard(Seat seat) {
-        
+    protected boolean areSeatsEmptyOfHands() {
+        boolean bool = true;
+        for (Seat seat : seats) {
+            if (seat.hasHands()) { 
+                bool = false;
+                break;
+            }
+        }
+        return bool;
     }
 }

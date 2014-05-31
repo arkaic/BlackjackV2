@@ -45,6 +45,11 @@ public class Seat {
         //element.
     }
     
+    /*Clears hands list*/
+    protected void clearHands() {
+        hands.clear();
+    }
+    
     /*Initializes handIterator if it hasn't been already*/
     private Iterator<Hand> handIterator() {
         if (handIterator == null) {
@@ -63,7 +68,7 @@ public class Seat {
      * Assumes that an empty hand will not be accompanied by non-empty
      * hands.
      */
-    protected boolean hasHand() {
+    protected boolean hasHands() {
         if (hands.isEmpty()) {
             return false;
         } else {
@@ -119,7 +124,7 @@ public class Seat {
     }
 
     public String toString() {
-        if (this.hasHand()) {
+        if (this.hasHands()) {
             String str = "<html>";
             for (Hand hand : hands) {
                 str += hand.toString() + "<br>";

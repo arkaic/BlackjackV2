@@ -73,7 +73,7 @@ public class Card {
         return s;
     }
     public boolean isAce() {
-        return (softNumber == 1);
+        return (hardNumber == 1);
     }
     public boolean isFace() {
         return (hardNumber == 10);

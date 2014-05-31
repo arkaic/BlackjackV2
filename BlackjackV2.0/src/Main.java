@@ -13,11 +13,10 @@ import model.BjGameModel;
 import model.GameModel;
 import net.miginfocom.swing.MigLayout;
 import view.BlackjackView;
-
 import model.*;
 
 public class Main {
-
+    
     public static void main(String[] args) {
         SwingUtilities.invokeLater(new Runnable() {
             public void run() {
@@ -37,17 +36,20 @@ public class Main {
         controller.setModel(model);
         blackjackView.pack();
         blackjackView.setVisible(true);
-        controller.shuffle();
+//        controller.shuffle();
     }
     
     private static void test() {
-        List<Integer> l = new ArrayList<>();
-        l.add(new Integer(2));
-        l.add(new Integer(3));
-        Iterator<Integer> it = l.iterator();
-        System.out.println(it.next());
-        it.remove();
-        System.out.println(it.next());
+        GameModel model = new BjGameModel();
+        GameController controller = new ViewAController();
+        BlackjackView blackjackView = new BlackjackView(model, controller);
+        model.setView(blackjackView);
+        model.setController(controller);
+        controller.setView(blackjackView);
+        controller.setModel(model);
+        blackjackView.pack();
+        blackjackView.setVisible(true);
+        controller.shuffle();
     }
 
 }
