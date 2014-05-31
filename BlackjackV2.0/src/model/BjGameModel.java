@@ -158,37 +158,7 @@ public class BjGameModel implements GameModel{
                 }
             }
             if (!seatManager.areSeatsEmptyOfHands()) {
-                
-                class Myrun implements Runnable {
-                    public void run() {
-                        while (true) {
-                            try {
-                                boolean isInsuranceDecided = controller.askForInsurance();
-                                  if (isInsuranceDecided)
-                                    break;
-                                Thread.sleep(100);
-                            } catch (InterruptedException e) {
-                                e.printStackTrace();
-                            }
-                        }
-                    }
-                }
-                
-                Myrun myrun = new Myrun();
-                Thread t = new Thread(myrun);
-                t.start();
-                
-                
-//                while (true) {
-//                    try {
-//                        boolean isInsuranceDecided = controller.askForInsurance();
-//                          if (isInsuranceDecided)
-//                            break;
-//                        Thread.sleep(100);
-//                    } catch (InterruptedException e) {
-//                        e.printStackTrace();
-//                    }
-//                }
+                controller.askForInsurance();
             }
         }
         if (!seatManager.areSeatsEmptyOfHands()) {
@@ -304,6 +274,7 @@ public class BjGameModel implements GameModel{
     @Override
     public void setInsurance(int amount) {
         monetary.setInsurance(amount);
+        view.updateDisplays();
     }
     @Override
     public int getMaxInsurance() {
@@ -313,6 +284,10 @@ public class BjGameModel implements GameModel{
                 runningTotal += seat.getHand(0).getBetAmount();
             }
         }
-        return runningTotal;
+        return (int) (runningTotal / 2);
+    }
+    @Override
+    public int getInsurance() {
+        return monetary.getInsurance();
     }
 }

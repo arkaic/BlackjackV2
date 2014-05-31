@@ -156,8 +156,11 @@ public class BlackjackView extends JFrame {
                 
                 SpinnerNumberModel spinnerModel = 
                         (SpinnerNumberModel)insuranceSpinner.getModel();
-                int maxInsurance =
-                spinnerModel.setMaximum(current + model.getBankroll());
+                int maxInsurance = controller.getMaxInsurance();
+                int spinnerMax = Math.min(maxInsurance, current + 
+                        model.getBankroll());
+                //Choose the smaller of two values to use as max for insurance
+                spinnerModel.setMaximum(spinnerMax);
                 controller.setInsurance(current);
             }
         });
@@ -364,6 +367,7 @@ public class BlackjackView extends JFrame {
         seat4Label.setText(model.getSeat(4).toString());
         seat5Label.setText(model.getSeat(5).toString());
         seat6Label.setText(model.getSeat(6).toString());
+        insuranceLabel.setText("$" + model.getInsurance());
         bankrollLabel.setText("$" + model.getBankroll());
         dealerLabel.setText(model.getDealerHand().toString());
         deckDebugDisplay.setText(model.getDeck().toString());

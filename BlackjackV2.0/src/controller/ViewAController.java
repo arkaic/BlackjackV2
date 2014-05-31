@@ -80,10 +80,31 @@ public class ViewAController implements GameController{
         JOptionPane.showMessageDialog(view, msg);
     }
 
-    /*Model calls this method*/
-    @Override
-    public boolean askForInsurance() {
-        return view.isInsuranceDecided() ;
+    /* The model calls this method
+     * It starts a new thread which runs a while loop that waits for insurance
+     * to be made, due to the fact that it is another spinner on the same window
+     * that just waits for input. Once the code inside the while loop reads that
+     * insurance has been decided, the while loop will break, allowing the 
+     * program to continue. This new thread is needed because pausing the main
+     * thread will lock up the GUI.
+     */
+    public void askForInsurance() {
+        class MyRunnable implements Runnable {
+            public void run() {
+                while (true) {
+                    try {
+                        if (view.isInsuranceDecided())
+                            break;
+                        Thread.sleep(100);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }
+        MyRunnable ru = new MyRunnable();
+        Thread th = new Thread(ru);
+        th.start();
     }
 
     @Override
@@ -93,6 +114,6 @@ public class ViewAController implements GameController{
     
     @Override
     public int getMaxInsurance() {
-        model.getMaxInsurance();
+        return model.getMaxInsurance();
     }
 }
