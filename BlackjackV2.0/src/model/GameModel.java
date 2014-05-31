@@ -17,6 +17,7 @@ public interface GameModel {
     public Hand getCurrentHand();
     public int  getBankroll();
     public void addToBankroll(int amount);
+    public void setInsurance(int amount);
     public void subtractFromBankroll(int amount);
     public Hand getDealerHand();
     public void setView(BlackjackView view);

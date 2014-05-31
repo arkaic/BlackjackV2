@@ -79,4 +79,15 @@ public class ViewAController implements GameController{
     public void displayMessage(String msg) {
         JOptionPane.showMessageDialog(view, msg);
     }
+
+    @Override
+    public int askForInsurance() {
+        
+        return 0;
+    }
+
+    @Override
+    public void setInsurance(int amount) {
+        model.setInsurance(amount);
+    }
 }

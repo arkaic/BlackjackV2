@@ -160,15 +160,18 @@ public class BjGameModel implements GameModel{
             if (!seatManager.areSeatsEmptyOfHands()) {
                 while (true) {
                     try {
+                        /*TODO
+                         * int confirm= controller reads a field in the view
+                         * that changes dependig
+                         * if confirm == ok button
+                         *   monetary.insurance = what's on spinner
+                         *   break out of while loop
+                         */
                         Thread.sleep(1000);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
                 }
-                /* TODO -below-
-                 *   if insurance:
-                 *     display insurance spinner
-                 */
             }
         }
         if (!seatManager.areSeatsEmptyOfHands()) {
@@ -278,5 +281,9 @@ public class BjGameModel implements GameModel{
     @Override
     public void setController(GameController controller) {
         this.controller = controller;
+    }
+    @Override
+    public void setInsurance(int amount) {
+        monetary.setInsurance(amount);
     }
 }

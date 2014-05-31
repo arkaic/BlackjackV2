@@ -28,9 +28,12 @@ public class BlackjackView extends JFrame {
     
     private GameModel model;
     private GameController controller;
-
     private HashMap<JSpinner, Bet> spinnerToPrevBetMap = 
             new HashMap<JSpinner, Bet>();
+    
+    private boolean isInsuranceDecided = false;
+    
+    
     
     public BlackjackView(GameModel model, GameController controller) {
         this.model = model;
@@ -46,6 +49,7 @@ public class BlackjackView extends JFrame {
         spinnerToPrevBetMap.put(seat4Spinner, new Bet(0));
         spinnerToPrevBetMap.put(seat5Spinner, new Bet(0));
         spinnerToPrevBetMap.put(seat6Spinner, new Bet(0));
+        spinnerToPrevBetMap.put(insuranceSpinner, new Bet(0));
     }
     
     private void attachListenersToComponents() {
@@ -139,6 +143,28 @@ public class BlackjackView extends JFrame {
                 controller.setInitialBet(6, bet);
             }
         });
+        
+        insuranceSpinner.addChangeListener(new ChangeListener() {
+            public void stateChanged(ChangeEvent e) {
+                int current = ((Integer) insuranceSpinner.getValue()).intValue();
+                int previous = spinnerToPrevBetMap.get(insuranceSpinner).getAmount();
+                
+                if (current != previous) {
+                    spinnerToPrevBetMap.get(insuranceSpinner).setAmount(current);
+                }
+                
+                SpinnerNumberModel spinnerModel = 
+                        (SpinnerNumberModel)insuranceSpinner.getModel();
+                spinnerModel.setMaximum(current + model.getBankroll());
+            }
+        });
+        insuranceOk.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                // TODO 
+                
+                isInsuranceDecided = true;
+            }
+        });
     }
     
     private void changeSpinnerState(JSpinner spinner) {
@@ -149,6 +175,7 @@ public class BlackjackView extends JFrame {
             controller.addToBankroll(previousAmount - currentAmount);
             spinnerToPrevBetMap.get(spinner).setAmount(currentAmount);
         }
+        
         updateSpinnerMaxes();
     }
     private void updateSpinnerMaxes() {
@@ -227,6 +254,7 @@ public class BlackjackView extends JFrame {
         stayButton       = new JButton("Stay");
         dealHandsButton  = new JButton("Deal Hands");
         shuffleButton    = new JButton("Shuffle");
+        insuranceOk      = new JButton("OK");
         
         topPanel.setLayout(new MigLayout("", "[grow]", "[]"));
 //        topRightSubPanel.setLayout(new BoxLayout(topRightSubPanel, BoxLayout.Y_AXIS));
@@ -289,7 +317,9 @@ public class BlackjackView extends JFrame {
         seat6Area.add(seat6Label);
         seat6Area.add(seat6Spinner, "dock south");
         insuranceArea.add(insuranceLabel);
-        insuranceArea.add(insuranceSpinner, "dock south");
+        insuranceSpinner.setMinimumSize(new Dimension(60, 10));
+        insuranceArea.add(insuranceSpinner, "cell 0 1");
+        insuranceArea.add(insuranceOk, "cell 1 1");
         
         
         centerPanel.setLayout(new MigLayout("", "[][][]10[]", "[]20[]"));
@@ -389,6 +419,7 @@ public class BlackjackView extends JFrame {
     private JButton shuffleButton;
     private JLabel deckDebugDisplay;
     private JSpinner insuranceSpinner;
+    private JButton insuranceOk;
     
     private JLabel testLabel;
 }
