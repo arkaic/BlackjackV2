@@ -115,6 +115,7 @@ public class BjGameModel implements GameModel{
         seatManager.createEmptyHandsForSeatsWithInitialBets();
         passOutFirstCards();
         doAceOrFaceProcedure();
+        payBlackjackHands();
         seatManager.createPlayOrder();
         seatManager.changeCurrentHand();
         view.updateDisplays();
@@ -137,23 +138,36 @@ public class BjGameModel implements GameModel{
         seatManager.setDealerHand(dealerHand);
     }
     
+    /** 
+     * If dealer has blackjack, dealFirstHands() will not continue; A new round
+     * of play will be initiated, starting all over. The same also happens
+     * when, if an ace is showing and all player hands have blackjacks AND they
+     * all decide to take even money.
+     */
     private void doAceOrFaceProcedure() {
         Card upCard = dealerHand.getCard(0);
         view.updateDisplays();
+        
         if (upCard.isAce()) {
             askForEvenMoney();
             if (!seatManager.areSeatsEmptyOfHands()) {
                 controller.waitForInsurance();
             }
         }
-        if (!seatManager.areSeatsEmptyOfHands()) {
+        
+        if (seatManager.areSeatsEmptyOfHands()) {
+            //TODO initiate new round
+        } else {
             if (dealerHand.isBlackjack()) {
-                /*  TODO -below-
-                 *  take all losing, push blackjacks
-                 *  clear hands
-                 *  pay insurances
-                 *  initiate new round
-                 */
+                pushBlackjackHands();
+                
+                if (monetary.getInsurance() > 0) {
+                    controller.displayMessage("Insurance payed");
+                    monetary.payInsurance();
+                }
+                
+                seatManager.clearAllHands();
+                //TODO initiate new round
             }
         }
     }
@@ -176,6 +190,26 @@ public class BjGameModel implements GameModel{
             }
         }
     }
+
+    private void pushBlackjackHands() {
+        for (Seat seat : seatManager.getSeats()) {
+            if (seat.hasHands()) {
+                if (seat.getHand(0).isBlackjack()) {
+                    monetary.push(seat.getHand(0));
+                }
+            }
+        }
+    }
+    
+    private void payBlackjackHands() {
+        for (Seat seat : seatManager.getSeats()) {
+            if (seat.hasHands()) {
+                if (seat.getHand(0).isBlackjack()) {
+                    monetary.payBlackjack(seat.getHand(0));
+                }
+            }
+        }
+    }
     
     @Override
     public void hit() {
@@ -183,7 +217,6 @@ public class BjGameModel implements GameModel{
         view.updateDisplays();
         if (getCurrentHand().isBust()) {
             controller.displayMessage("Player BUSTED!");
-            //TODO take money
             seatManager.clearCurrentHand();
             stay();
         } else if (getCurrentHand().isHard21()) {
@@ -196,7 +229,7 @@ public class BjGameModel implements GameModel{
 
     @Override
     public void surrender() {
-        //TODO take half money
+        monetary.surrender(getCurrentHand()); //TODO test
         seatManager.clearCurrentHand();
         view.updateDisplays();
         stay();
@@ -204,11 +237,10 @@ public class BjGameModel implements GameModel{
 
     @Override
     public void doubleDown() {
-        //TODO double money
+        monetary.pay(getCurrentHand());
         getCurrentHand().addCard(deck.remove(0));
         view.updateDisplays();
         if (getCurrentHand().isBust()) {
-            //TODO take money
             seatManager.clearCurrentHand();
             view.updateDisplays();
         }

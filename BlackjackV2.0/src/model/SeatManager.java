@@ -60,7 +60,13 @@ public class SeatManager{
     protected void clearCurrentHand() {
         getCurrentSeat().clearCurrentHand();
     }
-          
+      
+    protected void clearAllHands() {
+        for (Seat seat : seats) {
+            seat.clearHands();
+        }
+    }
+    
     /*If there are seats left, top seat is current seat, and then its current
      * hand will be changed. If this new current hand is not null (meaning there's
      * another hand in seat, currentHand field is reassigned this.
