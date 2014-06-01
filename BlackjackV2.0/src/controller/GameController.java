@@ -21,4 +21,5 @@ public interface GameController {
     public void waitForInsurance();
     public void setInsurance(int amount);
     public int getMaxInsurance();
+    public void updateViewComponentsForNewRound();
 }

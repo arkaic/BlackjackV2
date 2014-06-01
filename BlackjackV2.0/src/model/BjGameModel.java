@@ -81,12 +81,6 @@ public class BjGameModel implements GameModel{
     }
 
     @Override
-    public Hand getHand() {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
     public Seat getSeat(int seatNum) {
         return seatManager.getSeat(seatNum);
     }
@@ -156,7 +150,7 @@ public class BjGameModel implements GameModel{
         }
         
         if (seatManager.areSeatsEmptyOfHands()) {
-            //TODO initiate new round
+            initiateNewRound();
         } else {
             if (dealerHand.isBlackjack()) {
                 pushBlackjackHands();
@@ -166,8 +160,7 @@ public class BjGameModel implements GameModel{
                     monetary.payInsurance();
                 }
                 
-                seatManager.clearAllHands();
-                //TODO initiate new round
+                initiateNewRound();
             }
         }
     }
@@ -209,6 +202,17 @@ public class BjGameModel implements GameModel{
                 }
             }
         }
+    }
+    
+    private void initiateNewRound() {
+        controller.displayMessage("Starting new round...");
+        if (!seatManager.areSeatsEmptyOfHands()) 
+            seatManager.clearAllHands();
+        seatManager.resetAllSeats();
+        view.updateDisplays();
+        //TODO set spinners to the previous initial bets, subtracting from 
+        //bankroll as needed, starting from left to right. 
+        controller.updateViewComponentsForNewRound();
     }
     
     @Override
@@ -281,10 +285,12 @@ public class BjGameModel implements GameModel{
         view.updateDisplays();
     }
 
+    @Override
     public Hand getCurrentHand() {
         return seatManager.getCurrentHand();
     }
 
+    @Override
     public Seat getCurrentSeat() {
         return seatManager.getCurrentSeat();
     }

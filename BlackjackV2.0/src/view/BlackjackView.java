@@ -4,7 +4,9 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
@@ -30,6 +32,7 @@ public class BlackjackView extends JFrame {
     private GameController controller;
     private HashMap<JSpinner, Bet> spinnerToPrevBetMap = 
             new HashMap<JSpinner, Bet>();
+    private List<JSpinner> spinners = new ArrayList<>();
     
     private boolean isInsuranceDecided = false;
     
@@ -43,6 +46,13 @@ public class BlackjackView extends JFrame {
         attachListenersToComponents();
 //        updateSpinnerMaxes();
 
+        spinners.add(seat1Spinner);
+        spinners.add(seat2Spinner);
+        spinners.add(seat3Spinner);
+        spinners.add(seat4Spinner);
+        spinners.add(seat5Spinner);
+        spinners.add(seat6Spinner);
+        
         spinnerToPrevBetMap.put(seat1Spinner, new Bet(0));
         spinnerToPrevBetMap.put(seat2Spinner, new Bet(0));
         spinnerToPrevBetMap.put(seat3Spinner, new Bet(0));
@@ -391,6 +401,29 @@ public class BlackjackView extends JFrame {
             seat5Area.setBorder(BorderFactory.createLoweredBevelBorder());
         else if (currentSeatNumber == 6) 
             seat6Area.setBorder(BorderFactory.createLoweredBevelBorder());
+    }
+    
+    /**
+     * Further updates to displays of the View, such as the bet spinners when
+     * the previous initial bets for them were larger than the current bankroll.
+     * On a new round, the spinners reappear with their previous bets inserted.
+     * But let's say there is one spinner too many that would draw from the 
+     * bankroll. In this case, the leftmost spinners get priority.
+     */
+    public void updateComponentsForNewRound() {
+        ((SpinnerNumberModel)(insuranceSpinner.getModel())).setValue(0);;
+        
+        for (JSpinner spinner : spinners) {
+            int spinnerAmount = (int) spinner.getValue();
+            if (spinnerAmount <= model.getBankroll()) {
+                model.subtractFromBankroll(spinnerAmount);
+                ((SpinnerNumberModel)(insuranceSpinner.getModel()))
+                    .setValue(spinnerAmount);
+            } else {
+                ((SpinnerNumberModel)(insuranceSpinner.getModel()))
+                    .setValue(0);
+            }
+        }
     }
     
     private JPanel topPanel;

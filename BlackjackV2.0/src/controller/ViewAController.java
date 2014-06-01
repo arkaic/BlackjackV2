@@ -88,6 +88,7 @@ public class ViewAController implements GameController{
      * program to continue. This new thread is needed because pausing the main
      * thread will lock up the GUI.
      */
+    @Override
     public void waitForInsurance() {
         class MyRunnable implements Runnable {
             public void run() {
@@ -116,5 +117,11 @@ public class ViewAController implements GameController{
     @Override
     public int getMaxInsurance() {
         return model.getMaxInsurance();
+    }
+
+    
+    @Override
+    public void updateViewComponentsForNewRound() {
+        view.updateComponentsForNewRound();
     }
 }

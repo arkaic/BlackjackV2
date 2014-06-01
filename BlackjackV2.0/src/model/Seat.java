@@ -29,6 +29,10 @@ public class Seat {
         return currentHand;
     }
     
+    protected void setCurrentHand(Hand hand) {
+        currentHand = hand;
+    }
+    
     protected void changeCurrentHand() {
         if (handIterator().hasNext()) {
             currentHand = handIterator().next();
@@ -48,6 +52,10 @@ public class Seat {
     /*Clears hands list*/
     protected void clearHands() {
         hands.clear();
+    }
+    
+    protected void clearIterator() {
+        handIterator = null;
     }
     
     /*Initializes handIterator if it hasn't been already*/
