@@ -420,8 +420,9 @@ public class BlackjackView extends JFrame {
                 ((SpinnerNumberModel)(insuranceSpinner.getModel()))
                     .setValue(spinnerAmount);
             } else {
+                model.subtractFromBankroll(model.getBankroll());
                 ((SpinnerNumberModel)(insuranceSpinner.getModel()))
-                    .setValue(0);
+                    .setValue(model.getBankroll());
             }
         }
     }

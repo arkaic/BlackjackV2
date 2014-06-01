@@ -58,7 +58,7 @@ Friday May 30
     -The loop runs on an infinite "true" condition until it detects that the user has clicked on the "OK" button signaling his decision on insurance. But I would not want the loop using up system resources by checking that condition millions of times a second so I wanted a thread-pause in the loop as well.
 -Hopefully I'll be done by tomorrow. 
 
-Todo tasks:
+Saturday May 31
+-Implemented deal first procedure but I need to check it, moreso for its subroutine, initiateNewRound, which is largely composed of checking each spinner against the current bankroll to see if they can still display the previous bet they held going into a new round. 
+-I just need to implement dealer actions once it's the dealer's turn to get cards, as well as the View's update function to show/hide components at relevant times. Then, after a final polish, it shall be DONNNNNE!!!
 
-.
--MUSIC?
