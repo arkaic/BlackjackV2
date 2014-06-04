@@ -60,6 +60,7 @@ public class BlackjackView extends JFrame {
         spinnerToPrevBetMap.put(seat5Spinner, new Bet(0));
         spinnerToPrevBetMap.put(seat6Spinner, new Bet(0));
         spinnerToPrevBetMap.put(insuranceSpinner, new Bet(0));
+        updateDisplays();
     }
     
     private void attachListenersToComponents() {
@@ -181,6 +182,10 @@ public class BlackjackView extends JFrame {
         });
     }
     
+    public boolean isInsuranceDecided() {
+        return isInsuranceDecided;
+    }
+    
     private void changeSpinnerState(JSpinner spinner) {
         int currentAmount = ((Integer) spinner.getValue()).intValue();
         int previousAmount = spinnerToPrevBetMap.get(spinner).getAmount();
@@ -227,9 +232,96 @@ public class BlackjackView extends JFrame {
         seat6Spinner.setEnabled(bool);
         seat6Spinner.setVisible(bool);
     }
+
     
-    public boolean isInsuranceDecided() {
-        return isInsuranceDecided;
+    private void addTestLabel() {
+        testLabel = new JLabel();
+        topLeftSubPanel.add(testLabel, "cell 0 2");
+    }
+
+    public void updateDisplays() {
+        seat1Label.setText(model.getSeat(1).toString());
+        seat2Label.setText(model.getSeat(2).toString());
+        seat3Label.setText(model.getSeat(3).toString());
+        seat4Label.setText(model.getSeat(4).toString());
+        seat5Label.setText(model.getSeat(5).toString());
+        seat6Label.setText(model.getSeat(6).toString());
+        insuranceLabel.setText("$" + model.getInsurance());
+        bankrollLabel.setText("$" + model.getBankroll());
+        dealerLabel.setText(model.getDealerHand().toString());
+        deckDebugDisplay.setText(model.getDeck().toString());
+        if (model.getCurrentHand() != null) {
+            testLabel.setText(model.getCurrentHand().toString());
+        }
+        
+        int currentSeatNumber = 0;
+        if (model.getCurrentSeat() != null) {
+            currentSeatNumber = model.getCurrentSeat().getSeatNumber();
+        }
+        if (currentSeatNumber == 1) 
+            seat1Area.setBorder(BorderFactory.createLoweredBevelBorder());
+        else if (currentSeatNumber == 2) 
+            seat2Area.setBorder(BorderFactory.createLoweredBevelBorder());
+        else if (currentSeatNumber == 3) 
+            seat3Area.setBorder(BorderFactory.createLoweredBevelBorder());
+        else if (currentSeatNumber == 4) 
+            seat4Area.setBorder(BorderFactory.createLoweredBevelBorder());
+        else if (currentSeatNumber == 5) 
+            seat5Area.setBorder(BorderFactory.createLoweredBevelBorder());
+        else if (currentSeatNumber == 6) 
+            seat6Area.setBorder(BorderFactory.createLoweredBevelBorder());
+        
+        if (model.getState().equalsIgnoreCase("Start")) {
+            setSpinnersEnabled(true);
+            if (areSpinnersEmpty()) 
+                dealHandsButton.setEnabled(false);
+            else 
+                dealHandsButton.setEnabled(true);
+        } else {
+            setSpinnersEnabled(false);
+            dealHandsButton.setEnabled(false);
+        }
+        
+        if (model.getState().equalsIgnoreCase("Insurance")) {
+            insuranceSpinner.setEnabled(true);
+            insuranceOk.setEnabled(true);
+        } else {
+            insuranceSpinner.setEnabled(false);
+            insuranceOk.setEnabled(false);
+        }
+    }
+    
+    private boolean areSpinnersEmpty() {
+        boolean bool = true;
+        for (JSpinner spinner : spinners) {
+            if ((Integer)spinner.getValue() > 0)
+                bool = false;
+        }
+        return bool;
+    }
+    
+    /**
+     * Further updates to displays of the View, such as the bet spinners when
+     * the previous initial bets for them were larger than the current bankroll.
+     * On a new round, the spinners reappear with their previous bets inserted.
+     * But let's say there is one spinner too many that would draw from the 
+     * bankroll. In this case, the leftmost spinners get priority.
+     */
+    public void updateComponentsForNewRound() {
+        ((SpinnerNumberModel)(insuranceSpinner.getModel())).setValue(0);;
+        
+        for (JSpinner spinner : spinners) {
+            int spinnerAmount = (int) spinner.getValue();
+            if (spinnerAmount <= model.getBankroll()) {
+                model.subtractFromBankroll(spinnerAmount);
+                ((SpinnerNumberModel)(insuranceSpinner.getModel()))
+                    .setValue(spinnerAmount);
+            } else {
+                model.subtractFromBankroll(model.getBankroll());
+                ((SpinnerNumberModel)(insuranceSpinner.getModel()))
+                    .setValue(model.getBankroll());
+            }
+        }
     }
     
     /**
@@ -322,8 +414,8 @@ public class BlackjackView extends JFrame {
                 model.getBankroll(), 5));
         seat1Area.add(seat1Label);
         seat1Area.add(seat1Spinner, "cell 0 1");
-        JButton even = new JButton("even money");
-        seat1Area.add(even, "dock south");
+//        JButton even = new JButton("even money");
+//        seat1Area.add(even, "dock south");
         seat2Area.add(seat2Label);
         seat2Area.add(seat2Spinner, "dock south");
         seat3Area.add(seat3Label);
@@ -363,68 +455,6 @@ public class BlackjackView extends JFrame {
         this.add(centerPanel);
         this.add(bankrollLabel, "dock south");
         this.add(bottomPanel, "dock South");
-    }
-    
-    private void addTestLabel() {
-        testLabel = new JLabel();
-        topLeftSubPanel.add(testLabel, "cell 0 2");
-    }
-
-    public void updateDisplays() {
-        seat1Label.setText(model.getSeat(1).toString());
-        seat2Label.setText(model.getSeat(2).toString());
-        seat3Label.setText(model.getSeat(3).toString());
-        seat4Label.setText(model.getSeat(4).toString());
-        seat5Label.setText(model.getSeat(5).toString());
-        seat6Label.setText(model.getSeat(6).toString());
-        insuranceLabel.setText("$" + model.getInsurance());
-        bankrollLabel.setText("$" + model.getBankroll());
-        dealerLabel.setText(model.getDealerHand().toString());
-        deckDebugDisplay.setText(model.getDeck().toString());
-        if (model.getCurrentHand() != null) {
-            testLabel.setText(model.getCurrentHand().toString());
-        }
-        
-        int currentSeatNumber = 0;
-        if (model.getCurrentSeat() != null) {
-            currentSeatNumber = model.getCurrentSeat().getSeatNumber();
-        }
-        if (currentSeatNumber == 1) 
-            seat1Area.setBorder(BorderFactory.createLoweredBevelBorder());
-        else if (currentSeatNumber == 2) 
-            seat2Area.setBorder(BorderFactory.createLoweredBevelBorder());
-        else if (currentSeatNumber == 3) 
-            seat3Area.setBorder(BorderFactory.createLoweredBevelBorder());
-        else if (currentSeatNumber == 4) 
-            seat4Area.setBorder(BorderFactory.createLoweredBevelBorder());
-        else if (currentSeatNumber == 5) 
-            seat5Area.setBorder(BorderFactory.createLoweredBevelBorder());
-        else if (currentSeatNumber == 6) 
-            seat6Area.setBorder(BorderFactory.createLoweredBevelBorder());
-    }
-    
-    /**
-     * Further updates to displays of the View, such as the bet spinners when
-     * the previous initial bets for them were larger than the current bankroll.
-     * On a new round, the spinners reappear with their previous bets inserted.
-     * But let's say there is one spinner too many that would draw from the 
-     * bankroll. In this case, the leftmost spinners get priority.
-     */
-    public void updateComponentsForNewRound() {
-        ((SpinnerNumberModel)(insuranceSpinner.getModel())).setValue(0);;
-        
-        for (JSpinner spinner : spinners) {
-            int spinnerAmount = (int) spinner.getValue();
-            if (spinnerAmount <= model.getBankroll()) {
-                model.subtractFromBankroll(spinnerAmount);
-                ((SpinnerNumberModel)(insuranceSpinner.getModel()))
-                    .setValue(spinnerAmount);
-            } else {
-                model.subtractFromBankroll(model.getBankroll());
-                ((SpinnerNumberModel)(insuranceSpinner.getModel()))
-                    .setValue(model.getBankroll());
-            }
-        }
     }
     
     private JPanel topPanel;

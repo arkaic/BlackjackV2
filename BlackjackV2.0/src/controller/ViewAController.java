@@ -90,23 +90,37 @@ public class ViewAController implements GameController{
      */
     @Override
     public void waitForInsurance() {
-        class MyRunnable implements Runnable {
-            public void run() {
-                while (true) {
-                    try {
-                        if (view.isInsuranceDecided())
-                            break;
-                        Thread.sleep(100);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                }
-                return;
+        
+//        class MyRunnable implements Runnable {
+//            public void run() {
+//                System.out.println("run method run");
+//                while (true) {
+//                    System.out.println("run method run");
+//                    try {
+//                        if (view.isInsuranceDecided())
+//                            break;
+//                        Thread.sleep(100);
+//                    } catch (InterruptedException e) {
+//                        e.printStackTrace();
+//                    }
+//                }
+//                return;
+//            }
+//        }
+//        
+//        MyRunnable ru = new MyRunnable();
+//        Thread th = new Thread(ru);
+//        th.start();
+        while (true) {
+            try {
+                if (view.isInsuranceDecided())
+                    break;
+                Thread.sleep(100);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
         }
-        MyRunnable ru = new MyRunnable();
-        Thread th = new Thread(ru);
-        th.start();
+        return;
     }
 
     @Override
