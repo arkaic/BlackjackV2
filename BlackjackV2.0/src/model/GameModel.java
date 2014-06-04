@@ -9,6 +9,7 @@ import model.objects.*;
 public interface GameModel {
     
     public List<Card> getDeck();
+    public String getState();
     public Seat getSeat(int seatNum);
     public Seat getCurrentSeat();
     public Hand getCurrentHand();
