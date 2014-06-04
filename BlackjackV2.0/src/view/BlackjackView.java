@@ -177,7 +177,7 @@ public class BlackjackView extends JFrame {
         });
         insuranceOk.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                isInsuranceDecided = true;
+                
             }
         });
     }
@@ -314,11 +314,11 @@ public class BlackjackView extends JFrame {
             int spinnerAmount = (int) spinner.getValue();
             if (spinnerAmount <= model.getBankroll()) {
                 model.subtractFromBankroll(spinnerAmount);
-                ((SpinnerNumberModel)(insuranceSpinner.getModel()))
+                ((SpinnerNumberModel)(spinner.getModel()))
                     .setValue(spinnerAmount);
             } else {
                 model.subtractFromBankroll(model.getBankroll());
-                ((SpinnerNumberModel)(insuranceSpinner.getModel()))
+                ((SpinnerNumberModel)(spinner.getModel()))
                     .setValue(model.getBankroll());
             }
         }

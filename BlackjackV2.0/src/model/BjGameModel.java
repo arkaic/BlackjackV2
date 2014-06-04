@@ -109,12 +109,32 @@ public class BjGameModel implements GameModel{
     public void dealFirstHands() {
         seatManager.createEmptyHandsForSeatsWithInitialBets();
         passOutFirstCards();
-        doAceOrFaceProcedure();
         
-        payBlackjackHands();
-        seatManager.createPlayOrder();
-        seatManager.changeCurrentHand();
-        gameState = "Play";
+        Card upCard = dealerHand.getCard(0);
+        view.updateDisplays();
+        
+        if (upCard.isAce()) {
+            askForEvenMoney();
+            if (seatManager.areSeatsEmptyOfHands()) {
+                initiateNewRound();
+            } else {
+                gameState = "Insurance";
+                view.updateDisplays();
+                controller.displayMessage("Option to make an insurance bet");
+            }
+        } else {
+            if (dealerHand.isBlackjack()) {
+                controller.displayMessage("Dealer has Blackjack");
+                pushBlackjackHands();
+                initiateNewRound();
+            } else {
+                payBlackjackHands();
+                seatManager.createPlayOrder();
+                seatManager.changeCurrentHand();
+                gameState = "Play";   
+            }
+        }
+        
         view.updateDisplays();
     }
 
@@ -135,12 +155,6 @@ public class BjGameModel implements GameModel{
         seatManager.setDealerHand(dealerHand);
     }
     
-    /** 
-     * If dealer has blackjack, dealFirstHands() will not continue; A new round
-     * of play will be initiated, starting all over. The same also happens
-     * when, if an ace is showing and all player hands have blackjacks AND they
-     * all decide to take even money.
-     */
     private void doAceOrFaceProcedure() {
         Card upCard = dealerHand.getCard(0);
         view.updateDisplays();
@@ -150,7 +164,7 @@ public class BjGameModel implements GameModel{
             if (!seatManager.areSeatsEmptyOfHands()) {
                 gameState = "Insurance";
                 view.updateDisplays();
-                controller.displayMessage("Would you like insurance?");
+                controller.displayMessage("Option to make an insurance bet");
 //                controller.waitForInsurance();
                 view.updateDisplays();
                 return;
@@ -172,6 +186,10 @@ public class BjGameModel implements GameModel{
                 initiateNewRound();
             }
         }
+    }
+    
+    private void doFaceProcedure() {
+        
     }
     
     private void askForEvenMoney() {
