@@ -34,7 +34,7 @@ public class BlackjackView extends JFrame {
             new HashMap<JSpinner, Bet>();
     private List<JSpinner> spinners = new ArrayList<>();
     
-    private boolean isInsuranceDecided = false;
+//    private boolean isInsuranceDecided = false;
     
     
     
@@ -182,9 +182,9 @@ public class BlackjackView extends JFrame {
         });
     }
     
-    public boolean isInsuranceDecided() {
-        return isInsuranceDecided;
-    }
+//    public boolean isInsuranceDecided() {
+//        return isInsuranceDecided;
+//    }
     
     private void changeSpinnerState(JSpinner spinner) {
         int currentAmount = ((Integer) spinner.getValue()).intValue();
@@ -258,6 +258,7 @@ public class BlackjackView extends JFrame {
         if (model.getCurrentSeat() != null) {
             currentSeatNumber = model.getCurrentSeat().getSeatNumber();
         }
+        //TODO Raise the border for non-current seats
         if (currentSeatNumber == 1) 
             seat1Area.setBorder(BorderFactory.createLoweredBevelBorder());
         else if (currentSeatNumber == 2) 
