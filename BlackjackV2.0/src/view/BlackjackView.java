@@ -177,7 +177,7 @@ public class BlackjackView extends JFrame {
         });
         insuranceOk.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                
+                controller.checkForBlackjack();
             }
         });
     }
@@ -272,6 +272,7 @@ public class BlackjackView extends JFrame {
             seat6Area.setBorder(BorderFactory.createLoweredBevelBorder());
         
         if (model.getState().equalsIgnoreCase("Start")) {
+//            updateComponentsForNewRound();
             setSpinnersEnabled(true);
             if (areSpinnersEmpty()) 
                 dealHandsButton.setEnabled(false);
@@ -290,15 +291,7 @@ public class BlackjackView extends JFrame {
             insuranceOk.setEnabled(false);
         }
     }
-    
-    private boolean areSpinnersEmpty() {
-        boolean bool = true;
-        for (JSpinner spinner : spinners) {
-            if ((Integer)spinner.getValue() > 0)
-                bool = false;
-        }
-        return bool;
-    }
+
     
     /**
      * Further updates to displays of the View, such as the bet spinners when
@@ -308,6 +301,7 @@ public class BlackjackView extends JFrame {
      * bankroll. In this case, the leftmost spinners get priority.
      */
     public void updateComponentsForNewRound() {
+        spinnerToPrevBetMap.get(insuranceSpinner).setAmount(0);
         ((SpinnerNumberModel)(insuranceSpinner.getModel())).setValue(0);;
         
         for (JSpinner spinner : spinners) {
@@ -322,6 +316,15 @@ public class BlackjackView extends JFrame {
                     .setValue(model.getBankroll());
             }
         }
+    }
+   
+    private boolean areSpinnersEmpty() {
+        boolean bool = true;
+        for (JSpinner spinner : spinners) {
+            if ((Integer)spinner.getValue() > 0)
+                bool = false;
+        }
+        return bool;
     }
     
     /**

@@ -33,4 +33,5 @@ public interface GameModel {
     public int getMaxInsurance();
     public int getInsurance();
     
+    public void checkForBlackjack();
 }

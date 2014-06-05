@@ -88,40 +88,40 @@ public class ViewAController implements GameController{
      * program to continue. This new thread is needed because pausing the main
      * thread will lock up the GUI.
      */
-    @Override
-    public void waitForInsurance() {
-        
-//        class MyRunnable implements Runnable {
-//            public void run() {
-//                System.out.println("run method run");
-//                while (true) {
-//                    System.out.println("run method run");
-//                    try {
-//                        if (view.isInsuranceDecided())
-//                            break;
-//                        Thread.sleep(100);
-//                    } catch (InterruptedException e) {
-//                        e.printStackTrace();
-//                    }
-//                }
-//                return;
+//    @Override
+//    public void waitForInsurance() {
+//        
+////        class MyRunnable implements Runnable {
+////            public void run() {
+////                System.out.println("run method run");
+////                while (true) {
+////                    System.out.println("run method run");
+////                    try {
+////                        if (view.isInsuranceDecided())
+////                            break;
+////                        Thread.sleep(100);
+////                    } catch (InterruptedException e) {
+////                        e.printStackTrace();
+////                    }
+////                }
+////                return;
+////            }
+////        }
+////        
+////        MyRunnable ru = new MyRunnable();
+////        Thread th = new Thread(ru);
+////        th.start();
+//        while (true) {
+//            try {
+//                if (view.isInsuranceDecided())
+//                    break;
+//                Thread.sleep(100);
+//            } catch (InterruptedException e) {
+//                e.printStackTrace();
 //            }
 //        }
-//        
-//        MyRunnable ru = new MyRunnable();
-//        Thread th = new Thread(ru);
-//        th.start();
-        while (true) {
-            try {
-                if (view.isInsuranceDecided())
-                    break;
-                Thread.sleep(100);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-        return;
-    }
+//        return;
+//    }
 
     @Override
     public void setInsurance(int amount) {
@@ -137,5 +137,10 @@ public class ViewAController implements GameController{
     @Override
     public void updateViewComponentsForNewRound() {
         view.updateComponentsForNewRound();
+    }
+
+    @Override
+    public void checkForBlackjack() {
+        model.checkForBlackjack();
     }
 }

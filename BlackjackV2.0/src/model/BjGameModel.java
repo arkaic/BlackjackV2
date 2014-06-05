@@ -123,16 +123,7 @@ public class BjGameModel implements GameModel{
                 controller.displayMessage("Option to make an insurance bet");
             }
         } else {
-            if (dealerHand.isBlackjack()) {
-                controller.displayMessage("Dealer has Blackjack");
-                pushBlackjackHands();
-                initiateNewRound();
-            } else {
-                payBlackjackHands();
-                seatManager.createPlayOrder();
-                seatManager.changeCurrentHand();
-                gameState = "Play";   
-            }
+            checkForBlackjack();
         }
         
         view.updateDisplays();
@@ -155,42 +146,51 @@ public class BjGameModel implements GameModel{
         seatManager.setDealerHand(dealerHand);
     }
     
-    private void doAceOrFaceProcedure() {
-        Card upCard = dealerHand.getCard(0);
-        view.updateDisplays();
-        
-        if (upCard.isAce()) {
-//            askForEvenMoney();
-            if (!seatManager.areSeatsEmptyOfHands()) {
-                gameState = "Insurance";
-                view.updateDisplays();
-                controller.displayMessage("Option to make an insurance bet");
-//                controller.waitForInsurance();
-                view.updateDisplays();
-                return;
-            }
-        }
-        
-        if (seatManager.areSeatsEmptyOfHands()) {
+    @Override
+    public void checkForBlackjack() {
+        if (dealerHand.isBlackjack()) {
+            controller.displayMessage("Dealer has Blackjack");
+            pushBlackjackHands();
             initiateNewRound();
         } else {
-            if (dealerHand.isBlackjack()) {
-                controller.displayMessage("Dealer has blackjack");
-                pushBlackjackHands();
-                
-                if (monetary.getInsurance() > 0) {
-                    controller.displayMessage("Insurance payed");
-                    monetary.payInsurance();
-                }
-                
-                initiateNewRound();
-            }
+            payBlackjackHands();
+            seatManager.createPlayOrder();
+            seatManager.changeCurrentHand();
+            gameState = "Play";   
         }
     }
     
-    private void doFaceProcedure() {
-        
-    }
+//    private void doAceOrFaceProcedure() {
+//        Card upCard = dealerHand.getCard(0);
+//        view.updateDisplays();
+//        
+//        if (upCard.isAce()) {
+//            askForEvenMoney();
+//            if (!seatManager.areSeatsEmptyOfHands()) {
+//                gameState = "Insurance";
+//                view.updateDisplays();
+//                controller.displayMessage("Option to make an insurance bet");
+////                controller.waitForInsurance();
+//                view.updateDisplays();
+//            }
+//        }
+//        
+//        if (seatManager.areSeatsEmptyOfHands()) {
+//            initiateNewRound();
+//        } else {
+//            if (dealerHand.isBlackjack()) {
+//                controller.displayMessage("Dealer has blackjack");
+//                pushBlackjackHands();
+//                
+//                if (monetary.getInsurance() > 0) {
+//                    controller.displayMessage("Insurance payed");
+//                    monetary.payInsurance();
+//                }
+//                
+//                initiateNewRound();
+//            }
+//        }
+//    }
     
     private void askForEvenMoney() {
         for (Seat seat : seatManager.getSeats()) {
@@ -241,9 +241,8 @@ public class BjGameModel implements GameModel{
             seatManager.clearAllHands();
         seatManager.resetAllSeats();
         view.updateDisplays();
-        //Set spinners to the previous initial bets, subtracting from 
-        //bankroll as needed, starting from left to right. 
         controller.updateViewComponentsForNewRound();
+        view.updateDisplays();
     }
     
     @Override
