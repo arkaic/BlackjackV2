@@ -18,8 +18,8 @@ public interface GameController {
     public void addToBankroll(int amount);
     public void subtractFromBankroll(int amount);
     public void displayMessage(String msg);
-    public void waitForInsurance();
     public void setInsurance(int amount);
     public int getMaxInsurance();
     public void updateViewComponentsForNewRound();
+    public void checkForBlackjack();
 }
