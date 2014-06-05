@@ -70,6 +70,10 @@ public class Seat {
         return hands.get(n);
     }
     
+    protected List<Hand> getHands() {
+        return hands;
+    }
+    
     /*Checks if Seat has any hands, or cards in those hands.
      * Will return false if there is an empty hand.
      * Assumes that an empty hand will not be accompanied by non-empty
