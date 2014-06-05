@@ -305,8 +305,27 @@ public class BjGameModel implements GameModel{
             view.updateDisplays();
             controller.displayMessage("Showing dealer hand");
             //TODO final dealer procedure
+            playDealerHand();
+            //view.updateDisplays();
+            //controller.displayMessage("Dealer stays at " +...);
+            //compareDealerToPlayer();
         }
         view.updateDisplays();
+    }
+    
+    private void playDealerHand() {
+        dealerHand.setHoleCardVisible(true);
+        view.updateDisplays();
+        controller.displayMessage("Dealer has a " + dealerHand.getFinalTotal());
+        while (dealerHand.getFinalTotal() < 17) {
+            dealerHand.addCard(deck.remove(0));
+            view.updateDisplays();
+            try {
+                Thread.sleep(2000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     @Override

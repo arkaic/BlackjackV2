@@ -39,7 +39,6 @@ public class Seat {
         } else {
             currentHand = null;
         }
-        //TODO notify view to update
     }
     
     protected void clearCurrentHand() {
