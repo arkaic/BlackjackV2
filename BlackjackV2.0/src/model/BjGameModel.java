@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Random;
 
 import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
+import javax.swing.SwingWorker;
 
 import controller.GameController;
 import view.BlackjackView;
@@ -301,31 +303,66 @@ public class BjGameModel implements GameModel{
         if (getCurrentHand().isOneCard()) {
             hit();
         } else if (getCurrentHand() == dealerHand) {
-            dealerHand.setHoleCardVisible(true);
-            view.updateDisplays();
             controller.displayMessage("Showing dealer hand");
-            //TODO final dealer procedure
+            //TODO final dealer procedure -below-
             playDealerHand();
-            //view.updateDisplays();
-            //controller.displayMessage("Dealer stays at " +...);
-            //compareDealerToPlayer();
         }
-        view.updateDisplays();
+        view.updateDisplays(); 
     }
     
     private void playDealerHand() {
         dealerHand.setHoleCardVisible(true);
         view.updateDisplays();
         controller.displayMessage("Dealer has a " + dealerHand.getFinalTotal());
-        while (dealerHand.getFinalTotal() < 17) {
-            dealerHand.addCard(deck.remove(0));
-            view.updateDisplays();
-            try {
-                Thread.sleep(2000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+        
+        class DealerPlaysWorker extends SwingWorker<Void, Void> {
+            
+            @Override
+            protected Void doInBackground() {
+                dealCardsToDealer();
+                compareDealerHandToPlayerHands();
+                return null;
+            }
+            
+            private void dealCardsToDealer() {
+                while (dealerHand.getFinalTotal() < 17) {
+                    dealerHand.addCard(deck.remove(0));
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    view.updateDisplays();
+                }
+                controller.displayMessage("Dealer stays at " 
+                        + dealerHand.getFinalTotal());
+            }
+            
+            private void compareDealerHandToPlayerHands() {
+                for (Seat seat : seatManager.getSeats()) {
+                    if (seat.hasHands()) {
+                        for (Hand hand : seat.getHands()) {
+                            int handTotal = hand.getFinalTotal();
+                            int dealerTotal = dealerHand.getFinalTotal();
+                            if (handTotal > dealerTotal && handTotal <= 21) {
+                                monetary.pay(hand);
+                                controller.displayMessage("Seat " +
+                                        seat.getSeatNumber() + "'s hand wins");
+                            } else if (handTotal == dealerTotal) {
+                                monetary.push(hand);
+                                controller.displayMessage("Seat " +
+                                        seat.getSeatNumber() + "'s hand pushes");
+                            } else {
+                                controller.displayMessage("Seat " + 
+                                        seat.getSeatNumber() + "'s hand loses");
+                            }
+                        }
+                    }
+                }
             }
         }
+        
+        new DealerPlaysWorker().execute();
     }
 
     @Override
