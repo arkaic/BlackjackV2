@@ -155,44 +155,19 @@ public class BjGameModel implements GameModel{
             pushBlackjackHands();
             initiateNewRound();
         } else {
+            if (dealerHand.getCard(0).isFace() || dealerHand.getCard(0).isAce()) 
+                controller.displayMessage("Dealer does not have Blackjack");
             payBlackjackHands();
-            seatManager.createPlayOrder();
-            seatManager.changeCurrentHand();
-            gameState = "Play";   
+            if (seatManager.areSeatsEmptyOfHands()) {
+                initiateNewRound();
+            } else {
+                seatManager.createPlayOrder();
+                seatManager.changeCurrentHand();
+                gameState = "Play";  
+                view.updateDisplays();
+            }
         }
     }
-    
-//    private void doAceOrFaceProcedure() {
-//        Card upCard = dealerHand.getCard(0);
-//        view.updateDisplays();
-//        
-//        if (upCard.isAce()) {
-//            askForEvenMoney();
-//            if (!seatManager.areSeatsEmptyOfHands()) {
-//                gameState = "Insurance";
-//                view.updateDisplays();
-//                controller.displayMessage("Option to make an insurance bet");
-////                controller.waitForInsurance();
-//                view.updateDisplays();
-//            }
-//        }
-//        
-//        if (seatManager.areSeatsEmptyOfHands()) {
-//            initiateNewRound();
-//        } else {
-//            if (dealerHand.isBlackjack()) {
-//                controller.displayMessage("Dealer has blackjack");
-//                pushBlackjackHands();
-//                
-//                if (monetary.getInsurance() > 0) {
-//                    controller.displayMessage("Insurance payed");
-//                    monetary.payInsurance();
-//                }
-//                
-//                initiateNewRound();
-//            }
-//        }
-//    }
     
     private void askForEvenMoney() {
         for (Seat seat : seatManager.getSeats()) {
@@ -231,6 +206,7 @@ public class BjGameModel implements GameModel{
                     controller.displayMessage("Seat " + seat.getSeatNumber()
                             + "'s Blackjack payed");
                     seat.clearHands();
+                    view.updateDisplays();
                 }
             }
         }
@@ -242,6 +218,7 @@ public class BjGameModel implements GameModel{
         if (!seatManager.areSeatsEmptyOfHands()) 
             seatManager.clearAllHands();
         seatManager.resetAllSeats();
+        dealerHand.clearCards();
         view.updateDisplays();
         controller.updateViewComponentsForNewRound();
         view.updateDisplays();
@@ -285,31 +262,47 @@ public class BjGameModel implements GameModel{
 
     @Override
     public void split() {
-        getCurrentSeat().splitHand(new Hand("player"));
         if (getCurrentHand().isAces()) {
+            getCurrentSeat().splitHand(new Hand("player"));
             getCurrentHand().addCard(deck.remove(0));
             seatManager.changeCurrentHand();
             getCurrentHand().addCard(deck.remove(0));
             stay();
         } else {
+            getCurrentSeat().splitHand(new Hand("player"));
             hit();
         }
     }
 
+    /**
+     * If stay is clicked, and the next hand has only one card, as a result of
+     * splitting, an automatic hit() is called.
+     * If it is the dealer hand, that means all player hands have been iterated
+     * over and decided, so all that's left to do is to deal cards to the 
+     * dealer.
+     */
     @Override
     public void stay() {
         seatManager.changeCurrentHand();
         view.updateDisplays();
         if (getCurrentHand().isOneCard()) {
             hit();
-        } else if (getCurrentHand() == dealerHand) {
+        } else if (getCurrentHand().isDealer()) {
             controller.displayMessage("Showing dealer hand");
-            //TODO final dealer procedure -below-
             playDealerHand();
+            initiateNewRound();
         }
         view.updateDisplays(); 
     }
     
+    /**
+     * Since I wanted each card to be dealt to the dealer at specific 1 second
+     * intervals instead of all at once to enhance user understanding and 
+     * perception, I needed to use a worker thread to avoid GUI hang ups. 
+     * Thus, SwingWorker is brought in, an inner class used to act as the
+     * worker thread that runs the dealing-to-dealer code concurrently with 
+     * the GUI.
+     */
     private void playDealerHand() {
         dealerHand.setHoleCardVisible(true);
         view.updateDisplays();
@@ -321,6 +314,7 @@ public class BjGameModel implements GameModel{
             protected Void doInBackground() {
                 dealCardsToDealer();
                 compareDealerHandToPlayerHands();
+                initiateNewRound();
                 return null;
             }
             
@@ -345,9 +339,9 @@ public class BjGameModel implements GameModel{
                             int handTotal = hand.getFinalTotal();
                             int dealerTotal = dealerHand.getFinalTotal();
                             if (handTotal > dealerTotal && handTotal <= 21) {
-                                monetary.pay(hand);
                                 controller.displayMessage("Seat " +
                                         seat.getSeatNumber() + "'s hand wins");
+                                monetary.pay(hand);
                             } else if (handTotal == dealerTotal) {
                                 monetary.push(hand);
                                 controller.displayMessage("Seat " +
@@ -356,6 +350,7 @@ public class BjGameModel implements GameModel{
                                 controller.displayMessage("Seat " + 
                                         seat.getSeatNumber() + "'s hand loses");
                             }
+                            view.updateDisplays();
                         }
                     }
                 }
