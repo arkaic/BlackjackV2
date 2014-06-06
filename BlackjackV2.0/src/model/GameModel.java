@@ -32,6 +32,7 @@ public interface GameModel {
     public void setInitialBet(int seatNum, int amount);
     public int getMaxInsurance();
     public int getInsurance();
+    public List<Card> getDiscards();
     
     public void checkForBlackjack();
 }

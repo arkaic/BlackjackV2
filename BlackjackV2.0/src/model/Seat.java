@@ -41,16 +41,38 @@ public class Seat {
         }
     }
     
-    protected void clearCurrentHand() {
+    protected List<Card> clearCurrentHand() {
+        List<Card> discardedCards = new ArrayList<>();
+        while (!currentHand.isEmpty()) {
+            discardedCards.add(currentHand.removeLastCard());
+        }
+        
         handIterator().remove();
+        return discardedCards;
         //Iterator would still be in the same position of the element that it
         //removed, so iterator.hasNext() will still work if there's another
         //element.
     }
     
     /*Clears hands list*/
-    protected void clearHands() {
+    protected List<Card> clearHands() {
+        //TODO add to discard pile
+        List<Card> discardedCards = new ArrayList<>();
+        
+//        for (int i = hands.size() - 1; i > -1; i--) {
+//            Hand hand = hands.get(i);
+//            while (!hand.isEmpty()) {
+//                discardedCards.add(hand.removeLastCard());
+//            }
+//        }
+        
+        for (Hand hand : hands) {
+            while (!hand.isEmpty()) 
+                discardedCards.add(hand.removeLastCard());
+        }
+        
         hands.clear();
+        return discardedCards;
     }
     
     protected void clearIterator() {
@@ -105,7 +127,7 @@ public class Seat {
      */
     protected void splitHand(Hand newHand) {
         newHand.setBetAmount(getCurrentHand().getBetAmount());
-        newHand.addCard(getCurrentHand().removeCard());
+        newHand.addCard(getCurrentHand().removeLastCard());
         
         for (int i = 0; i < hands.size(); i++) {
             if (hands.get(i) == currentHand) {

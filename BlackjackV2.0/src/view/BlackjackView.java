@@ -33,6 +33,7 @@ public class BlackjackView extends JFrame {
     private HashMap<JSpinner, Bet> spinnerToPrevBetMap = 
             new HashMap<JSpinner, Bet>();
     private List<JSpinner> spinners = new ArrayList<>();
+    private List<JPanel> panelAreas = new ArrayList<>();
     
 //    private boolean isInsuranceDecided = false;
     
@@ -42,7 +43,7 @@ public class BlackjackView extends JFrame {
         this.model = model;
         this.controller = controller;
         buildUI();
-        addTestLabel();
+        addTestLabel(); //To show current Hand
         attachListenersToComponents();
 //        updateSpinnerMaxes();
 
@@ -60,6 +61,14 @@ public class BlackjackView extends JFrame {
         spinnerToPrevBetMap.put(seat5Spinner, new Bet(0));
         spinnerToPrevBetMap.put(seat6Spinner, new Bet(0));
         spinnerToPrevBetMap.put(insuranceSpinner, new Bet(0));
+
+        panelAreas.add(seat1Area);
+        panelAreas.add(seat2Area);
+        panelAreas.add(seat3Area);
+        panelAreas.add(seat4Area);
+        panelAreas.add(seat5Area);
+        panelAreas.add(seat6Area);
+        
         updateDisplays();
     }
     
@@ -236,7 +245,7 @@ public class BlackjackView extends JFrame {
     
     private void addTestLabel() {
         testLabel = new JLabel();
-        topLeftSubPanel.add(testLabel, "cell 0 2");
+        topLeftSubPanel.add(testLabel, "cell 0 3");
     }
 
     public void updateDisplays() {
@@ -250,30 +259,18 @@ public class BlackjackView extends JFrame {
         bankrollLabel.setText("$" + model.getBankroll());
         dealerLabel.setText(model.getDealerHand().toString());
         deckDebugDisplay.setText(model.getDeck().toString());
+        discardDebugDisplay.setText(model.getDiscards().toString());
         if (model.getCurrentHand() != null) {
             testLabel.setText(model.getCurrentHand().toString());
         }
         
-        int currentSeatNumber = 0;
+        int currentSeatNumber = 7;
         if (model.getCurrentSeat() != null) {
             currentSeatNumber = model.getCurrentSeat().getSeatNumber();
         }
-        //TODO Raise the border for non-current seats
-        if (currentSeatNumber == 1) 
-            seat1Area.setBorder(BorderFactory.createLoweredBevelBorder());
-        else if (currentSeatNumber == 2) 
-            seat2Area.setBorder(BorderFactory.createLoweredBevelBorder());
-        else if (currentSeatNumber == 3) 
-            seat3Area.setBorder(BorderFactory.createLoweredBevelBorder());
-        else if (currentSeatNumber == 4) 
-            seat4Area.setBorder(BorderFactory.createLoweredBevelBorder());
-        else if (currentSeatNumber == 5) 
-            seat5Area.setBorder(BorderFactory.createLoweredBevelBorder());
-        else if (currentSeatNumber == 6) 
-            seat6Area.setBorder(BorderFactory.createLoweredBevelBorder());
+        lowerPanelArea(currentSeatNumber);
         
         if (model.getState().equalsIgnoreCase("Start")) {
-//            updateComponentsForNewRound();
             setSpinnersEnabled(true);
             if (areSpinnersEmpty()) 
                 dealHandsButton.setEnabled(false);
@@ -284,12 +281,53 @@ public class BlackjackView extends JFrame {
             dealHandsButton.setEnabled(false);
         }
         
+        if (model.getState().equalsIgnoreCase("Play")) {
+            hitButton.setEnabled(true);
+            doubleButton.setEnabled(
+                    model.getBankroll() > 0 
+                    &&
+                    model.getCurrentHand().isTwoCards());
+            splitButton.setEnabled(
+                    model.getBankroll() >= model.getCurrentHand().getBetAmount() 
+                    &&
+                    model.getCurrentHand().isAPair());
+            surrenderButton.setEnabled(model.getCurrentHand().isTwoCards());
+            stayButton.setEnabled(true);
+        } else {
+            hitButton.setEnabled(false);
+            doubleButton.setEnabled(false);
+            splitButton.setEnabled(false);
+            surrenderButton.setEnabled(false);
+            stayButton.setEnabled(false);
+        }
+        
         if (model.getState().equalsIgnoreCase("Insurance")) {
             insuranceSpinner.setEnabled(true);
             insuranceOk.setEnabled(true);
         } else {
             insuranceSpinner.setEnabled(false);
             insuranceOk.setEnabled(false);
+        }
+        
+        this.pack();
+    }
+    
+    /**
+     * This private routine is to give a pressed look to the area for the seat
+     * that has the current hand, while raising up every other. 
+     * @param seatNum
+     */
+    private void lowerPanelArea(int seatNum) {
+        int index = seatNum - 1;
+        
+        for (int i = 0; i < panelAreas.size(); i++) {
+            if (i == index) {
+                panelAreas.get(i).setBorder(BorderFactory.
+                        createLoweredBevelBorder());
+            } else {
+                panelAreas.get(i).setBorder(BorderFactory.
+                        createRaisedBevelBorder());
+            }
         }
     }
 
@@ -332,43 +370,44 @@ public class BlackjackView extends JFrame {
      * Creates all components for the Window
      */
     private void buildUI() {
-        topPanel         = new JPanel();
-        centerPanel      = new JPanel();
-        bottomPanel      = new JPanel();
-        topRightSubPanel = new JPanel();
-        topLeftSubPanel  = new JPanel();
-        deckDebugDisplay = new JLabel("debug here");
-        seat1Area        = new JPanel();
-        seat2Area        = new JPanel();
-        seat3Area        = new JPanel();
-        seat4Area        = new JPanel();
-        seat5Area        = new JPanel();
-        seat6Area        = new JPanel();
-        insuranceArea    = new JPanel();
-        seat1Label       = new JLabel("seat1");
-        seat2Label       = new JLabel("seat2");
-        seat3Label       = new JLabel("seat3");
-        seat4Label       = new JLabel("seat4");
-        seat5Label       = new JLabel("seat5");
-        seat6Label       = new JLabel("seat6");
-        bankrollLabel    = new JLabel("bankroll");
-        insuranceLabel   = new JLabel("insurance here");
-        dealerLabel      = new JLabel("dealer here");
-        seat1Spinner     = new JSpinner();
-        seat2Spinner     = new JSpinner();
-        seat3Spinner     = new JSpinner();
-        seat4Spinner     = new JSpinner();
-        seat5Spinner     = new JSpinner();
-        seat6Spinner     = new JSpinner();
-        insuranceSpinner = new JSpinner();
-        hitButton        = new JButton("Hit");
-        doubleButton     = new JButton("Double Down");
-        splitButton      = new JButton("Split");
-        surrenderButton  = new JButton("Surrender");
-        stayButton       = new JButton("Stay");
-        dealHandsButton  = new JButton("Deal Hands");
-        shuffleButton    = new JButton("Shuffle");
-        insuranceOk      = new JButton("OK");
+        topPanel            = new JPanel();
+        centerPanel         = new JPanel();
+        bottomPanel         = new JPanel();
+        topRightSubPanel    = new JPanel();
+        topLeftSubPanel     = new JPanel();
+        deckDebugDisplay    = new JLabel("debug here");
+        discardDebugDisplay = new JLabel("discards here");
+        seat1Area           = new JPanel();
+        seat2Area           = new JPanel();
+        seat3Area           = new JPanel();
+        seat4Area           = new JPanel();
+        seat5Area           = new JPanel();
+        seat6Area           = new JPanel();
+        insuranceArea       = new JPanel();
+        seat1Label          = new JLabel("seat1");
+        seat2Label          = new JLabel("seat2");
+        seat3Label          = new JLabel("seat3");
+        seat4Label          = new JLabel("seat4");
+        seat5Label          = new JLabel("seat5");
+        seat6Label          = new JLabel("seat6");
+        bankrollLabel       = new JLabel("bankroll");
+        insuranceLabel      = new JLabel("insurance here");
+        dealerLabel         = new JLabel("dealer here");
+        seat1Spinner        = new JSpinner();
+        seat2Spinner        = new JSpinner();
+        seat3Spinner        = new JSpinner();
+        seat4Spinner        = new JSpinner();
+        seat5Spinner        = new JSpinner();
+        seat6Spinner        = new JSpinner();
+        insuranceSpinner    = new JSpinner();
+        hitButton           = new JButton("Hit");
+        doubleButton        = new JButton("Double Down");
+        splitButton         = new JButton("Split");
+        surrenderButton     = new JButton("Surrender");
+        stayButton          = new JButton("Stay");
+        dealHandsButton     = new JButton("Deal Hands");
+        shuffleButton       = new JButton("Shuffle");
+        insuranceOk         = new JButton("OK");
         
         topPanel.setLayout(new MigLayout("", "[grow]", "[]"));
 //        topRightSubPanel.setLayout(new BoxLayout(topRightSubPanel, BoxLayout.Y_AXIS));
@@ -378,7 +417,8 @@ public class BlackjackView extends JFrame {
         topLeftSubPanel.setLayout(new MigLayout());
         topLeftSubPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         topLeftSubPanel.add(deckDebugDisplay, "cell 0 0");
-        topLeftSubPanel.add(dealerLabel, "cell 0 1");
+        topLeftSubPanel.add(discardDebugDisplay, "cell 0 1");
+        topLeftSubPanel.add(dealerLabel, "cell 0 2");
         topPanel.add(topLeftSubPanel, "dock west, width 600!");
         topPanel.add(topRightSubPanel, "dock east");
         topPanel.setBorder(BorderFactory.createRaisedBevelBorder());
@@ -418,8 +458,6 @@ public class BlackjackView extends JFrame {
                 model.getBankroll(), 5));
         seat1Area.add(seat1Label);
         seat1Area.add(seat1Spinner, "cell 0 1");
-//        JButton even = new JButton("even money");
-//        seat1Area.add(even, "dock south");
         seat2Area.add(seat2Label);
         seat2Area.add(seat2Spinner, "dock south");
         seat3Area.add(seat3Label);
@@ -496,6 +534,7 @@ public class BlackjackView extends JFrame {
     private JButton dealHandsButton;
     private JButton shuffleButton;
     private JLabel deckDebugDisplay;
+    private JLabel discardDebugDisplay;
     private JSpinner insuranceSpinner;
     private JButton insuranceOk;
     

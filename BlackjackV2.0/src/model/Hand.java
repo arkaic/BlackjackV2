@@ -26,7 +26,7 @@ public class Hand {
         this(null, playingEntity);
     }
     
-    protected int getBetAmount() {
+    public int getBetAmount() {
         return bet.getAmount();
     }
     
@@ -50,8 +50,16 @@ public class Hand {
         return cards.get(n);
     }
     
+    protected List<Card> getCards() {
+        return cards;
+    }
+    
+    protected int size() {
+        return cards.size();
+    }
+    
     /*Removes and returns last card of hand*/
-    protected Card removeCard() {
+    protected Card removeLastCard() {
         return cards.remove(cards.size() - 1);
     }
     
@@ -96,7 +104,7 @@ public class Hand {
     }
     
     protected boolean isBlackjack() {   
-        return (cards.size() == 2 && getFinalTotal() == 21);
+        return (isTwoCards() && getFinalTotal() == 21);
     }
     
     protected boolean isHard21() {
@@ -123,6 +131,15 @@ public class Hand {
     
     protected boolean isOneCard() {
         return (cards.size() == 1);
+    }
+    
+    public boolean isTwoCards() {
+        return (cards.size() == 2);
+    }
+    
+    public boolean isAPair() {
+        return (cards.size() == 2 && 
+                (cards.get(0).getHardNumber() == cards.get(1).getHardNumber()));
     }
     
     protected boolean isEmpty() {

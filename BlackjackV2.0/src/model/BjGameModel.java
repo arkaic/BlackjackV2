@@ -30,6 +30,8 @@ public class BjGameModel implements GameModel{
         
         monetary = new Monetary(initialBankroll);
         generateDeck(numberOfDecks);
+        seatManager.setModel(this);
+        
         deck.add(0, new Card(10, 'D'));
         deck.add(0, new Card('A', 'D'));
         deck.add(0, new Card('A', 'D'));
@@ -57,9 +59,7 @@ public class BjGameModel implements GameModel{
     public void shuffle() {
         //Transfers discards to deck
         if (!discards.isEmpty()) {
-            for (Card card : discards) {
-                deck.add(card);
-            }
+            deck.addAll(discards);
             discards.clear();
         }
         
@@ -155,12 +155,15 @@ public class BjGameModel implements GameModel{
             pushBlackjackHands();
             initiateNewRound();
         } else {
-            if (dealerHand.getCard(0).isFace() || dealerHand.getCard(0).isAce()) 
+            if (dealerHand.getCard(0).isFace() || 
+                    dealerHand.getCard(0).isAce()) {
                 controller.displayMessage("Dealer does not have Blackjack");
+            }
             payBlackjackHands();
             if (seatManager.areSeatsEmptyOfHands()) {
                 initiateNewRound();
             } else {
+                //Start round of play
                 seatManager.createPlayOrder();
                 seatManager.changeCurrentHand();
                 gameState = "Play";  
@@ -180,7 +183,7 @@ public class BjGameModel implements GameModel{
                             JOptionPane.QUESTION_MESSAGE);
                     if (option == JOptionPane.YES_OPTION) {
                         monetary.pay(seat.getHand(0));
-                        seat.clearHands();
+                        addToDiscards(seat.clearHands());
                     }
                     view.updateDisplays();
                 }
@@ -205,7 +208,7 @@ public class BjGameModel implements GameModel{
                     monetary.payBlackjack(seat.getHand(0));
                     controller.displayMessage("Seat " + seat.getSeatNumber()
                             + "'s Blackjack payed");
-                    seat.clearHands();
+                    addToDiscards(seat.clearHands());
                     view.updateDisplays();
                 }
             }
@@ -213,12 +216,13 @@ public class BjGameModel implements GameModel{
     }
     
     private void initiateNewRound() {
-        gameState = "Start";
-        controller.displayMessage("Starting new round...");
         if (!seatManager.areSeatsEmptyOfHands()) 
             seatManager.clearAllHands();
         seatManager.resetAllSeats();
         dealerHand.clearCards();
+        dealerHand.setHoleCardVisible(false);
+        controller.displayMessage("Starting new round...");
+        gameState = "Start";
         view.updateDisplays();
         controller.updateViewComponentsForNewRound();
         view.updateDisplays();
@@ -226,13 +230,14 @@ public class BjGameModel implements GameModel{
     
     @Override
     public void hit() {
-        getCurrentHand().addCard(deck.remove(0));
+        Hand hand = getCurrentHand();
+        hand.addCard(deck.remove(0));
         view.updateDisplays();
-        if (getCurrentHand().isBust()) {
+        if (hand.isBust()) {
             controller.displayMessage("Player BUSTED!");
             seatManager.clearCurrentHand();
             stay();
-        } else if (getCurrentHand().isHard21()) {
+        } else if (hand.isHard21() && !hand.isTwoCards()) {
             controller.displayMessage("Player will stay at hard 21");
             stay();
         } else {
@@ -242,7 +247,7 @@ public class BjGameModel implements GameModel{
 
     @Override
     public void surrender() {
-        monetary.surrender(getCurrentHand()); //TODO test
+        monetary.surrender(getCurrentHand());
         seatManager.clearCurrentHand();
         view.updateDisplays();
         stay();
@@ -250,10 +255,12 @@ public class BjGameModel implements GameModel{
 
     @Override
     public void doubleDown() {
-        monetary.pay(getCurrentHand());
+        //TODO popup for doubleDown
+        
         getCurrentHand().addCard(deck.remove(0));
         view.updateDisplays();
         if (getCurrentHand().isBust()) {
+            controller.displayMessage("Player BUSTED!");
             seatManager.clearCurrentHand();
             view.updateDisplays();
         }
@@ -302,6 +309,7 @@ public class BjGameModel implements GameModel{
      * the GUI.
      */
     private void playDealerHand() {
+        gameState = "Dealer";
         dealerHand.setHoleCardVisible(true);
         view.updateDisplays();
         controller.displayMessage("Dealer has a " + dealerHand.getFinalTotal());
@@ -397,6 +405,7 @@ public class BjGameModel implements GameModel{
         monetary.setInsurance(amount);
         view.updateDisplays();
     }
+    
     @Override
     public int getMaxInsurance() {
         int runningTotal = 0;
@@ -407,12 +416,25 @@ public class BjGameModel implements GameModel{
         }
         return (int) (runningTotal / 2);
     }
+    
     @Override
     public int getInsurance() {
         return monetary.getInsurance();
     }
+    
     @Override
     public String getState() {
         return gameState;
+    }
+    
+    @Override
+    public List<Card> getDiscards() {
+        return discards;
+    }
+    
+    private void addToDiscards(List<Card> discardedCards) {
+        for (Card card : discardedCards) {
+            discards.add(0, card);
+        }
     }
 }

@@ -14,6 +14,7 @@ public class SeatManager{
     public Stack<Seat> seatsInPlay = new Stack<>();
     private Hand currentHand;
     private Hand dealerHand;
+    private GameModel model;
     
     public SeatManager() {
         initSeats();
@@ -58,12 +59,23 @@ public class SeatManager{
     }
     
     protected void clearCurrentHand() {
-        getCurrentSeat().clearCurrentHand();
+        List<Card> discardedCards = getCurrentSeat().clearCurrentHand();
+        addToDiscards(discardedCards);
     }
       
     protected void clearAllHands() {
+        List<Card> discardedCards = new ArrayList<>();
+        
         for (Seat seat : seats) {
-            seat.clearHands();
+            discardedCards.addAll(seat.clearHands());
+        }
+        
+        addToDiscards(discardedCards);
+    }
+    
+    private void addToDiscards(List<Card> discardedCards) {
+        for (Card card : discardedCards) {
+            model.getDiscards().add(0, card);
         }
     }
     
@@ -132,5 +144,9 @@ public class SeatManager{
             }
         }
         return bool;
+    }
+    
+    protected void setModel(GameModel model) {
+        this.model = model;
     }
 }
