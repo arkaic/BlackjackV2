@@ -290,9 +290,7 @@ public class BjGameModel implements GameModel{
         } else if (getCurrentHand().isDealer()) {
             controller.displayMessage("Showing dealer hand");
             playDealerHand();
-            initiateNewRound();
         }
-        view.updateDisplays(); 
     }
     
     /**
