@@ -13,14 +13,20 @@ to software engineering class. Model View Controller will be the chief design pa
 Tuesday May 13
 -Prototyped a design of UI
 
+
 Thursday May 15
 -UML'd and modeled version 1 
+
 -Went through an activity diagram of version 1's dealFirst procedure
+
 
 Friday May 16
 -Finalized prototype design of UI
+
 -Insurance shall have its own area on the screen, instead of a dialog box
+
 -So far, the View shall have the actionlisteners for all the components, but each will call a function that the controller provides. That function would call logic functions in model.
+
 
 Tuesday May 21
 -Worked out implementation of Seats (playing spots where initial bets are made)
@@ -62,3 +68,18 @@ Saturday May 31
 -Implemented deal first procedure but I need to check it, moreso for its subroutine, initiateNewRound, which is largely composed of checking each spinner against the current bankroll to see if they can still display the previous bet they held going into a new round. 
 -I just need to implement dealer actions once it's the dealer's turn to get cards, as well as the View's update function to show/hide components at relevant times. Then, after a final polish, it shall be DONNNNNE!!!
 
+
+Thursday June 5
+&
+Friday June 6
+-Had a lot of stuff going on this week, so I couldn't really put in any substantial work to the game until yesterday. There was of course a lot more things I had overlooked, preventing me from releasing it on time. It wasn't just simply those three previous things I needed.
+
+- I got into a bind with the dealFirst method in Model. Since I wanted the insurance options to be right on the same window, I needed to split the dealFirst method with respect to the difference between getting or not getting an option to take insurance (when the dealer's up card is an Ace or not an ace, respectively). If there was no option, then the game state should eventually automatically switch to "Play", which is the round of play where players are against the dealer. But when there WAS an option for insurance, the game needed to pause and wait until the player clicks the OK button next to the insurance bet spinner. Basically, in the case of having the insurance option, I needed to have the latter half of the dealFirst method to be invoked only AFTER the OK button was clicked, which necessitated moving it into its actionListener. This half is now in the checkForBlackjack() method, which I also had to include into the Model astraction/interface.
+
+
+
+
+-...SwingWorker for dealing to dealer delayed intervals for card pass-out 
+-...view updating needed a bit of exposure of private methods and workarounds
+-...added in discardpile
+-...polishing also means having to add in features like when its time to shuffle.

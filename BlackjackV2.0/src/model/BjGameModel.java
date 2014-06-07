@@ -1,11 +1,19 @@
 package model;
 
+import java.awt.Window;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 
+import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JSpinner;
+import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingUtilities;
 import javax.swing.SwingWorker;
 
@@ -256,6 +264,31 @@ public class BjGameModel implements GameModel{
     @Override
     public void doubleDown() {
         //TODO popup for doubleDown
+        JDialog dialogBox = new JDialog(view, "Option to double");
+        JPanel panel = new JPanel();
+        final JSpinner spinner = new JSpinner();
+        int betAmount = getCurrentHand().getBetAmount();
+        spinner.setModel(new SpinnerNumberModel(betAmount, 0, betAmount, 1));
+        
+        final JButton okButton = new JButton("OK");
+        okButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                int doubleValue = (Integer)spinner.getValue();
+                getCurrentHand().setDoubleBetAmount(doubleValue);
+                monetary.subtractFromBankroll(doubleValue);
+                view.updateDisplays();
+                Window dialogBox = (Window)okButton.getTopLevelAncestor();
+                dialogBox.setVisible(false);
+                dialogBox.dispose();
+            }
+        });
+        
+        panel.add(spinner);
+        panel.add(okButton);
+        dialogBox.setContentPane(panel);
+        dialogBox.setLocationRelativeTo(view);
+        dialogBox.pack();
+        dialogBox.setVisible(true);
         
         getCurrentHand().addCard(deck.remove(0));
         view.updateDisplays();
