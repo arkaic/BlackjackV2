@@ -2,6 +2,7 @@ package view;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -11,6 +12,7 @@ import java.util.List;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -43,7 +45,7 @@ public class BlackjackView extends JFrame {
         this.model = model;
         this.controller = controller;
         buildUI();
-        addTestLabel(); //To show current Hand
+//        addTestLabel(); //To show current Hand
         attachListenersToComponents();
 //        updateSpinnerMaxes();
 
@@ -119,7 +121,38 @@ public class BlackjackView extends JFrame {
             }
         });
         
-        
+        addFundsButton.addActionListener(new ActionListener() {
+            
+            public void actionPerformed(ActionEvent e) {
+                JDialog dialog = new JDialog((JFrame)addFundsButton.
+                    getTopLevelAncestor(), "Add more funds...");
+                final JSpinner spinner = new JSpinner();
+                SpinnerNumberModel spinModel = new SpinnerNumberModel();
+                spinModel.setMinimum(0);
+                spinner.setModel(spinModel);
+                
+                final JButton okButton = new JButton("OK");
+                okButton.addActionListener(new ActionListener() {
+                    public void actionPerformed(ActionEvent e) {
+                        int amount = (Integer)spinner.getValue();
+                        model.addToBankroll(amount);
+                        
+                        Window dialogBox = (Window)okButton.getTopLevelAncestor();
+                        updateDisplays();
+                        dialogBox.setVisible(false);
+                        dialogBox.dispose();
+                    }
+                });
+                
+                JPanel panel = new JPanel();
+                panel.add(spinner);
+                panel.add(okButton);
+                dialog.setContentPane(panel);
+                dialog.setLocationRelativeTo(null);
+                dialog.pack();
+                dialog.setVisible(true);
+            }
+        });
         /*******************SPINNERS*********************/
         seat1Spinner.addChangeListener(new ChangeListener() {
             public void stateChanged(ChangeEvent arg0) {
@@ -257,12 +290,15 @@ public class BlackjackView extends JFrame {
         seat6Label.setText(model.getSeat(6).toString());
         insuranceLabel.setText("$" + model.getInsurance());
         bankrollLabel.setText("$" + model.getBankroll());
-        dealerLabel.setText(model.getDealerHand().toString());
-        deckDebugDisplay.setText(model.getDeck().toString());
-        discardDebugDisplay.setText(model.getDiscards().toString());
-        if (model.getCurrentHand() != null) {
-            testLabel.setText(model.getCurrentHand().toString());
-        }
+        dealerLabel.setText("Dealer hand: " + model.getDealerHand().toString());
+//        deckDebugDisplay.setText(model.getDeck().toString());
+//        discardDebugDisplay.setText(model.getDiscards().toString());
+
+        //Testing purposes only: displays string of current hand on a label 
+        //below the dealer's
+//        if (model.getCurrentHand() != null) {
+//            testLabel.setText(model.getCurrentHand().toString());
+//        }
         
         int currentSeatNumber = 7;
         if (model.getCurrentSeat() != null) {
@@ -276,9 +312,13 @@ public class BlackjackView extends JFrame {
                 dealHandsButton.setEnabled(false);
             else 
                 dealHandsButton.setEnabled(true);
+            
+            shuffleButton.setEnabled(true);
+            addFundsButton.setEnabled(true);
         } else {
             setSpinnersEnabled(false);
             dealHandsButton.setEnabled(false);
+            shuffleButton.setEnabled(false);
         }
         
         if (model.getState().equalsIgnoreCase("Play")) {
@@ -375,8 +415,8 @@ public class BlackjackView extends JFrame {
         bottomPanel         = new JPanel();
         topRightSubPanel    = new JPanel();
         topLeftSubPanel     = new JPanel();
-        deckDebugDisplay    = new JLabel("debug here");
-        discardDebugDisplay = new JLabel("discards here");
+//        deckDebugDisplay    = new JLabel("debug here");
+//        discardDebugDisplay = new JLabel("discards here");
         seat1Area           = new JPanel();
         seat2Area           = new JPanel();
         seat3Area           = new JPanel();
@@ -407,6 +447,7 @@ public class BlackjackView extends JFrame {
         stayButton          = new JButton("Stay");
         dealHandsButton     = new JButton("Deal Hands");
         shuffleButton       = new JButton("Shuffle");
+        addFundsButton      = new JButton("Add Funds");
         insuranceOk         = new JButton("OK");
         
         topPanel.setLayout(new MigLayout("", "[grow]", "[]"));
@@ -414,10 +455,11 @@ public class BlackjackView extends JFrame {
         topRightSubPanel.setLayout(new MigLayout());
         topRightSubPanel.add(dealHandsButton);
         topRightSubPanel.add(shuffleButton, "cell 0 1");
+        topRightSubPanel.add(addFundsButton, "cell 0 2");
         topLeftSubPanel.setLayout(new MigLayout());
         topLeftSubPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-        topLeftSubPanel.add(deckDebugDisplay, "cell 0 0");
-        topLeftSubPanel.add(discardDebugDisplay, "cell 0 1");
+//        topLeftSubPanel.add(deckDebugDisplay, "cell 0 0");
+//        topLeftSubPanel.add(discardDebugDisplay, "cell 0 1");
         topLeftSubPanel.add(dealerLabel, "cell 0 2");
         topPanel.add(topLeftSubPanel, "dock west, width 600!");
         topPanel.add(topRightSubPanel, "dock east");
@@ -533,6 +575,7 @@ public class BlackjackView extends JFrame {
     private JButton stayButton;
     private JButton dealHandsButton;
     private JButton shuffleButton;
+    private JButton addFundsButton;
     private JLabel deckDebugDisplay;
     private JLabel discardDebugDisplay;
     private JSpinner insuranceSpinner;

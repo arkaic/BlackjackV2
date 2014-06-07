@@ -54,17 +54,9 @@ public class Seat {
         //element.
     }
     
-    /*Clears hands list*/
+    /*Clears hands list. Also adds all the cards to the discard pile*/
     protected List<Card> clearHands() {
-        //TODO add to discard pile
         List<Card> discardedCards = new ArrayList<>();
-        
-//        for (int i = hands.size() - 1; i > -1; i--) {
-//            Hand hand = hands.get(i);
-//            while (!hand.isEmpty()) {
-//                discardedCards.add(hand.removeLastCard());
-//            }
-//        }
         
         for (Hand hand : hands) {
             while (!hand.isEmpty()) 

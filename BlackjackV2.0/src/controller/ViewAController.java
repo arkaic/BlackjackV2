@@ -11,11 +11,6 @@ public class ViewAController implements GameController{
     private GameModel model;
 
     @Override
-    public void update() {
-        // TODO maybe, maybe not
-    }
-
-    @Override
     public void dealFirstHands() {
         model.dealFirstHands();
     }
@@ -142,5 +137,10 @@ public class ViewAController implements GameController{
     @Override
     public void checkForBlackjack() {
         model.checkForBlackjack();
+    }
+    
+    @Override
+    public void addFunds() {
+        
     }
 }

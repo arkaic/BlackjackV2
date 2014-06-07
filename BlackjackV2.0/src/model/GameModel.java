@@ -19,6 +19,7 @@ public interface GameModel {
     public void subtractFromBankroll(int amount);
     public Hand getDealerHand();
     public void setView(BlackjackView view);
+    public void addFunds();
     //TODO should probably change this argument to an interface
     public void setController(GameController controller);
     

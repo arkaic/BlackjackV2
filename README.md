@@ -83,3 +83,7 @@ Friday June 6
 -...view updating needed a bit of exposure of private methods and workarounds
 -...added in discardpile
 -...polishing also means having to add in features like when its time to shuffle.
+
+-And christ, it's done!!! Hopefully not too too buggy. 
+
+First version is out!

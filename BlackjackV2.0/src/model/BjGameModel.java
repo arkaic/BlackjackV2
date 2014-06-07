@@ -233,6 +233,10 @@ public class BjGameModel implements GameModel{
         gameState = "Start";
         view.updateDisplays();
         controller.updateViewComponentsForNewRound();
+        if (deck.size() < (0.25 * (deck.size() + discards.size()))) {
+            controller.displayMessage("Shuffling...");
+            shuffle();
+        }
         view.updateDisplays();
     }
     
@@ -263,9 +267,11 @@ public class BjGameModel implements GameModel{
 
     @Override
     public void doubleDown() {
-        //TODO popup for doubleDown
+        promptForDoubleDown();
+    }
+    
+    private void promptForDoubleDown() {
         JDialog dialogBox = new JDialog(view, "Option to double");
-        JPanel panel = new JPanel();
         final JSpinner spinner = new JSpinner();
         int betAmount = getCurrentHand().getBetAmount();
         spinner.setModel(new SpinnerNumberModel(betAmount, 0, betAmount, 1));
@@ -273,23 +279,31 @@ public class BjGameModel implements GameModel{
         final JButton okButton = new JButton("OK");
         okButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                int doubleValue = (Integer)spinner.getValue();
-                getCurrentHand().setDoubleBetAmount(doubleValue);
-                monetary.subtractFromBankroll(doubleValue);
-                view.updateDisplays();
+                int doubleAmount = (Integer)spinner.getValue();
+                
+                if (doubleAmount > 0) {
+                    getCurrentHand().setDoubleBetAmount(doubleAmount);
+                    monetary.subtractFromBankroll(doubleAmount);
+                    hitOnce();
+                    view.updateDisplays();
+                }
+                
                 Window dialogBox = (Window)okButton.getTopLevelAncestor();
                 dialogBox.setVisible(false);
                 dialogBox.dispose();
             }
         });
         
+        JPanel panel = new JPanel();
         panel.add(spinner);
         panel.add(okButton);
         dialogBox.setContentPane(panel);
         dialogBox.setLocationRelativeTo(view);
         dialogBox.pack();
         dialogBox.setVisible(true);
-        
+    }
+    
+    private void hitOnce() {
         getCurrentHand().addCard(deck.remove(0));
         view.updateDisplays();
         if (getCurrentHand().isBust()) {
@@ -377,7 +391,8 @@ public class BjGameModel implements GameModel{
                         for (Hand hand : seat.getHands()) {
                             int handTotal = hand.getFinalTotal();
                             int dealerTotal = dealerHand.getFinalTotal();
-                            if (handTotal > dealerTotal && handTotal <= 21) {
+                            if ((handTotal > dealerTotal && handTotal <= 21)
+                                    || dealerTotal > 21) {
                                 controller.displayMessage("Seat " +
                                         seat.getSeatNumber() + "'s hand wins");
                                 monetary.pay(hand);
@@ -469,5 +484,9 @@ public class BjGameModel implements GameModel{
         for (Card card : discardedCards) {
             discards.add(0, card);
         }
+    }
+    @Override
+    public void addFunds() {
+        
     }
 }
