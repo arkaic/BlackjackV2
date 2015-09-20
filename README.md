@@ -1,4 +1,4 @@
-BlackjackV2
+BlackjackV2  (Summer of 2014)
 ===========
 
 Redo of Blackjack program in one week, GO!
