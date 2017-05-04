@@ -1,14 +1,8 @@
 BlackjackV2  (Summer of 2014)
 ===========
 
-Redo of Blackjack program in one week, GO!
-
-Edit: Extended to two weeks :c
-
-Edit2: Okay, so it took 3 weeks real time, 14 days total work time.
-
 I will remake the Blackjack game I coded about a year ago using the design patterns I have picked up in an intro 
-to software engineering class. Model View Controller will be the chief design pattern.
+to software engineering class. Model View Controller will be the chief design pattern. For future reference for myself, I journaled notes about my thought processes during development.
 
 =======================
 
@@ -83,7 +77,3 @@ reference to the Bet class as well.
 - ...view updating needed a bit of exposure of private methods and workarounds
 - ...added in discardpile
 - ...polishing also means having to add in features like when its time to shuffle.
-
-- And finally, it's done!!! Hopefully not too too buggy. 
-
-First version is out!
